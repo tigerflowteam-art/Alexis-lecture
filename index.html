@@ -591,6 +591,40 @@ ul { margin: 0; padding: 0; list-style: none; }
 .sheet__meta{font:600 12px/1 var(--font-body);color:var(--ink-faint);text-align:center;margin:12px 0}
 .sheet .note{color:var(--ink-soft)}
 
+/* --- Choix de la langue --- */
+.chooser{text-align:center;padding:24px 0}
+.chooser__hi{font:600 13px/1 var(--font-body);color:rgba(255,255,255,.5);letter-spacing:.06em;
+  text-transform:uppercase}
+.chooser__t{font:700 25px/1.25 var(--font-display);color:#fff;margin:14px 0 2px}
+.chooser__t2{font:400 15px/1.3 var(--font-body);color:rgba(255,255,255,.45);margin-bottom:22px}
+.chooser__row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.langbig{border:0;border-radius:var(--r-lg);cursor:pointer;padding:26px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;
+  box-shadow:var(--shadow-lift);transition:transform .15s}
+.langbig:active{transform:scale(.96)}
+.langbig.lang-fr{background:var(--fr)}
+.langbig.lang-en{background:var(--en)}
+.langbig__f{font-size:46px;line-height:1}
+.langbig__n{font:700 19px/1 var(--font-display)}
+.langbig__s{font:600 12px/1 var(--font-body);opacity:.78;min-height:12px}
+.langbig.is-sug{outline:3px solid rgba(255,255,255,.85);outline-offset:3px}
+
+/* --- Changer de langue depuis l'accueil --- */
+.langswap{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  border:0;border-radius:var(--r-pill);cursor:pointer;padding:13px;margin-top:var(--s4);
+  background:rgba(255,255,255,.08);color:rgba(255,255,255,.72);font:600 14px/1 var(--font-body)}
+.langswap__f{font-size:20px}
+
+/* --- En-tete de langue dans la bibliotheque --- */
+.langhead{font:700 16px/1 var(--font-display);color:#fff;margin:var(--s5) 0 10px}
+
+/* --- Prochaine recompense --- */
+.nextreward{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.2);margin-top:10px}
+.nextreward__i{font-size:24px;opacity:.6}
+.nextreward__t{font:600 14px/1.3 var(--font-body);color:#fff}
+.nextreward__s{font:400 12px/1.3 var(--font-body);color:rgba(255,255,255,.5)}
+
 </style>
 <style>
 /* ===== css/mission.css ===== */
@@ -785,6 +819,19 @@ ul { margin: 0; padding: 0; list-style: none; }
 .rbar__n{font:600 13px/1 var(--font-body);color:rgba(255,255,255,.5)}
 .page{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:50vh}
 
+/* --- Ecoute et repete --- */
+.mic{display:flex;justify-content:center;padding:6px 0}
+.mic__ico{font-size:44px;opacity:.55;animation:breathe 2.4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:.85}}
+
+/* --- Taper les syllabes --- */
+.claps{display:flex;gap:14px;justify-content:center;padding:8px 0}
+.claps__d{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);transition:all .2s}
+.claps__d.is-on{background:var(--accent);transform:scale(1.25)}
+.clappad{border:0;border-radius:var(--r-lg);cursor:pointer;padding:26px;font-size:46px;
+  background:rgba(255,255,255,.1);transition:transform .12s}
+.clappad.is-hit{transform:scale(.92);background:var(--accent)}
+
 </style>
 <style>
 /* ===== css/parent.css ===== */
@@ -930,6 +977,22 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .plock__out { font-family: var(--font-display); font-size: var(--t-2xl); min-height: 44px; letter-spacing: .1em; }
 .plock__err { color: var(--rose); font-size: var(--t-sm); min-height: 20px; }
+
+/* --- Studio de voix --- */
+.studio{margin:10px 0}
+.vrow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;
+  background:rgba(18,41,59,.04);margin-bottom:6px}
+.vrow.is-done{background:rgba(31,190,134,.12)}
+.vrow__k{font:700 17px/1 var(--font-read);color:var(--ink);width:52px;flex:none}
+.vrow__h{flex:1;font:400 12px/1.3 var(--font-body);color:var(--ink-soft)}
+.vrow__b,.vrow__r{width:34px;height:34px;border:0;border-radius:50%;cursor:pointer;flex:none;
+  font-size:13px;background:rgba(18,41,59,.08);color:var(--ink)}
+.vrow__b:disabled{opacity:.3;cursor:default}
+.vrow__r{background:var(--rose);color:#fff}
+.vrow__r.is-rec{background:#D32F2F;animation:recpulse 1s infinite}
+@keyframes recpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.psel{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(18,41,59,.16);
+  font:400 14px/1 var(--font-body);margin-bottom:8px;background:#fff;color:var(--ink)}
 
 </style>
 <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMwQjFFMkQiLz4KICA8cGF0aCBkPSJNMTQgNDRjOC02IDEyLTE4IDgtMzAiIHN0cm9rZT0iIzRBNkNGNyIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNNTAgNDRjLTgtNi0xMi0xOC04LTMwIiBzdHJva2U9IiNGRjdBMjkiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgPGNpcmNsZSBjeD0iMzIiIGN5PSI0NiIgcj0iNyIgZmlsbD0iI0ZGQzk0OCIvPgo8L3N2Zz4K">
@@ -1554,18 +1617,27 @@ DATA.missions.fr = [
   learned: 'Entendre les morceaux et les sons des mots',
   steps: [
 
+    /* --- JE DECOUVRE --- */
     { act: 'discover', phase: 'discover',
       big: '\ud83d\udc42',
       title: 'Les mots sont faits de morceaux',
       say: { text: 'Chaque mot est fait de petits morceaux. \u00c9coute : la... ma... Lama !', lang: 'fr' },
       lines: ['LA \u00b7 MA \u2192 LAMA', 'MO \u00b7 TO \u2192 MOTO'] },
 
+    { act: 'clap', phase: 'discover',
+      word: { t: 'LAMA', e: '\ud83e\udd99', n: 2 } },
+
+    { act: 'clap', phase: 'discover',
+      word: { t: 'TOMATE', e: '\ud83c\udf45', n: 3 } },
+
+    /* --- JE M'ENTRAINE : les morceaux --- */
     { act: 'syllable-count', phase: 'practice',
-      items: [{ t: 'LAMA', e: '\ud83e\udd99', n: 2 }, { t: 'MOTO', e: '\ud83c\udfcd\ufe0f', n: 2 }] },
+      items: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f', n: 2 }, { t: 'CHAT', e: '\ud83d\udc31', n: 1 }] },
 
     { act: 'syllable-count', phase: 'practice',
-      items: [{ t: 'TOMATE', e: '\ud83c\udf45', n: 3 }, { t: 'CHAT', e: '\ud83d\udc31', n: 1 }] },
+      items: [{ t: 'ANANAS', e: '\ud83c\udf4d', n: 3 }, { t: 'LUNE', e: '\ud83c\udf19', n: 1 }] },
 
+    /* --- JE M'ENTRAINE : les rimes --- */
     { act: 'rhyme', phase: 'practice',
       base: { t: 'CHAT', e: '\ud83d\udc31' },
       good: { t: 'RAT', e: '\ud83d\udc00' },
@@ -1576,14 +1648,24 @@ DATA.missions.fr = [
       good: { t: 'MOUTON', e: '\ud83d\udc11' },
       bad: [{ t: 'V\u00c9LO', e: '\ud83d\udeb2' }, { t: 'SOURIS', e: '\ud83d\udc2d' }] },
 
+    /* --- JE M'ENTRAINE : le premier son --- */
     { act: 'first-sound', phase: 'practice', oral: true,
       word: { t: 'MOTO', e: '\ud83c\udfcd\ufe0f' },
       good: 'mmmm', bad: ['ssss', 'llll'] },
+
+    { act: 'same-start', phase: 'practice',
+      pair: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f' }, { t: 'MAISON', e: '\ud83c\udfe0' }],
+      other: { t: 'SOLEIL', e: '\u2600\ufe0f' } },
+
+    { act: 'odd-one-out', phase: 'practice',
+      same: [{ t: 'LAMA', e: '\ud83e\udd99' }, { t: 'LUNE', e: '\ud83c\udf19' }],
+      odd: { t: 'POMME', e: '\ud83c\udf4e' } },
 
     { act: 'first-sound', phase: 'practice', oral: true,
       word: { t: 'SOLEIL', e: '\u2600\ufe0f' },
       good: 'ssss', bad: ['mmmm', 'rrrr'] },
 
+    /* --- JE COMBINE --- */
     { act: 'blend-oral', phase: 'decode',
       parts: ['mmmm', 'aaaa'], result: 'MA',
       good: { t: 'MA', e: '\ud83d\udd0a' },
@@ -1593,6 +1675,11 @@ DATA.missions.fr = [
       parts: ['llll', 'aaaa'], result: 'LA',
       good: { t: 'LA', e: '\ud83d\udd0a' },
       bad: [{ t: 'AL', e: '\ud83d\udd0a' }, { t: 'LO', e: '\ud83d\udd0a' }] },
+
+    /* --- JE DIS --- */
+    { act: 'listen-repeat', phase: 'read',
+      emoji: '\ud83e\udd99',
+      say: { text: 'la... ma... LAMA', lang: 'fr' } },
 
     { act: 'wrap', phase: 'reward',
       learned: 'Tu sais d\u00e9couper les mots et entendre leurs sons !' }
@@ -1857,12 +1944,7 @@ DATA.missions.fr = [
 { id: 'fr.m07', world: 4, n: 7, title: 'Le son T', subtitle: 'te', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.t' },
 { id: 'fr.m08', world: 4, n: 8, title: 'Je lis des syllabes', subtitle: 'MA \u00b7 LI \u00b7 TO', icon: '\ud83e\ude84', locked: true, skill: 'fr.syl.read' },
 { id: 'fr.m09', world: 5, n: 9, title: 'Le son O', subtitle: 'ooooo', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.o' },
-{ id: 'fr.m10', world: 5, n: 10, title: 'MOTO, TOMATE', subtitle: 'Mots de deux syllabes', icon: '\ud83c\udf81', locked: true, skill: 'fr.w.cvcv' },
-{ id: 'fr.m11', world: 6, n: 11, title: 'Le son OU', subtitle: 'ououou', icon: '\u2728', locked: true, skill: 'fr.c.ou' },
-{ id: 'fr.m12', world: 6, n: 12, title: 'Le son CH', subtitle: 'chhhh', icon: '\u2728', locked: true, skill: 'fr.c.ch' },
-{ id: 'fr.m13', world: 7, n: 13, title: 'Les petits mots', subtitle: 'le \u00b7 la \u00b7 un', icon: '\ud83d\udddd\ufe0f', locked: true, skill: 'fr.t.outils' },
-{ id: 'fr.m14', world: 7, n: 14, title: 'Je lis une phrase', subtitle: 'Le lama a une moto.', icon: '\ud83d\udcdd', locked: true, skill: 'fr.s.phrase' },
-{ id: 'fr.m15', world: 10, n: 15, title: 'Je lis une histoire', subtitle: 'Mon vrai livre', icon: '\ud83d\udcd6', locked: true, skill: 'fr.h.livre' }
+{ id: 'fr.m10', world: 5, n: 10, title: 'MOTO, TOMATE', subtitle: 'Mots de deux syllabes', icon: '\ud83c\udf81', locked: true, skill: 'fr.w.cvcv' }
 
 ];
 
@@ -1905,11 +1987,17 @@ DATA.missions.en = [
       say: { text: 'Every word has beats. Listen: rab... bit. Rabbit!', lang: 'en' },
       lines: ['RAB \u00b7 BIT \u2192 RABBIT', 'SUN \u2192 one beat'] },
 
-    { act: 'syllable-count', phase: 'practice',
-      items: [{ t: 'RABBIT', e: '\ud83d\udc07', n: 2 }, { t: 'SUN', e: '\u2600\ufe0f', n: 1 }] },
+    { act: 'clap', phase: 'discover',
+      word: { t: 'RABBIT', e: '\ud83d\udc07', n: 2 } },
+
+    { act: 'clap', phase: 'discover',
+      word: { t: 'ELEPHANT', e: '\ud83d\udc18', n: 3 } },
 
     { act: 'syllable-count', phase: 'practice',
-      items: [{ t: 'ELEPHANT', e: '\ud83d\udc18', n: 3 }, { t: 'CAT', e: '\ud83d\udc31', n: 1 }] },
+      items: [{ t: 'SUN', e: '\u2600\ufe0f', n: 1 }, { t: 'MONKEY', e: '\ud83d\udc12', n: 2 }] },
+
+    { act: 'syllable-count', phase: 'practice',
+      items: [{ t: 'BANANA', e: '\ud83c\udf4c', n: 3 }, { t: 'CAT', e: '\ud83d\udc31', n: 1 }] },
 
     { act: 'rhyme', phase: 'practice',
       base: { t: 'CAT', e: '\ud83d\udc31' },
@@ -1925,9 +2013,17 @@ DATA.missions.en = [
       word: { t: 'SUN', e: '\u2600\ufe0f' },
       good: 'sss', bad: ['mmm', 'tuh'] },
 
+    { act: 'same-start', phase: 'practice',
+      pair: [{ t: 'SUN', e: '\u2600\ufe0f' }, { t: 'SOCK', e: '\ud83e\udde6' }],
+      other: { t: 'MOON', e: '\ud83c\udf19' } },
+
+    { act: 'odd-one-out', phase: 'practice',
+      same: [{ t: 'MOON', e: '\ud83c\udf19' }, { t: 'MAP', e: '\ud83d\uddfa\ufe0f' }],
+      odd: { t: 'FISH', e: '\ud83d\udc1f' } },
+
     { act: 'first-sound', phase: 'practice', oral: true,
-      word: { t: 'MOON', e: '\ud83c\udf19' },
-      good: 'mmm', bad: ['sss', 'puh'] },
+      word: { t: 'TREE', e: '\ud83c\udf33' },
+      good: 'tuh', bad: ['sss', 'puh'] },
 
     { act: 'blend-oral', phase: 'decode',
       parts: ['sss', 'ah'], result: 'SA',
@@ -1938,6 +2034,10 @@ DATA.missions.en = [
       parts: ['ah', 'tuh'], result: 'AT',
       good: { t: 'AT', e: '\ud83d\udd0a' },
       bad: [{ t: 'TA', e: '\ud83d\udd0a' }, { t: 'IT', e: '\ud83d\udd0a' }] },
+
+    { act: 'listen-repeat', phase: 'read',
+      emoji: '\ud83d\udc31',
+      say: { text: 'c... a... t. CAT', lang: 'en' } },
 
     { act: 'wrap', phase: 'reward',
       learned: 'You can hear beats and sounds inside words!' }
@@ -2206,11 +2306,7 @@ DATA.missions.en = [
 { id: 'en.m07', world: 4, n: 7, title: 'More CVC words', subtitle: 'MAD \u00b7 DIP \u00b7 SIT', icon: '\ud83c\udf81', locked: true, skill: 'en.w.cvcplus' },
 { id: 'en.m08', world: 5, n: 8, title: 'The sound SH', subtitle: 'shhh', icon: '\u2728', locked: true, skill: 'en.d.sh' },
 { id: 'en.m09', world: 5, n: 9, title: 'The sound CH', subtitle: 'chuh', icon: '\u2728', locked: true, skill: 'en.d.ch' },
-{ id: 'en.m10', world: 5, n: 10, title: 'The sound EE', subtitle: 'eee', icon: '\u2728', locked: true, skill: 'en.d.ee' },
-{ id: 'en.m11', world: 6, n: 11, title: 'Tricky words', subtitle: 'the \u00b7 was \u00b7 you', icon: '\ud83d\udddd\ufe0f', locked: true, skill: 'en.t.tricky' },
-{ id: 'en.m12', world: 7, n: 12, title: 'I read a sentence', subtitle: 'The cat is big.', icon: '\ud83d\udcdd', locked: true, skill: 'en.s.sentence' },
-{ id: 'en.m13', world: 9, n: 13, title: 'I understand', subtitle: 'What the story means', icon: '\ud83d\udca1', locked: true, skill: 'en.k.comprehension' },
-{ id: 'en.m14', world: 10, n: 14, title: 'I read a book', subtitle: 'My real book', icon: '\ud83d\udcd6', locked: true, skill: 'en.h.book' }
+{ id: 'en.m10', world: 5, n: 10, title: 'The sound EE', subtitle: 'eee', icon: '\u2728', locked: true, skill: 'en.d.ee' }
 
 ];
 
@@ -2419,7 +2515,7 @@ window.App = window.App || {};
 
 App.State = (function () {
 
-  var KEY = 'alexis.reading.v2';
+  var KEY = 'alexis.reading.v3';
   var s = null;
 
   function today() {
@@ -2430,7 +2526,7 @@ App.State = (function () {
 
   function fresh() {
     return {
-      v: 2,
+      v: 3,
       child: { name: 'Alexis', avatar: 'fox', accessory: null },
       /* 0 = dimanche. Planning par défaut du cahier des charges §7 */
       schedule: { 1: 'fr', 2: 'en', 3: 'fr', 4: 'en', 5: 'fr', 6: 'en', 0: 'free' },
@@ -2440,6 +2536,8 @@ App.State = (function () {
       stars: 0,
       badges: [],
       booksRead: [],
+      lang: null,               /* langue choisie, null = on demande */
+      lastLangDay: null,
       missions: {},             /* missionId -> { done, stars, times, last } */
       booksUnlocked: [],
       album: [],                /* moments importants : { icon, label, date } */
@@ -2449,7 +2547,9 @@ App.State = (function () {
       days: {},                 /* '2026-08-17' -> { fr: seconds, en: seconds } */
       streak: 0,
       lastDay: null,
-      settings: { rate: 0.8, sessionSteps: 7, voiceFr: '', voiceEn: '', sound: true },
+      settings: { rate: 0.8, sessionSteps: 7, voiceFr: '', voiceEn: '', sound: true,
+                  preferred: null,   /* 'fr' | 'en' | null = laisser choisir */
+                  alternate: false   /* suggerer l'alternance du planning */ },
       log: []                   /* historique court des séances */
     };
   }
@@ -2459,8 +2559,10 @@ App.State = (function () {
       var raw = localStorage.getItem(KEY);
       s = raw ? JSON.parse(raw) : fresh();
     } catch (e) { s = fresh(); }
-    if (!s || s.v !== 2) s = fresh();
+    if (!s || s.v !== 3) s = fresh();
+    if (!s.settings.hasOwnProperty('preferred')) { s.settings.preferred = null; s.settings.alternate = false; }
     touchDay();
+    maybeAskAgain();
     return s;
   }
 
@@ -2541,17 +2643,38 @@ App.State = (function () {
     save();
   }
 
-  function langOfDay() {
-    if (s.overrideLang && s.overrideDate === today()) return s.overrideLang;
-    var day = new Date().getDay();
-    var l = s.schedule[day];
-    if (l === 'free' || !l) {
-      /* Dimanche : on propose la langue la moins travaillée cette semaine */
-      var t = weekTotals();
-      return t.fr <= t.en ? 'fr' : 'en';
-    }
-    return l;
+  /* La langue est choisie par l'enfant ou le parent, jamais deduite du
+     jour (§1). Le planning ne sert plus que de SUGGESTION au demarrage. */
+  function lang() {
+    if (s.lang === 'fr' || s.lang === 'en') return s.lang;
+    return suggested();
   }
+
+  function hasChosen() { return s.lang === 'fr' || s.lang === 'en'; }
+
+  function setLang(l) {
+    if (l !== 'fr' && l !== 'en') return;
+    s.lang = l;
+    s.lastLangDay = today();
+    save();
+  }
+
+  /* Suggestion douce : la preference du parent, sinon l'alternance,
+     sinon le francais. Elle n'empeche jamais de choisir autre chose. */
+  function suggested() {
+    if (s.settings.preferred === 'fr' || s.settings.preferred === 'en') return s.settings.preferred;
+    if (s.settings.alternate) {
+      var d = s.schedule[String(new Date().getDay())];
+      if (d === 'fr' || d === 'en') return d;
+    }
+    return 'fr';
+  }
+
+  /* Nouveau jour : on repropose le choix plutot que de le figer. */
+  function maybeAskAgain() {
+    if (s.lastLangDay && s.lastLangDay !== today()) s.lang = null;
+  }
+
 
   function setOverride(lang) {
     s.overrideLang = lang;
@@ -2640,7 +2763,8 @@ App.State = (function () {
     today: today, addTime: addTime, weekTotals: weekTotals,
     skill: skill, isSeen: isSeen, record: record, markSeen: markSeen,
     addStars: addStars, bump: bump,
-    langOfDay: langOfDay, setOverride: setOverride,
+    lang: lang, setLang: setLang, hasChosen: hasChosen, suggested: suggested,
+    maybeAskAgain: maybeAskAgain, setOverride: setOverride,
     mission: mission, isMissionDone: isMissionDone, finishMission: finishMission,
     missionsDone: missionsDone,
     unlockBook: unlockBook, isBookUnlocked: isBookUnlocked, markBookRead: markBookRead,
@@ -2683,6 +2807,22 @@ App.I18N = {
     parentSpace: 'Espace parent',
     bookWaiting: 'Une histoire t\'attend',
     bookSoon: 'Ton premier livre, bient\u00f4t',
+    chooseTitle: 'Aujourd\u2019hui, je veux apprendre en',
+    chooseFr: 'Fran\u00e7ais',
+    chooseEn: 'Anglais',
+    switchLang: 'Changer de langue',
+    booksAvailable: '\u00c0 lire',
+    booksProgress: 'En cours',
+    booksDone: 'Termin\u00e9s',
+    booksNone: 'Rien ici pour l\u2019instant',
+    earned: 'Gagn\u00e9s',
+    toEarn: '\u00c0 gagner',
+    showAll: 'Voir tout',
+    q_oddOne: 'Quel mot ne commence pas comme les autres ?',
+    q_samePair: 'Quels deux mots commencent par le m\u00eame son ?',
+    q_repeat: '\u00c9coute, puis r\u00e9p\u00e8te \u00e0 voix haute',
+    q_clap: 'Tape une fois par morceau',
+    iSaidIt: 'Je l\u2019ai dit !',
 
     /* --- Missions --- */
     mission: 'Mission',
@@ -2798,6 +2938,22 @@ App.I18N = {
     parentSpace: 'Parents',
     bookWaiting: 'A story is waiting',
     bookSoon: 'Your first book, coming soon',
+    chooseTitle: 'Today I want to learn in',
+    chooseFr: 'French',
+    chooseEn: 'English',
+    switchLang: 'Change language',
+    booksAvailable: 'To read',
+    booksProgress: 'Started',
+    booksDone: 'Finished',
+    booksNone: 'Nothing here yet',
+    earned: 'Earned',
+    toEarn: 'To earn',
+    showAll: 'Show all',
+    q_oddOne: 'Which word does not start like the others?',
+    q_samePair: 'Which two words start with the same sound?',
+    q_repeat: 'Listen, then say it out loud',
+    q_clap: 'Tap once for each beat',
+    iSaidIt: 'I said it!',
 
     mission: 'Mission',
     missionLocked: 'Not open yet',
@@ -2894,10 +3050,187 @@ App.I18N = {
 /* T('nextStep')        -> langue du jour
    T('nextStep', 'en')  -> force une langue                         */
 App.T = function (key, lang) {
-  var l = lang || App.State.langOfDay();
+  var l = lang || App.State.lang();
   var d = App.I18N[l] || App.I18N.fr;
   return d[key] != null ? d[key] : (App.I18N.fr[key] != null ? App.I18N.fr[key] : key);
 };
+
+</script>
+<script>
+/* ===== js/voice.js ===== */
+/* =========================================================
+   js/voice.js — Studio de voix
+
+   Reponse concrete au probleme du son robotique. Plutot que
+   d'attendre des enregistrements professionnels, le parent
+   enregistre sa propre voix depuis l'application. Alexis entend
+   alors une vraie voix humaine — celle qu'il connait.
+
+   Stockage : IndexedDB (les extraits sont des Blob audio).
+   Ordre de resolution dans js/audio.js :
+     1. fichier dans assets/audio/...        (enregistrement pro)
+     2. enregistrement du parent             (ici)
+     3. synthese vocale                      (dernier recours)
+   ========================================================= */
+
+window.App = window.App || {};
+
+App.Voice = (function () {
+
+  var DB = 'alexis.voice', STORE = 'clips';
+  var db = null, urls = {}, index = {};
+  var rec = null, chunks = [], stream = null;
+
+  /* ---------- Base locale ---------- */
+
+  function open() {
+    return new Promise(function (resolve, reject) {
+      if (db) return resolve(db);
+      if (!window.indexedDB) return reject('indexedDB indisponible');
+      var r = indexedDB.open(DB, 1);
+      r.onupgradeneeded = function () {
+        if (!r.result.objectStoreNames.contains(STORE)) r.result.createObjectStore(STORE);
+      };
+      r.onsuccess = function () { db = r.result; resolve(db); };
+      r.onerror = function () { reject(r.error); };
+    });
+  }
+
+  function put(key, blob) {
+    return open().then(function (d) {
+      return new Promise(function (resolve, reject) {
+        var tx = d.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).put(blob, key);
+        tx.oncomplete = function () {
+          index[key] = true;
+          if (urls[key]) { URL.revokeObjectURL(urls[key]); delete urls[key]; }
+          save();
+          resolve();
+        };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+
+  function get(key) {
+    return open().then(function (d) {
+      return new Promise(function (resolve, reject) {
+        var tx = d.transaction(STORE, 'readonly');
+        var q = tx.objectStore(STORE).get(key);
+        q.onsuccess = function () { resolve(q.result || null); };
+        q.onerror = function () { reject(q.error); };
+      });
+    });
+  }
+
+  function del(key) {
+    return open().then(function (d) {
+      return new Promise(function (resolve) {
+        var tx = d.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).delete(key);
+        tx.oncomplete = function () {
+          delete index[key];
+          if (urls[key]) { URL.revokeObjectURL(urls[key]); delete urls[key]; }
+          save();
+          resolve();
+        };
+      });
+    });
+  }
+
+  /* L'index des cles enregistrees vit dans localStorage : on doit
+     savoir instantanement si un extrait existe, sans attendre la base. */
+  function save() {
+    try { localStorage.setItem('alexis.voice.index', JSON.stringify(Object.keys(index))); } catch (e) {}
+  }
+  function load() {
+    try {
+      var a = JSON.parse(localStorage.getItem('alexis.voice.index') || '[]');
+      a.forEach(function (k) { index[k] = true; });
+    } catch (e) {}
+  }
+
+  /* ---------- Lecture ---------- */
+
+  function has(key) { return !!index[key]; }
+  function count() { return Object.keys(index).length; }
+
+  /* Renvoie une promesse resolue a la fin de l'extrait, rejetee s'il n'existe pas */
+  function play(key, rate) {
+    if (!index[key]) return Promise.reject();
+    return get(key).then(function (blob) {
+      if (!blob) { delete index[key]; save(); return Promise.reject(); }
+      return new Promise(function (resolve, reject) {
+        if (!urls[key]) urls[key] = URL.createObjectURL(blob);
+        var a = new window.Audio(urls[key]);
+        try { a.playbackRate = rate || 1; } catch (e) {}
+        a.onended = resolve;
+        a.onerror = reject;
+        var p = a.play();
+        if (p && p.catch) p.catch(reject);
+        setTimeout(resolve, 6000);
+      });
+    });
+  }
+
+  /* ---------- Enregistrement ---------- */
+
+  function supported() {
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+  }
+
+  function start() {
+    if (!supported()) return Promise.reject('non supporte');
+    return navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) {
+      stream = s;
+      chunks = [];
+      rec = new window.MediaRecorder(s);
+      rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.start();
+      return true;
+    });
+  }
+
+  function stop(key) {
+    return new Promise(function (resolve, reject) {
+      if (!rec) return reject('aucun enregistrement en cours');
+      rec.onstop = function () {
+        var blob = new Blob(chunks, { type: rec.mimeType || 'audio/webm' });
+        if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+        rec = null;
+        if (!blob.size) return reject('extrait vide');
+        put(key, blob).then(function () { resolve(blob); }, reject);
+      };
+      try { rec.stop(); } catch (e) { reject(e); }
+    });
+  }
+
+  function cancel() {
+    if (rec) { try { rec.stop(); } catch (e) {} rec = null; }
+    if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+  }
+
+  function clearAll() {
+    return open().then(function (d) {
+      return new Promise(function (resolve) {
+        var tx = d.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).clear();
+        tx.oncomplete = function () {
+          Object.keys(urls).forEach(function (k) { URL.revokeObjectURL(urls[k]); });
+          urls = {}; index = {}; save(); resolve();
+        };
+      });
+    });
+  }
+
+  load();
+
+  return {
+    supported: supported, has: has, count: count, play: play,
+    start: start, stop: stop, cancel: cancel, del: del, clearAll: clearAll,
+    keys: function () { return Object.keys(index); }
+  };
+})();
 
 </script>
 <script>
@@ -2948,10 +3281,15 @@ App.Audio = (function () {
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
+  /* Dossiers au pluriel, comme demande :
+     fr/phonemes/  fr/words/  fr/instructions/  fr/sentences/  fr/stories/ */
+  var FOLDER = { phoneme: 'phonemes', word: 'words', syll: 'syllables',
+                 ui: 'instructions', line: 'sentences', story: 'stories' };
+
   function path(key) {
     var p = parse(key);
     if (!p) return null;
-    return BASE + p.lang + '/' + p.type + '/' + p.slug + '.mp3';
+    return BASE + p.lang + '/' + (FOLDER[p.type] || p.type) + '/' + p.slug + '.mp3';
   }
 
   /* Texte de repli : ce que la synthese doit dire si le fichier manque. */
@@ -2978,9 +3316,25 @@ App.Audio = (function () {
     if (opts.stopFirst !== false) stop();
     if (!App.State.get().settings.sound) return Promise.resolve();
 
-    var p = (known[key] === 'missing')
-      ? synth(key, opts)
-      : file(key, opts).catch(function () { return synth(key, opts); });
+    var rate = opts.rate || App.State.get().settings.rate || 1;
+
+    /* Ordre de resolution :
+       1. enregistrement professionnel depose dans assets/audio
+       2. voix du parent, enregistree depuis l'espace parent
+       3. synthese vocale, en dernier recours seulement            */
+    var p;
+    if (known[key] === 'missing') {
+      p = App.Voice && App.Voice.has(key)
+        ? App.Voice.play(key, rate).catch(function () { return synth(key, opts); })
+        : synth(key, opts);
+    } else {
+      p = file(key, opts).catch(function () {
+        if (App.Voice && App.Voice.has(key)) {
+          return App.Voice.play(key, rate).catch(function () { return synth(key, opts); });
+        }
+        return synth(key, opts);
+      });
+    }
 
     /* Filet de securite : une promesse audio qui ne se resout pas figerait
        l'etayage et bloquerait la mission. On borne systematiquement. */
@@ -3136,7 +3490,12 @@ App.Audio = (function () {
     has: function (lang) { return !!pickVoice(lang); },
     hasRecordings: function () {
       for (var k in known) { if (known[k] === 'file') return true; }
-      return false;
+      return !!(App.Voice && App.Voice.count());
+    },
+    source: function (key) {
+      if (known[key] === 'file') return 'fichier';
+      if (App.Voice && App.Voice.has(key)) return 'voix du parent';
+      return 'synthese';
     },
     listFor: function (lang) {
       var want = lang === 'en' ? 'en' : 'fr';
@@ -3363,6 +3722,7 @@ App.Activities = (function () {
     var grid = el('div', 'choices' + (opts.cls ? ' ' + opts.cls : ''));
     shuffle(list).forEach(function (c) {
       var b = el('button', 'choice' + (c.kind ? ' choice--' + c.kind : ''));
+      if (c.correct) b.setAttribute('data-ok', '1');
       b.appendChild(el('span', 'choice__main', c.label));
       if (c.sub) b.appendChild(el('span', 'choice__sub', c.sub));
       b.addEventListener('click', function () {
@@ -3951,6 +4311,110 @@ App.Activities = (function () {
   /* =========================================================
      20. CLOTURE  (geree par le runner, declaree ici pour completude)
      ========================================================= */
+
+  /* =========================================================
+     21. L'INTRUS  (trois mots, un seul ne commence pas pareil)
+     ========================================================= */
+  A['odd-one-out'] = function (step, ctx) {
+    instruction(ctx, ctx.T('q_oddOne'));
+    var list = [imgChoice(step.odd, true)].concat(step.same.map(function (o) { return imgChoice(o); }));
+    var grid = choices(ctx, list);
+    /* On nomme chaque image avant de demander : on n'interroge pas
+       sur un mot que l'enfant n'a pas entendu. */
+    var all = step.same.concat([step.odd]), i = 0;
+    (function chain() {
+      if (i >= all.length) return;
+      var w = all[i++];
+      ctx.playText(w.t).then(function () { setTimeout(chain, 260); },
+                             function () { setTimeout(chain, 260); });
+    })();
+  };
+
+  /* =========================================================
+     22. LA PAIRE  (deux mots sur trois commencent pareil)
+     ========================================================= */
+  A['same-start'] = function (step, ctx) {
+    instruction(ctx, ctx.T('q_samePair'));
+    var picked = [];
+    var grid = el('div', 'choices');
+    shuffle(step.pair.map(function (o) { return { o: o, good: true }; })
+      .concat([{ o: step.other, good: false }])).forEach(function (c) {
+      var b = el('button', 'choice choice--img');
+      b.appendChild(el('span', 'choice__main', c.o.e));
+      b.appendChild(el('span', 'choice__sub', c.o.t));
+      b.addEventListener('click', function () {
+        if (b.classList.contains('is-off') || b.classList.contains('is-right')) return;
+        ctx.playText(c.o.t);
+        if (!c.good) { b.classList.add('is-off'); ctx.miss(b, grid); return; }
+        b.classList.add('is-right');
+        picked.push(c);
+        if (picked.length === 2) ctx.win();
+      });
+      grid.appendChild(b);
+    });
+    ctx.root.appendChild(grid);
+  };
+
+  /* =========================================================
+     23. ECOUTE ET REPETE  (§29 : on simule, pas de reconnaissance)
+     ========================================================= */
+  A['listen-repeat'] = function (step, ctx) {
+    instruction(ctx, ctx.T('q_repeat'));
+    var card = el('div', 'bigimg');
+    if (step.emoji) card.appendChild(el('div', 'bigimg__e', step.emoji));
+    if (step.show) card.appendChild(el('div', 'bigimg__t read big', step.show));
+    ctx.root.appendChild(card);
+
+    if (step.audioKey) listen(ctx, step.audioKey, ctx.T('listen'));
+    else listenText(ctx, step.say.text, step.say.lang, ctx.T('listen'));
+
+    var mic = el('div', 'mic');
+    mic.appendChild(el('div', 'mic__ico', '\ud83c\udfa4'));
+    ctx.root.appendChild(mic);
+
+    var done = el('button', 'btn btn--primary btn--block', ctx.T('iSaidIt'));
+    done.addEventListener('click', function () { ctx.win(true); });
+    ctx.root.appendChild(done);
+
+    setTimeout(function () {
+      if (step.audioKey) ctx.play(step.audioKey);
+      else App.Audio.speak(step.say.text, step.say.lang);
+    }, 420);
+  };
+
+  /* =========================================================
+     24. TAPER LES SYLLABES  (le corps avant l'abstraction)
+     ========================================================= */
+  A['clap'] = function (step, ctx) {
+    instruction(ctx, ctx.T('q_clap'));
+    var card = el('div', 'bigimg');
+    card.appendChild(el('div', 'bigimg__e', step.word.e));
+    ctx.root.appendChild(card);
+    listenText(ctx, step.word.t);
+
+    var dots = el('div', 'claps');
+    var made = [];
+    for (var i = 0; i < step.word.n; i++) dots.appendChild(el('span', 'claps__d'));
+    ctx.root.appendChild(dots);
+
+    var pad = el('button', 'clappad', '\ud83d\udc4f');
+    pad.addEventListener('click', function () {
+      if (made.length >= step.word.n) return;
+      var d = dots.children[made.length];
+      d.classList.add('is-on');
+      made.push(1);
+      App.Audio.sfx.pop();
+      pad.classList.add('is-hit');
+      setTimeout(function () { pad.classList.remove('is-hit'); }, 160);
+      if (made.length === step.word.n) {
+        ctx.playText(step.word.t);
+        setTimeout(function () { ctx.win(); }, 500);
+      }
+    });
+    ctx.root.appendChild(pad);
+    setTimeout(function () { ctx.playText(step.word.t); }, 380);
+  };
+
   A.wrap = function (step, ctx) { ctx.win(true); };
 
   return {
@@ -4098,7 +4562,7 @@ App.Mission = (function () {
   function quit() {
     App.Audio.stop();
     box.hidden = true;
-    document.documentElement.setAttribute('data-lang', App.State.langOfDay());
+    document.documentElement.setAttribute('data-lang', App.State.lang());
     App.UI.refresh();
   }
 
@@ -4116,9 +4580,12 @@ App.Mission = (function () {
 
   /* ---------- Rendu d'une etape ---------- */
 
+  var watchdog = null;
+
   function render() {
     busy = false;
     tries = 0;
+    if (watchdog) clearTimeout(watchdog);
     App.Audio.stop();
     taskEl.innerHTML = '';
     taskEl.scrollTop = 0;
@@ -4129,6 +4596,17 @@ App.Mission = (function () {
     if (step.act === 'wrap') return finish();
 
     App.Activities.render(step, ctx(step));
+
+    /* Si quoi que ce soit se coince (audio, animation), on rend la main
+       plutot que de laisser l'enfant devant un ecran mort. */
+    var mine = idx;
+    watchdog = setTimeout(function () {
+      if (idx === mine && busy) {
+        busy = false;
+        var ov = taskEl.querySelector('.scaffold');
+        if (ov) ov.remove();
+      }
+    }, 12000);
   }
 
   function ctx(step) {
@@ -4222,7 +4700,9 @@ App.Mission = (function () {
     var alive = all.filter(function (n) { return !n.classList.contains('is-off'); });
     if (alive.length <= 2) return;
     for (var i = 0; i < alive.length; i++) {
-      if (!alive[i].classList.contains('is-right')) {
+      /* On ne retire JAMAIS la bonne reponse : elle est marquee des sa
+         creation, pas seulement une fois qu'elle a ete cliquee. */
+      if (alive[i].getAttribute('data-ok') !== '1') {
         alive[i].classList.add('is-off');
         return;
       }
@@ -4391,8 +4871,8 @@ App.UI = (function () {
     if (x != null) n.textContent = x;
     return n;
   }
-  function T(k) { return App.T(k, App.State.langOfDay()); }
-  function lod() { return App.State.langOfDay(); }
+  function T(k) { return App.T(k, App.State.lang()); }
+  function lod() { return App.State.lang(); }
 
   /* ---------- Montage ---------- */
 
@@ -4446,6 +4926,11 @@ App.UI = (function () {
   function drawHome() {
     var box = screens.home;
     box.innerHTML = '';
+
+    /* Tant qu'Alexis n'a pas choisi aujourd'hui, on ne decide pas a sa
+       place : le choix de la langue EST l'ecran d'accueil (§1). */
+    if (!App.State.hasChosen()) return drawChooser(box);
+
     var lang = lod();
     var next = App.Engine.next(lang);
 
@@ -4507,7 +4992,54 @@ App.UI = (function () {
       box.appendChild(bc);
     }
 
+    /* On peut toujours changer d'avis, a tout moment (§1) */
+    var sw = el('button', 'langswap');
+    sw.appendChild(el('span', 'langswap__f', lang === 'en' ? '\ud83c\uddeb\ud83c\uddf7' : '\ud83c\uddec\ud83c\udde7'));
+    sw.appendChild(el('span', 'langswap__t', T('switchLang')));
+    sw.addEventListener('click', function () {
+      App.State.setLang(lang === 'en' ? 'fr' : 'en');
+      App.Audio.sfx.pop();
+      mapLang = null;
+      refresh();
+    });
+    box.appendChild(sw);
+
     var pk = el('button', 'parentkey', '\ud83d\udd12 ' + T('parentSpace'));
+    pk.addEventListener('click', function () { App.Parent.askUnlock(); });
+    box.appendChild(pk);
+  }
+
+  /* ---------- Le choix de la langue ---------- */
+
+  function drawChooser(box) {
+    var sug = App.State.suggested();
+    var c = el('section', 'chooser');
+    c.appendChild(el('div', 'chooser__hi', 'Bonjour ' + App.State.get().child.name + ' \u00b7 Hello!'));
+    c.appendChild(el('h1', 'chooser__t', App.T('chooseTitle', 'fr')));
+    c.appendChild(el('div', 'chooser__t2', App.T('chooseTitle', 'en')));
+
+    var row = el('div', 'chooser__row');
+    [['fr', '\ud83c\uddeb\ud83c\uddf7', 'Fran\u00e7ais'], ['en', '\ud83c\uddec\ud83c\udde7', 'English']].forEach(function (p) {
+      var b = el('button', 'langbig lang-' + p[0] + (sug === p[0] ? ' is-sug' : ''));
+      b.appendChild(el('span', 'langbig__f', p[1]));
+      b.appendChild(el('span', 'langbig__n', p[2]));
+      var done = App.State.missionsDone(p[0]);
+      var nx = App.Engine.next(p[0]);
+      b.appendChild(el('span', 'langbig__s', done
+        ? done + ' \u2b50'
+        : (nx ? App.T('mission', p[0]) + ' 1' : '')));
+      b.addEventListener('click', function () {
+        App.State.setLang(p[0]);
+        App.Audio.sfx.unlock();
+        mapLang = null;
+        refresh();
+      });
+      row.appendChild(b);
+    });
+    c.appendChild(row);
+    box.appendChild(c);
+
+    var pk = el('button', 'parentkey', '\ud83d\udd12 Espace parent');
     pk.addEventListener('click', function () { App.Parent.askUnlock(); });
     box.appendChild(pk);
   }
@@ -4608,22 +5140,40 @@ App.UI = (function () {
     var box = screens.books;
     box.innerHTML = '';
     box.appendChild(el('h2', 'stitle', T('myBooks')));
+    var read = App.State.get().booksRead;
 
     [['fr', T('booksFr')], ['en', T('booksEn')]].forEach(function (p) {
-      box.appendChild(el('div', 'eyebrow', p[1]));
-      var shelf = el('div', 'shelf');
-      DATA.books.filter(function (b) { return b.lang === p[0]; }).forEach(function (b) {
-        var open = App.State.isBookUnlocked(b.id);
-        var read = App.State.get().booksRead.indexOf(b.id) >= 0;
-        var c = el('button', 'book' + (open ? '' : ' is-locked'));
-        c.appendChild(el('div', 'book__c', open ? b.cover : '\ud83d\udd12'));
-        c.appendChild(el('div', 'book__t read', b.title));
-        c.appendChild(el('div', 'book__s',
-          open ? (read ? T('bookDone') : T('bookOpen')) : T('bookLocked')));
-        c.addEventListener('click', function () { if (open) openBook(b); });
-        shelf.appendChild(c);
+      var all = DATA.books.filter(function (b) { return b.lang === p[0]; });
+      var groups = [
+        { label: T('booksAvailable'), list: all.filter(function (b) {
+            return App.State.isBookUnlocked(b.id) && read.indexOf(b.id) < 0; }) },
+        { label: T('booksDone'), list: all.filter(function (b) {
+            return read.indexOf(b.id) >= 0; }) },
+        { label: T('locked'), list: all.filter(function (b) {
+            return !App.State.isBookUnlocked(b.id); }) }
+      ];
+      box.appendChild(el('div', 'langhead', (p[0] === 'fr' ? '\ud83c\uddeb\ud83c\uddf7 ' : '\ud83c\uddec\ud83c\udde7 ') + p[1]));
+      var any = false;
+      groups.forEach(function (g) {
+        if (!g.list.length) return;
+        any = true;
+        box.appendChild(el('div', 'eyebrow', g.label));
+        var shelf = el('div', 'shelf');
+        g.list.forEach(function (b) {
+          var open = App.State.isBookUnlocked(b.id);
+          var done = read.indexOf(b.id) >= 0;
+          var c = el('button', 'book' + (open ? '' : ' is-locked'));
+          c.appendChild(el('div', 'book__c', open ? b.cover : '\ud83d\udd12'));
+          c.appendChild(el('div', 'book__t read', b.title));
+          c.appendChild(el('div', 'book__s', open
+            ? (done ? '\u2713 ' + T('bookDone') : T('bookOpen'))
+            : (b.needs || T('bookLocked'))));
+          c.addEventListener('click', function () { if (open) openBook(b); });
+          shelf.appendChild(c);
+        });
+        box.appendChild(shelf);
       });
-      box.appendChild(shelf);
+      if (!any) box.appendChild(el('div', 'note', T('booksNone')));
     });
   }
 
@@ -4772,16 +5322,34 @@ App.UI = (function () {
     /* Mes trophees */
     var c2 = el('section', 'card');
     c2.appendChild(el('div', 'eyebrow', T('myTrophies')));
-    var g = el('div', 'badges');
-    DATA.trophies.forEach(function (t) {
-      var has = App.Rewards.trophyOwned(t);
-      var b = el('div', 'badge' + (has ? '' : ' is-locked'));
-      b.appendChild(el('div', 'badge__i', has ? t.icon : '\ud83d\udd12'));
-      b.appendChild(el('div', 'badge__t', has ? t.label : T('locked')));
-      if (!has) b.title = t.hint;
-      g.appendChild(b);
-    });
-    c2.appendChild(g);
+    var got = DATA.trophies.filter(App.Rewards.trophyOwned);
+    var left = DATA.trophies.filter(function (t) { return !App.Rewards.trophyOwned(t); });
+
+    if (got.length) {
+      var g = el('div', 'badges');
+      got.forEach(function (t) {
+        var b = el('div', 'badge');
+        b.appendChild(el('div', 'badge__i', t.icon));
+        b.appendChild(el('div', 'badge__t', t.label));
+        g.appendChild(b);
+      });
+      c2.appendChild(g);
+    } else {
+      c2.appendChild(el('div', 'note', T('albumEmpty')));
+    }
+
+    /* On ne montre pas un mur de cadenas (§27) : juste la prochaine
+       recompense a atteindre, avec ce qu'il faut faire pour l'avoir. */
+    if (left.length) {
+      var nxt = el('div', 'nextreward');
+      nxt.appendChild(el('span', 'nextreward__i', '\ud83d\udd12'));
+      var m = el('div', '');
+      m.appendChild(el('div', 'nextreward__t', T('toEarn') + ' \u00b7 ' + left[0].label));
+      m.appendChild(el('div', 'nextreward__s', left[0].hint));
+      nxt.appendChild(m);
+      c2.appendChild(nxt);
+      if (left.length > 1) c2.appendChild(el('div', 'note', '+ ' + (left.length - 1) + ' \u00b7 ' + T('toEarn').toLowerCase()));
+    }
     box.appendChild(c2);
 
     /* Mes livres termines */
@@ -4928,7 +5496,7 @@ App.Parent = (function () {
 
     var tabs = el('div', 'ptabs');
     [['overview', 'Vue d\u2019ensemble'], ['fr', 'Fran\u00e7ais'], ['en', 'English'],
-     ['skills', 'Comp\u00e9tences'], ['plan', 'Planning'], ['set', 'R\u00e9glages']]
+     ['skills', 'Comp\u00e9tences'], ['plan', 'Langue'], ['set', 'Voix']]
       .forEach(function (p) {
         var b = el('button', 'ptab' + (tab === p[0] ? ' is-on' : ''), p[1]);
         b.addEventListener('click', function () { tab = p[0]; draw(); });
@@ -5070,16 +5638,48 @@ App.Parent = (function () {
 
   function drawPlan(b) {
     var s = App.State.get();
+
+    var c0 = el('div', 'pcard');
+    c0.appendChild(el('div', 'pcard__h', 'Qui choisit la langue ?'));
+    c0.appendChild(el('div', 'ptext',
+      'Par defaut, Alexis choisit lui-meme a chaque session. Vous pouvez ' +
+      'suggerer une langue, mais il pourra toujours prendre l\u2019autre : ' +
+      'le systeme ne bloque jamais un choix.'));
+    var row = el('div', 'dsw dsw--wide');
+    [[null, 'Alexis choisit'], ['fr', '\ud83c\uddeb\ud83c\uddf7 Suggerer FR'], ['en', '\ud83c\uddec\ud83c\udde7 Suggerer EN']]
+      .forEach(function (o) {
+        var btn = el('button', 'dsw__b' + ((s.settings.preferred || null) === o[0] ? ' is-on' : ''), o[1]);
+        btn.addEventListener('click', function () {
+          s.settings.preferred = o[0];
+          if (o[0]) s.settings.alternate = false;
+          App.State.save(); draw();
+        });
+        row.appendChild(btn);
+      });
+    c0.appendChild(row);
+
+    var alt = el('button', 'btn btn--quiet btn--block',
+      s.settings.alternate ? 'Alternance suggeree : activee' : 'Alternance suggeree : desactivee');
+    alt.addEventListener('click', function () {
+      s.settings.alternate = !s.settings.alternate;
+      if (s.settings.alternate) s.settings.preferred = null;
+      App.State.save(); draw();
+    });
+    c0.appendChild(alt);
+    c0.appendChild(el('div', 'ptext',
+      'L\u2019alternance ne fait que pre-selectionner la langue du jour sur l\u2019ecran ' +
+      'de choix. Elle n\u2019impose rien.'));
+    b.appendChild(c0);
+
     var days = [['1', 'Lundi'], ['2', 'Mardi'], ['3', 'Mercredi'], ['4', 'Jeudi'],
                 ['5', 'Vendredi'], ['6', 'Samedi'], ['0', 'Dimanche']];
     var c = el('div', 'pcard');
-    c.appendChild(el('div', 'pcard__h', 'Semaine type'));
-    c.appendChild(el('div', 'ptext', 'Alexis alterne les deux langues. Touchez un jour pour le changer.'));
+    c.appendChild(el('div', 'pcard__h', 'Semaine suggeree'));
     days.forEach(function (d) {
       var r = el('div', 'prow');
       r.appendChild(el('span', 'prow__l', d[1]));
       var sw = el('div', 'dsw');
-      [['fr', '\ud83c\uddeb\ud83c\uddf7'], ['en', '\ud83c\uddec\ud83c\udde7'], ['free', '\u2014']].forEach(function (o) {
+      [['fr', '\ud83c\uddeb\ud83c\uddf7'], ['en', '\ud83c\uddec\ud83c\udde7']].forEach(function (o) {
         var btn = el('button', 'dsw__b' + (s.schedule[d[0]] === o[0] ? ' is-on' : ''), o[1]);
         btn.addEventListener('click', function () { s.schedule[d[0]] = o[0]; App.State.save(); draw(); });
         sw.appendChild(btn);
@@ -5090,68 +5690,111 @@ App.Parent = (function () {
     b.appendChild(c);
 
     var c2 = el('div', 'pcard');
-    c2.appendChild(el('div', 'pcard__h', 'Langue d\u2019aujourd\u2019hui'));
-    c2.appendChild(el('div', 'ptext', 'Forcer une langue, seulement pour aujourd\u2019hui.'));
-    var row = el('div', 'dsw dsw--wide');
-    [['fr', '\ud83c\uddeb\ud83c\uddf7 Fran\u00e7ais'], ['en', '\ud83c\uddec\ud83c\udde7 English'], ['', 'Planning']].forEach(function (o) {
-      var btn = el('button', 'dsw__b' + ((s.overrideLang || '') === o[0] ? ' is-on' : ''), o[1]);
-      btn.addEventListener('click', function () { App.State.setOverride(o[0] || null); draw(); });
-      row.appendChild(btn);
+    c2.appendChild(el('div', 'pcard__h', 'Progression par langue'));
+    c2.appendChild(el('div', 'ptext',
+      'Les deux parcours sont totalement independants. Alexis peut etre ' +
+      'avance en francais et debutant en anglais.'));
+    ['fr', 'en'].forEach(function (l) {
+      var r = el('div', 'prow');
+      r.appendChild(el('span', 'prow__l', (l === 'fr' ? '\ud83c\uddeb\ud83c\uddf7 Francais' : '\ud83c\uddec\ud83c\udde7 English')));
+      r.appendChild(el('span', 'prow__v', App.State.missionsDone(l) + ' mission' +
+        (App.State.missionsDone(l) > 1 ? 's' : '')));
+      c2.appendChild(r);
     });
-    c2.appendChild(row);
     b.appendChild(c2);
   }
 
   /* ---------- Reglages ---------- */
 
   function drawSettings(b) {
-    var s = App.State.get();
+    var st = App.State.get();
 
+    /* ---- Studio de voix : la vraie reponse au son robotique ---- */
     var c0 = el('div', 'pcard');
-    c0.appendChild(el('div', 'pcard__h', 'Audio'));
+    c0.appendChild(el('div', 'pcard__h', '\ud83c\udfa4 Votre voix'));
     c0.appendChild(el('div', 'ptext',
-      'L\u2019application cherche d\u2019abord un enregistrement dans assets/audio. ' +
-      'Elle ne bascule sur la synth\u00e8se vocale que s\u2019il n\u2019y en a pas. ' +
-      'La synth\u00e8se sert \u00e0 valider le parcours, pas \u00e0 apprendre la prononciation.'));
-    var fr = App.Audio.listFor('fr'), en = App.Audio.listFor('en');
-    c0.appendChild(row2('Enregistrements d\u00e9tect\u00e9s', App.Audio.hasRecordings() ? 'oui' : 'aucun'));
-    c0.appendChild(row2('Voix fran\u00e7aise', fr.length ? fr[0].name : '\u26a0 aucune'));
-    c0.appendChild(row2('Voix anglaise', en.length ? en[0].name : '\u26a0 aucune'));
-    if (!en.length) {
+      'La synthese vocale est mauvaise pour apprendre a lire : elle prononce ' +
+      'souvent le nom de la lettre au lieu du son. Enregistrez vous-meme les ' +
+      'sons ci-dessous et Alexis entendra une vraie voix humaine \u2014 la votre.'));
+
+    if (!App.Voice.supported()) {
       c0.appendChild(el('div', 'pwarn',
-        'Sans voix anglaise, les missions anglaises resteront muettes. ' +
-        'L\u2019application ne prononcera jamais l\u2019anglais avec une voix fran\u00e7aise.'));
+        'L\u2019enregistrement demande un navigateur recent et une adresse en https. ' +
+        'Il fonctionne sur votre lien GitHub Pages, pas en ouvrant le fichier ' +
+        'directement depuis le disque.'));
+    } else {
+      c0.appendChild(row2('Sons enregistres', App.Voice.count()));
+      c0.appendChild(voiceStudio());
+      var clr = el('button', 'btn btn--quiet btn--block', 'Effacer tous mes enregistrements');
+      clr.addEventListener('click', function () {
+        if (window.confirm('Supprimer tous vos enregistrements ?')) {
+          App.Voice.clearAll().then(function () { draw(); });
+        }
+      });
+      c0.appendChild(clr);
     }
     b.appendChild(c0);
 
+    /* ---- Repli synthese ---- */
     var c1 = el('div', 'pcard');
-    c1.appendChild(el('div', 'pcard__h', 'Vitesse de la voix'));
+    c1.appendChild(el('div', 'pcard__h', 'Repli : synthese vocale'));
+    var fr = App.Audio.listFor('fr'), en = App.Audio.listFor('en');
+    c1.appendChild(el('div', 'ptext',
+      'Utilisee uniquement quand aucun enregistrement n\u2019existe pour un son. ' +
+      'Choisissez la voix la plus naturelle disponible : les voix marquees ' +
+      '\u00ab en ligne \u00bb sont nettement meilleures que les voix locales.'));
+
+    [['fr', 'Voix francaise', fr, 'voiceFr'], ['en', 'Voix anglaise', en, 'voiceEn']].forEach(function (p) {
+      c1.appendChild(el('div', 'eyebrow', p[1]));
+      if (!p[2].length) {
+        c1.appendChild(el('div', 'pwarn', 'Aucune voix ' + p[1].toLowerCase() +
+          ' sur cet appareil. Les activites dans cette langue resteront muettes.'));
+        return;
+      }
+      var sel = document.createElement('select');
+      sel.className = 'psel';
+      p[2].forEach(function (v) {
+        var o = document.createElement('option');
+        o.value = v.name;
+        o.textContent = v.name + (v.localService ? ' (locale)' : ' (en ligne)');
+        if (st.settings[p[3]] === v.name) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', function () {
+        st.settings[p[3]] = sel.value;
+        App.State.save();
+        App.Audio.speak(p[0] === 'fr' ? 'Bonjour Alexis' : 'Hello Alexis', p[0]);
+      });
+      c1.appendChild(sel);
+      var t = el('button', 'btn btn--quiet btn--block', 'Tester');
+      t.addEventListener('click', function () {
+        App.Audio.speak(p[0] === 'fr'
+          ? 'Bonjour Alexis, on va lire ensemble.'
+          : 'Hello Alexis, let us read together.', p[0]);
+      });
+      c1.appendChild(t);
+    });
+
     var rng = document.createElement('input');
     rng.type = 'range'; rng.min = '0.5'; rng.max = '1.1'; rng.step = '0.05';
-    rng.value = String(s.settings.rate);
+    rng.value = String(st.settings.rate);
     rng.className = 'prange';
-    rng.addEventListener('input', function () { s.settings.rate = parseFloat(rng.value); App.State.save(); });
+    rng.addEventListener('input', function () { st.settings.rate = parseFloat(rng.value); App.State.save(); });
+    c1.appendChild(el('div', 'eyebrow', 'Vitesse'));
     c1.appendChild(rng);
-    var test = el('button', 'btn btn--quiet btn--block', 'Tester la voix fran\u00e7aise');
-    test.addEventListener('click', function () { App.Audio.speak('Bonjour Alexis, on va lire ensemble.', 'fr'); });
-    c1.appendChild(test);
-    var test2 = el('button', 'btn btn--quiet btn--block', 'Tester la voix anglaise');
-    test2.addEventListener('click', function () { App.Audio.speak('Hello Alexis, let us read together.', 'en'); });
-    c1.appendChild(test2);
-    var snd = el('button', 'btn btn--quiet btn--block', s.settings.sound ? 'Son : activ\u00e9' : 'Son : coup\u00e9');
-    snd.addEventListener('click', function () { s.settings.sound = !s.settings.sound; App.State.save(); draw(); });
+
+    var snd = el('button', 'btn btn--quiet btn--block', st.settings.sound ? 'Son : active' : 'Son : coupe');
+    snd.addEventListener('click', function () { st.settings.sound = !st.settings.sound; App.State.save(); draw(); });
     c1.appendChild(snd);
     b.appendChild(c1);
 
+    /* ---- Prototype ---- */
     var c2 = el('div', 'pcard');
     c2.appendChild(el('div', 'pcard__h', 'Prototype'));
-    var demo = el('button', 'btn btn--primary btn--block', 'Charger une progression de d\u00e9monstration');
+    var demo = el('button', 'btn btn--primary btn--block', 'Charger une progression de demonstration');
     demo.addEventListener('click', function () { seedDemo(); draw(); });
     c2.appendChild(demo);
-    c2.appendChild(el('div', 'ptext',
-      'Termine les quatre premi\u00e8res missions de chaque langue, d\u00e9bloque les livres ' +
-      'et les r\u00e9compenses. Pratique pour explorer sans tout rejouer.'));
-    var rst = el('button', 'btn btn--quiet btn--block', 'Tout remettre \u00e0 z\u00e9ro');
+    var rst = el('button', 'btn btn--quiet btn--block', 'Tout remettre a zero');
     rst.addEventListener('click', function () {
       if (window.confirm('Effacer toute la progression d\u2019Alexis ?')) {
         App.State.reset(); App.State.load(); close();
@@ -5160,6 +5803,96 @@ App.Parent = (function () {
     c2.appendChild(rst);
     b.appendChild(c2);
   }
+
+  /* ---------- Le studio : une ligne par son a enregistrer ---------- */
+
+  function voiceStudio() {
+    var wrap = el('div', 'studio');
+    var recording = null;
+
+    VOICE_LIST.forEach(function (grp) {
+      wrap.appendChild(el('div', 'eyebrow', grp.label));
+      grp.items.forEach(function (it) {
+        var row = el('div', 'vrow');
+        row.appendChild(el('span', 'vrow__k', it.show));
+        row.appendChild(el('span', 'vrow__h', it.how));
+
+        var play = el('button', 'vrow__b', App.Voice.has(it.key) ? '\u25b6' : '\u2013');
+        play.disabled = !App.Voice.has(it.key);
+        play.addEventListener('click', function () { App.Voice.play(it.key); });
+
+        var rec = el('button', 'vrow__r', '\u25cf');
+        rec.addEventListener('click', function () {
+          if (recording === it.key) {
+            App.Voice.stop(it.key).then(function () {
+              recording = null;
+              rec.classList.remove('is-rec');
+              rec.textContent = '\u25cf';
+              play.disabled = false;
+              play.textContent = '\u25b6';
+              row.classList.add('is-done');
+            }, function () { recording = null; rec.classList.remove('is-rec'); rec.textContent = '\u25cf'; });
+            return;
+          }
+          if (recording) return;
+          App.Voice.start().then(function () {
+            recording = it.key;
+            rec.classList.add('is-rec');
+            rec.textContent = '\u25a0';
+          }, function () {
+            rec.textContent = '\u2717';
+            setTimeout(function () { rec.textContent = '\u25cf'; }, 1200);
+          });
+        });
+
+        if (App.Voice.has(it.key)) row.classList.add('is-done');
+        row.appendChild(play);
+        row.appendChild(rec);
+        wrap.appendChild(row);
+      });
+    });
+    return wrap;
+  }
+
+  /* Ce qu'il vaut la peine d'enregistrer en premier : les phonemes des
+     cinq premieres missions, puis les mots des premiers livres. */
+  var VOICE_LIST = [
+    { label: '\ud83c\uddeb\ud83c\uddf7 Sons francais \u2014 dites LE SON, pas le nom de la lettre',
+      items: [
+        { key: 'fr:phoneme:m', show: 'M', how: 'mmmmm, tenu' },
+        { key: 'fr:phoneme:a', show: 'A', how: 'aaaaa, bouche ouverte' },
+        { key: 'fr:phoneme:l', show: 'L', how: 'lllll, tenu' },
+        { key: 'fr:phoneme:i', show: 'I', how: 'iiiii' },
+        { key: 'fr:phoneme:o', show: 'O', how: 'ooooo' },
+        { key: 'fr:phoneme:t', show: 'T', how: 'te, tres bref' },
+        { key: 'fr:phoneme:p', show: 'P', how: 'pe, tres bref' },
+        { key: 'fr:phoneme:s', show: 'S', how: 'sssss, tenu' }
+      ] },
+    { label: '\ud83c\uddeb\ud83c\uddf7 Syllabes et mots',
+      items: [
+        { key: 'fr:syll:ma', show: 'MA', how: 'ma' },
+        { key: 'fr:syll:la', show: 'LA', how: 'la' },
+        { key: 'fr:word:lama', show: 'LAMA', how: 'lama' },
+        { key: 'fr:word:mama', show: 'MAMA', how: 'mama' }
+      ] },
+    { label: '\ud83c\uddec\ud83c\udde7 English sounds \u2014 a native speaker is best',
+      items: [
+        { key: 'en:phoneme:s', show: 'S', how: 'sss' },
+        { key: 'en:phoneme:a', show: 'A', how: 'ah, short' },
+        { key: 'en:phoneme:t', show: 'T', how: 'tuh, very short' },
+        { key: 'en:phoneme:p', show: 'P', how: 'puh, very short' },
+        { key: 'en:phoneme:i', show: 'I', how: 'ih' },
+        { key: 'en:phoneme:n', show: 'N', how: 'nnn' },
+        { key: 'en:phoneme:m', show: 'M', how: 'mmm' }
+      ] },
+    { label: '\ud83c\uddec\ud83c\udde7 Words',
+      items: [
+        { key: 'en:word:sat', show: 'SAT', how: 'sat' },
+        { key: 'en:word:tap', show: 'TAP', how: 'tap' },
+        { key: 'en:word:tin', show: 'TIN', how: 'tin' },
+        { key: 'en:word:man', show: 'MAN', how: 'man' }
+      ] }
+  ];
 
   /* ---------- Progression de demonstration ---------- */
 
