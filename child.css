@@ -1,0 +1,276 @@
+/* =========================================================
+   child.css — Espace enfant : accueil, aventure, livres, récompenses
+   ========================================================= */
+
+/* ---------------- ACCUEIL : le héros du jour ---------------- */
+.today {
+  position: relative;
+  border-radius: var(--r-xl);
+  padding: var(--s6) var(--s5) var(--s5);
+  background:
+    radial-gradient(120% 100% at 10% 0%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(150deg, var(--accent), var(--accent-deep));
+  color: #fff;
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+}
+.today::after {
+  /* horizon de la carte : un arc qui rappelle le globe */
+  content: '';
+  position: absolute; left: -30%; right: -30%; bottom: -78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px dashed rgba(255,255,255,.22);
+  pointer-events: none;
+}
+.today__label { font-size: var(--t-xs); letter-spacing: .16em; text-transform: uppercase; opacity: .8; font-weight: 800; }
+.today__flag { font-size: 44px; line-height: 1; margin: var(--s3) 0 var(--s2); }
+.today__title { font-family: var(--font-display); font-size: var(--t-2xl); font-weight: 600; margin-bottom: var(--s2); }
+.today__sub { opacity: .88; font-size: var(--t-sm); margin-bottom: var(--s5); position: relative; }
+.today .btn { position: relative; }
+
+.today__cta {
+  background: var(--paper); color: var(--ink);
+  box-shadow: 0 5px 0 rgba(0,0,0,.22), 0 14px 30px rgba(0,0,0,.24);
+}
+.today__cta:active { box-shadow: 0 1px 0 rgba(0,0,0,.22); }
+
+/* ---------------- Prochaine étape / livre du jour ---------------- */
+.nextup { display: flex; align-items: center; gap: var(--s4); }
+.nextup__ico {
+  width: 56px; height: 56px; flex: none; display: grid; place-items: center;
+  font-size: 28px; border-radius: var(--r-md);
+  background: var(--accent-wash);
+}
+.nextup__t { font-family: var(--font-display); font-size: var(--t-md); }
+.nextup__s { font-size: var(--t-sm); color: var(--ink-soft); }
+.nextup__go { margin-left: auto; font-size: 22px; color: var(--ink-faint); }
+
+/* ---------------- L'AVENTURE : la carte-fleuve ---------------- */
+.journey { position: relative; padding: var(--s5) 0 var(--s6); }
+.journey__svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.journey__path { fill: none; stroke: rgba(255,244,228,.16); stroke-width: 14; stroke-linecap: round; }
+.journey__path--done { stroke: var(--accent); stroke-width: 14; opacity: .95; }
+
+.node {
+  position: absolute; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  width: 130px; text-align: center;
+}
+.node__bubble {
+  width: 62px; height: 62px; border-radius: var(--r-pill);
+  display: grid; place-items: center; font-size: 27px;
+  background: var(--paper); color: var(--ink);
+  box-shadow: 0 4px 0 rgba(0,0,0,.28), 0 8px 22px rgba(0,0,0,.3);
+  border: 4px solid var(--paper);
+  transition: transform .15s ease;
+}
+.node:active .node__bubble { transform: scale(.94); }
+.node__label { font-size: 11.5px; font-weight: 800; color: rgba(255,244,228,.82); line-height: 1.25; }
+.node__ring {
+  position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  width: 72px; height: 72px; border-radius: var(--r-pill);
+  border: 3px solid var(--accent);
+  opacity: 0; pointer-events: none;
+}
+
+.node.is-locked .node__bubble { background: rgba(255,244,228,.12); border-color: transparent; box-shadow: none; color: rgba(255,244,228,.35); }
+.node.is-locked .node__label { color: rgba(255,244,228,.34); }
+.node.is-done .node__bubble { border-color: var(--jade); }
+.node.is-current .node__bubble { border-color: var(--accent); animation: pulse 2.4s ease-in-out infinite; }
+.node.is-current .node__ring { opacity: 1; animation: halo 2.4s ease-in-out infinite; }
+
+@keyframes pulse { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes halo  { 0%,100% { transform: translateX(-50%) scale(1); opacity: .7; } 50% { transform: translateX(-50%) scale(1.22); opacity: 0; } }
+
+.node__you {
+  position: absolute; top: -34px; font-size: 26px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,.4));
+  animation: bob 2.6s ease-in-out infinite;
+}
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.chapter {
+  margin: var(--s5) var(--s4) var(--s2);
+  font-family: var(--font-display); font-size: var(--t-sm);
+  color: rgba(255,244,228,.55); letter-spacing: .06em; text-transform: uppercase;
+}
+
+/* Bascule FR / EN dans l'aventure */
+.switch {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  padding: 5px; margin: 0 var(--s4) var(--s4);
+  background: rgba(255,244,228,.09); border-radius: var(--r-pill);
+}
+.switch button {
+  padding: 11px; border-radius: var(--r-pill);
+  font-weight: 800; font-size: var(--t-sm); color: rgba(255,244,228,.6);
+  transition: background .18s ease, color .18s ease;
+}
+.switch button.is-on { background: var(--paper); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+
+/* ---------------- LIVRES ---------------- */
+.shelf { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s4); }
+.book {
+  background: var(--paper); color: var(--ink);
+  border-radius: var(--r-md); overflow: hidden;
+  box-shadow: var(--shadow-card);
+  text-align: left; display: flex; flex-direction: column;
+}
+.book__cover {
+  aspect-ratio: 4/3; display: grid; place-items: center; font-size: 46px;
+  background: linear-gradient(150deg, var(--accent-wash), var(--paper-2));
+}
+.book__meta { padding: var(--s3) var(--s3) var(--s4); }
+.book__title { font-family: var(--font-display); font-size: var(--t-sm); line-height: 1.2; }
+.book__lvl { font-size: var(--t-xs); color: var(--ink-soft); margin-top: 3px; }
+.book.is-locked { opacity: .5; }
+.book.is-locked .book__cover { filter: grayscale(1); }
+
+.bookhero {
+  display: flex; gap: var(--s4); align-items: center;
+}
+.bookhero__cover {
+  width: 84px; height: 84px; flex: none; border-radius: var(--r-md);
+  display: grid; place-items: center; font-size: 40px;
+  background: linear-gradient(150deg, var(--accent-wash), var(--paper-2));
+}
+
+/* ---------------- RÉCOMPENSES ---------------- */
+.hero-avatar {
+  display: grid; place-items: center; gap: var(--s3);
+  padding: var(--s5) 0;
+}
+.hero-avatar__disc {
+  width: 132px; height: 132px; border-radius: var(--r-pill);
+  display: grid; place-items: center; font-size: 68px;
+  background: radial-gradient(circle at 35% 25%, var(--paper), var(--paper-3));
+  box-shadow: 0 8px 0 rgba(0,0,0,.25), 0 20px 44px rgba(0,0,0,.35);
+  position: relative;
+}
+.hero-avatar__acc { position: absolute; top: -6px; right: 2px; font-size: 34px; }
+
+.picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
+.picker button {
+  padding: var(--s3) 4px; border-radius: var(--r-md);
+  background: var(--paper-2); color: var(--ink);
+  display: grid; gap: 2px; place-items: center;
+  box-shadow: 0 2px 0 var(--paper-3);
+}
+.picker button.is-on { background: var(--accent); color: #fff; box-shadow: 0 2px 0 var(--accent-deep); }
+.picker__emo { font-size: 28px; }
+.picker__name { font-size: 10px; font-weight: 700; text-align: center; line-height: 1.2; }
+.picker button.is-locked { opacity: .42; }
+
+.badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
+.badge {
+  aspect-ratio: 1; border-radius: var(--r-md);
+  display: grid; place-items: center; gap: 2px;
+  background: var(--paper-2); color: var(--ink);
+  padding: var(--s2); text-align: center;
+}
+.badge__emo { font-size: 30px; }
+.badge__t { font-size: 9.5px; font-weight: 800; line-height: 1.15; }
+.badge.is-locked { background: rgba(255,244,228,.08); color: rgba(255,244,228,.3); }
+.badge.is-locked .badge__emo { filter: grayscale(1); opacity: .4; }
+
+.statgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); text-align: center; }
+.statgrid__n { font-family: var(--font-display); font-size: var(--t-xl); color: var(--ink); }
+.statgrid__l { font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-faint); }
+
+/* ---------------- Bouton discret espace parent ---------------- */
+.parentkey {
+  display: block; margin: var(--s6) auto var(--s5);
+  font-size: var(--t-xs); letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,244,228,.34); font-weight: 700;
+}
+
+/* =========================================================
+   V2 — Carte des missions, album, complements
+   ========================================================= */
+
+.stitle{font:700 22px/1.2 var(--font-display);color:#fff;margin:4px 0 14px}
+.eyebrow{font:700 11px/1 var(--font-body);color:rgba(255,255,255,.5);
+  letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px}
+.card{background:rgba(255,255,255,.07);border-radius:var(--r-lg);padding:var(--s4);margin-top:var(--s4)}
+.bar{height:8px;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:12px}
+.bar__fill{height:100%;background:var(--accent);border-radius:4px;transition:width .5s}
+.today__lang{font:700 13px/1 var(--font-body);color:var(--accent);letter-spacing:.08em;
+  text-transform:uppercase;margin-top:4px}
+
+/* --- Bascule FR / EN --- */
+.switch{display:flex;gap:8px;margin-bottom:var(--s4)}
+.switch button{flex:1;border:0;border-radius:var(--r-pill);cursor:pointer;padding:11px;
+  font:600 14px/1 var(--font-body);background:rgba(255,255,255,.09);color:rgba(255,255,255,.62)}
+.switch button.is-on{background:var(--accent);color:#fff}
+
+/* --- Tete de carte --- */
+.maphead{margin-bottom:var(--s5)}
+.maphead__n{font:600 13px/1 var(--font-body);color:rgba(255,255,255,.6)}
+
+/* --- Mondes et missions --- */
+.trail{display:flex;flex-direction:column;gap:var(--s5)}
+.wblock__h{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.wblock__i{font-size:30px}
+.wblock__t{font:700 16px/1.25 var(--font-display);color:#fff}
+.wblock__s{font:400 13px/1.3 var(--font-body);color:rgba(255,255,255,.5)}
+.mlist{display:flex;flex-direction:column;gap:8px;padding-left:14px;
+  border-left:2px dashed rgba(255,255,255,.16)}
+.mnode{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+  border:0;border-radius:var(--r-md);padding:13px 14px;background:rgba(255,255,255,.07);
+  transition:transform .15s,background .2s}
+.mnode:active{transform:scale(.98)}
+.mnode__n{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;
+  justify-content:center;font:700 13px/1 var(--font-body);background:rgba(255,255,255,.12);color:#fff}
+.mnode__m{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.mnode__t{font:600 15px/1.25 var(--font-body);color:#fff}
+.mnode__s{font:400 12px/1.2 var(--font-body);color:rgba(255,255,255,.5)}
+.mnode__b{font-size:17px;flex:none}
+.mnode.is-now{background:var(--accent);box-shadow:var(--shadow-lift)}
+.mnode.is-now .mnode__n{background:rgba(255,255,255,.28)}
+.mnode.is-now .mnode__s{color:rgba(255,255,255,.85)}
+.mnode.is-done .mnode__n{background:var(--jade);color:#fff}
+.mnode.is-locked,.mnode.is-soon{opacity:.42}
+
+/* --- Livres --- */
+.shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:var(--s5)}
+.shelf--mini{grid-template-columns:repeat(4,1fr)}
+.book{border:0;border-radius:var(--r-md);cursor:pointer;padding:14px 8px;background:rgba(255,255,255,.07);
+  display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.book__c{font-size:38px}
+.book__t{font:700 12px/1.25 var(--font-read);color:#fff}
+.book__s{font:400 10px/1.2 var(--font-body);color:rgba(255,255,255,.5)}
+.book.is-locked{opacity:.45}
+
+/* --- Mon personnage --- */
+.charhero{position:relative;text-align:center;padding:14px 0}
+.charhero__a{font-size:76px;line-height:1}
+.charhero__acc{position:absolute;top:6px;left:50%;margin-left:6px;font-size:34px}
+.picker{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.pick{border:0;border-radius:var(--r-sm);cursor:pointer;width:52px;height:52px;font-size:26px;
+  background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center}
+.pick.is-on{background:var(--accent);box-shadow:var(--shadow-press)}
+.pick.is-locked{opacity:.4;cursor:default}
+
+/* --- Trophees --- */
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.badge{border-radius:var(--r-md);padding:14px 8px;background:rgba(255,255,255,.07);
+  display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.badge__i{font-size:30px}
+.badge__t{font:600 11px/1.25 var(--font-body);color:#fff}
+.badge.is-locked{opacity:.4}
+
+/* --- Album --- */
+.album{display:flex;flex-direction:column;gap:8px}
+.album__i{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-sm);
+  background:rgba(255,255,255,.06)}
+.album__e{font-size:24px}
+.album__l{flex:1;font:600 14px/1.3 var(--font-body);color:#fff}
+.album__d{font:400 11px/1 var(--font-body);color:rgba(255,255,255,.42)}
+
+/* --- Feuille modale --- */
+.sheet__ico{font-size:52px;text-align:center}
+.sheet__t{font:700 20px/1.3 var(--font-display);color:var(--ink);text-align:center;margin:10px 0 4px}
+.sheet__s{font:400 15px/1.4 var(--font-body);color:var(--ink-soft);text-align:center;margin-bottom:14px}
+.sheet__meta{font:600 12px/1 var(--font-body);color:var(--ink-faint);text-align:center;margin:12px 0}
+.sheet .note{color:var(--ink-soft)}

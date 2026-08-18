@@ -1,0 +1,142 @@
+/* =========================================================
+   parent.css — Espace parent, totalement séparé de l'expérience enfant (§32)
+   Registre visuel différent : plus sobre, plus dense, données lisibles.
+   ========================================================= */
+
+.parent {
+  position: fixed; inset: 0; z-index: 70;
+  display: flex; flex-direction: column;
+  background: #F4F6F8; color: #16232E;
+  font-family: var(--font-body);
+}
+@media (min-width: 900px) {
+  .parent { position: absolute; border-radius: var(--r-xl); overflow: hidden; }
+}
+.parent[hidden] { display: none; }
+
+.phead {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: calc(var(--s4) + env(safe-area-inset-top,0px)) var(--s4) var(--s3);
+  background: #fff; border-bottom: 1px solid #E2E8EE;
+}
+.phead__t { font-family: var(--font-display); font-size: var(--t-lg); flex: 1; }
+.phead__x { font-size: 15px; font-weight: 800; color: #5D7A8F; padding: 8px 12px; border-radius: var(--r-sm); background: #EEF2F6; }
+
+.ptabs {
+  display: flex; gap: var(--s1); overflow-x: auto;
+  padding: var(--s3) var(--s4); background: #fff; border-bottom: 1px solid #E2E8EE;
+  scrollbar-width: none;
+}
+.ptabs::-webkit-scrollbar { display: none; }
+.ptab {
+  white-space: nowrap; padding: 8px 14px; border-radius: var(--r-pill);
+  font-size: var(--t-sm); font-weight: 700; color: #5D7A8F; background: #EEF2F6;
+}
+.ptab.is-on { background: #16232E; color: #fff; }
+
+.pbody { flex: 1; overflow-y: auto; padding: var(--s4) var(--s4) var(--s7); }
+
+.pcard {
+  background: #fff; border: 1px solid #E2E8EE; border-radius: var(--r-md);
+  padding: var(--s4); margin-bottom: var(--s4);
+}
+.pcard__h {
+  font-family: var(--font-display); font-size: var(--t-md); margin-bottom: var(--s3);
+  display: flex; align-items: center; gap: var(--s2);
+}
+.plabel { font-size: var(--t-xs); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #8FA3B4; }
+
+/* Chiffres de la semaine */
+.pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
+.pstat { background: #F8FAFC; border-radius: var(--r-sm); padding: var(--s3); text-align: center; }
+.pstat__n { font-family: var(--font-display); font-size: var(--t-xl); font-variant-numeric: tabular-nums; }
+.pstat__l { font-size: 10.5px; font-weight: 700; color: #8FA3B4; text-transform: uppercase; letter-spacing: .05em; }
+
+/* Barres de progression par langue */
+.plang { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s3); }
+.plang__flag { font-size: 20px; }
+.plang__name { width: 68px; font-weight: 800; font-size: var(--t-sm); }
+.plang__bar { flex: 1; height: 12px; border-radius: var(--r-pill); background: #E7EDF2; overflow: hidden; }
+.plang__fill { height: 100%; border-radius: var(--r-pill); transition: width .8s cubic-bezier(.2,.8,.2,1); }
+.plang__fill--fr { background: var(--fr); }
+.plang__fill--en { background: var(--en); }
+.plang__pct { width: 44px; text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; font-size: var(--t-sm); }
+
+/* Explication en clair (§35) */
+.pnarrative {
+  background: #EFF6FF; border-left: 3px solid var(--fr);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: var(--s3) var(--s4); font-size: var(--t-sm); line-height: 1.6;
+}
+.pnarrative--warn { background: #FFF6E9; border-left-color: var(--gold); }
+.pnarrative--tip  { background: #F0FBF6; border-left-color: var(--jade); }
+
+/* Groupes de compétences */
+.pgroup { margin-bottom: var(--s4); }
+.pgroup__h { display: flex; align-items: center; gap: var(--s2); margin-bottom: var(--s2); font-size: var(--t-sm); font-weight: 800; }
+.pdot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.pchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pchip {
+  padding: 7px 12px; border-radius: var(--r-sm);
+  background: #F1F5F9; font-family: var(--font-read); font-weight: 700; font-size: var(--t-sm);
+  border: 1px solid #E2E8EE;
+}
+.pchip--sm { font-family: var(--font-body); font-size: var(--t-xs); }
+
+/* Fiche compétence détaillée (§36) */
+.pskill { border-top: 1px solid #EEF2F6; padding: var(--s3) 0; }
+.pskill:first-of-type { border-top: 0; }
+.pskill__top { display: flex; align-items: center; gap: var(--s3); }
+.pskill__name { font-family: var(--font-read); font-weight: 700; font-size: var(--t-md); flex: 1; }
+.pskill__state { font-size: var(--t-xs); font-weight: 800; padding: 3px 9px; border-radius: var(--r-pill); }
+.pdims { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--s2); margin-top: var(--s2); }
+.pdim__l { font-size: 10px; color: #8FA3B4; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.pdim__b { height: 6px; border-radius: var(--r-pill); background: #E7EDF2; margin-top: 3px; overflow: hidden; }
+.pdim__f { height: 100%; background: #16232E; border-radius: var(--r-pill); }
+.pskill__last { font-size: var(--t-xs); color: #8FA3B4; margin-top: var(--s2); }
+
+/* Planning */
+.pweek { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.pday { text-align: center; }
+.pday__n { font-size: 10px; font-weight: 800; color: #8FA3B4; margin-bottom: 4px; }
+.pday__b {
+  width: 100%; aspect-ratio: 1; border-radius: var(--r-sm);
+  display: grid; place-items: center; font-size: 15px; font-weight: 800;
+  background: #EEF2F6; color: #8FA3B4;
+}
+.pday__b.is-fr { background: var(--fr); color: #fff; }
+.pday__b.is-en { background: var(--en); color: #fff; }
+
+/* Réglages */
+.prow {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: var(--s3) 0; border-top: 1px solid #EEF2F6;
+}
+.prow:first-of-type { border-top: 0; }
+.prow__l { flex: 1; }
+.prow__t { font-weight: 700; font-size: var(--t-sm); }
+.prow__d { font-size: var(--t-xs); color: #8FA3B4; }
+.pbtn {
+  padding: 9px 14px; border-radius: var(--r-sm); background: #16232E; color: #fff;
+  font-weight: 700; font-size: var(--t-sm);
+}
+.pbtn--ghost { background: #EEF2F6; color: #16232E; }
+.pbtn--danger { background: #FFE9EE; color: #B3123C; }
+.pselect { padding: 9px 12px; border-radius: var(--r-sm); border: 1px solid #D6DFE7; background: #fff; font-size: var(--t-sm); font-weight: 700; }
+
+/* Verrou d'accès */
+.plock {
+  position: fixed; inset: 0; z-index: 75;
+  display: grid; place-content: center; gap: var(--s4); text-align: center;
+  padding: var(--s6); background: rgba(8,24,36,.96); color: var(--paper);
+}
+@media (min-width: 900px) { .plock { position: absolute; border-radius: var(--r-xl); } }
+.plock[hidden] { display: none; }
+.plock__q { font-family: var(--font-display); font-size: var(--t-xl); }
+.plock__keys { display: grid; grid-template-columns: repeat(3, 74px); gap: var(--s2); justify-content: center; }
+.plock__k {
+  height: 60px; border-radius: var(--r-md); background: rgba(255,244,228,.12);
+  font-size: var(--t-lg); font-weight: 800; color: var(--paper);
+}
+.plock__out { font-family: var(--font-display); font-size: var(--t-2xl); min-height: 44px; letter-spacing: .1em; }
+.plock__err { color: var(--rose); font-size: var(--t-sm); min-height: 20px; }
