@@ -2373,6 +2373,69 @@ DATA.missions.en = [
 
 </script>
 <script>
+/* ===== data/lessons.fr.js ===== */
+/* =========================================================
+   data/lessons.fr.js — Lecons DECLAREES
+
+   Aucune activite n'est ecrite ici. On declare la competence,
+   le gabarit et le point du parcours. Le compilateur
+   (js/lesson.js) fabrique la seance a l'execution.
+
+   C'est la difference avec data/missions.fr.js, ou chaque
+   activite etait ecrite a la main. Trois lecons suffisent a
+   demontrer le systeme : le reste se declare de la meme facon.
+   ========================================================= */
+
+window.DATA = window.DATA || {};
+DATA.lessons = DATA.lessons || {};
+
+DATA.lessons.fr = [
+  { id: 'fr.L16', n: 16, world: 2, icon: '\ud83d\udd24',
+    title: 'Le son L', subtitle: 'lllll',
+    skill: 'fr.g.l', template: 'grapheme', upTo: 19,
+    learned: 'Le son L et sa lettre' },
+
+  { id: 'fr.L18', n: 18, world: 2, icon: '\ud83d\udd24',
+    title: 'Le son S', subtitle: 'sssss',
+    skill: 'fr.g.s', template: 'grapheme', upTo: 19,
+    learned: 'Le son S et sa lettre' },
+
+  { id: 'fr.L20', n: 20, world: 3, icon: '\ud83e\udde9',
+    title: 'Je colle M et A', subtitle: 'M + A \u2192 MA',
+    skill: 'fr.b.m', template: 'blend', upTo: 20,
+    learned: 'Coller deux sons pour lire une syllabe' }
+];
+
+</script>
+<script>
+/* ===== data/lessons.en.js ===== */
+/* =========================================================
+   data/lessons.en.js — Declared lessons (English)
+   Meme moteur, contenu independant.
+   ========================================================= */
+
+window.DATA = window.DATA || {};
+DATA.lessons = DATA.lessons || {};
+
+DATA.lessons.en = [
+  { id: 'en.L11', n: 11, world: 2, icon: '\ud83d\udd24',
+    title: 'The sound N', subtitle: 'nnn',
+    skill: 'en.g.n', template: 'grapheme', upTo: 13,
+    learned: 'The sound N and its letter' },
+
+  { id: 'en.L12', n: 12, world: 2, icon: '\ud83d\udd24',
+    title: 'The sound M', subtitle: 'mmm',
+    skill: 'en.g.m', template: 'grapheme', upTo: 13,
+    learned: 'The sound M and its letter' },
+
+  { id: 'en.L13', n: 13, world: 2, icon: '\ud83c\udf81',
+    title: 'The sound D', subtitle: 'duh',
+    skill: 'en.g.d', template: 'grapheme', upTo: 13,
+    learned: 'The sound D and its letter' }
+];
+
+</script>
+<script>
 /* ===== data/books.js ===== */
 /* =========================================================
    data/books.js — Les livres
@@ -2486,6 +2549,231 @@ DATA.books = [
     ]
   }
 ];
+
+</script>
+<script>
+/* ===== data/banks.fr.js ===== */
+/* =========================================================
+   data/banks.fr.js — Banques de contenu FRANCAIS
+
+   Le moteur ne connait aucun mot. Il pioche ici.
+   Chaque entree porte le numero de lecon a partir duquel elle
+   devient utilisable : le moteur ne proposera jamais un mot qui
+   n'est pas encore dechiffrable (regle 1.2 du programme).
+   ========================================================= */
+
+window.DATA = window.DATA || {};
+DATA.banks = DATA.banks || {};
+
+DATA.banks.fr = {
+
+  /* ---- Mots-images : servent a l'oral, des la lecon 1 ----
+     first = phoneme initial · syll = nombre de syllabes        */
+  pictures: [
+    { t: 'MOTO',    e: '\ud83c\udfcd\ufe0f', first: 'm', syll: 2 },
+    { t: 'MAISON',  e: '\ud83c\udfe0', first: 'm', syll: 2 },
+    { t: 'MOUTON',  e: '\ud83d\udc11', first: 'm', syll: 2 },
+    { t: 'MAIN',    e: '\u270b', first: 'm', syll: 1 },
+    { t: 'MONTAGNE',e: '\u26f0\ufe0f', first: 'm', syll: 3 },
+    { t: 'LAMA',    e: '\ud83e\udd99', first: 'l', syll: 2 },
+    { t: 'LUNE',    e: '\ud83c\udf19', first: 'l', syll: 2 },
+    { t: 'LIVRE',   e: '\ud83d\udcd6', first: 'l', syll: 2 },
+    { t: 'LION',    e: '\ud83e\udd81', first: 'l', syll: 2 },
+    { t: 'SOLEIL',  e: '\u2600\ufe0f', first: 's', syll: 2 },
+    { t: 'SERPENT', e: '\ud83d\udc0d', first: 's', syll: 2 },
+    { t: 'SOURIS',  e: '\ud83d\udc2d', first: 's', syll: 2 },
+    { t: 'SAC',     e: '\ud83c\udf92', first: 's', syll: 1 },
+    { t: 'RENARD',  e: '\ud83e\udd8a', first: 'r', syll: 2 },
+    { t: 'ROBE',    e: '\ud83d\udc57', first: 'r', syll: 1 },
+    { t: 'RIZ',     e: '\ud83c\udf5a', first: 'r', syll: 1 },
+    { t: 'ARBRE',   e: '\ud83c\udf33', first: 'a', syll: 2 },
+    { t: 'AVION',   e: '\u2708\ufe0f', first: 'a', syll: 2 },
+    { t: 'ANANAS',  e: '\ud83c\udf4d', first: 'a', syll: 3 },
+    { t: '\u00celE',e: '\ud83c\udfdd\ufe0f', first: 'i', syll: 1 },
+    { t: 'IGLOO',   e: '\ud83d\uded6', first: 'i', syll: 2 },
+    { t: 'ORANGE',  e: '\ud83c\udf4a', first: 'o', syll: 3 },
+    { t: 'OURS',    e: '\ud83d\udc3b', first: 'o', syll: 1 },
+    { t: 'OISEAU',  e: '\ud83d\udc26', first: 'o', syll: 2 },
+    { t: 'USINE',   e: '\ud83c\udfed', first: 'u', syll: 3 },
+    { t: '\u00c9TOILE', e: '\u2b50', first: 'e', syll: 2 },
+    { t: '\u00c9COLE', e: '\ud83c\udfeb', first: 'e', syll: 2 },
+    { t: 'TOMATE',  e: '\ud83c\udf45', first: 't', syll: 3 },
+    { t: 'TORTUE',  e: '\ud83d\udc22', first: 't', syll: 2 },
+    { t: 'TULIPE',  e: '\ud83c\udf37', first: 't', syll: 3 },
+    { t: 'POMME',   e: '\ud83c\udf4e', first: 'p', syll: 1 },
+    { t: 'PIZZA',   e: '\ud83c\udf55', first: 'p', syll: 2 },
+    { t: 'POULE',   e: '\ud83d\udc14', first: 'p', syll: 1 },
+    { t: 'NUAGE',   e: '\u2601\ufe0f', first: 'n', syll: 2 },
+    { t: 'NID',     e: '\ud83e\udeba', first: 'n', syll: 1 },
+    { t: 'D\u00c9',  e: '\ud83c\udfb2', first: 'd', syll: 1 },
+    { t: 'DAUPHIN', e: '\ud83d\udc2c', first: 'd', syll: 2 },
+    { t: 'FLEUR',   e: '\ud83c\udf38', first: 'f', syll: 1 },
+    { t: 'FUS\u00c9E', e: '\ud83d\ude80', first: 'f', syll: 2 },
+    { t: 'FRAISE',  e: '\ud83c\udf53', first: 'f', syll: 1 },
+    { t: 'VACHE',   e: '\ud83d\udc04', first: 'v', syll: 2 },
+    { t: 'V\u00c9LO', e: '\ud83d\udeb2', first: 'v', syll: 2 },
+    { t: 'VOITURE', e: '\ud83d\ude97', first: 'v', syll: 2 },
+    { t: 'BALLON',  e: '\ud83c\udf88', first: 'b', syll: 2 },
+    { t: 'BANANE',  e: '\ud83c\udf4c', first: 'b', syll: 3 },
+    { t: 'BATEAU',  e: '\u26f5', first: 'b', syll: 2 },
+    { t: 'CANARD',  e: '\ud83e\udd86', first: 'c', syll: 2 },
+    { t: 'CAROTTE', e: '\ud83e\udd55', first: 'c', syll: 3 },
+    { t: 'CADEAU',  e: '\ud83c\udf81', first: 'c', syll: 2 },
+    { t: 'CHAT',    e: '\ud83d\udc31', first: 'ch', syll: 1 },
+    { t: 'CHIEN',   e: '\ud83d\udc15', first: 'ch', syll: 1 },
+    { t: 'GARE',    e: '\ud83d\ude89', first: 'g', syll: 1 },
+    { t: 'GOMME',   e: '\ud83e\uddfd', first: 'g', syll: 1 },
+    { t: 'JUPE',    e: '\ud83d\udc57', first: 'j', syll: 1 },
+    { t: 'Z\u00c9BRE', e: '\ud83e\udd93', first: 'z', syll: 2 }
+  ],
+
+  /* ---- Mots dechiffrables : after = lecon de disponibilite ---- */
+  decodable: [
+    { t: 'AMI',    e: '\ud83e\udd1d', after: 15, syll: ['A', 'MI'] },
+    { t: 'MAMI',   e: '\ud83d\udc75', after: 15, syll: ['MA', 'MI'] },
+    { t: 'LAMA',   e: '\ud83e\udd99', after: 16, syll: ['LA', 'MA'] },
+    { t: 'AMIE',   e: '\ud83d\udc6d', after: 19, syll: ['A', 'MIE'] },
+    { t: 'LAME',   e: '\ud83d\udd2a', after: 19, syll: ['LA', 'ME'] },
+    { t: 'RAME',   e: '\ud83d\udea3', after: 19, syll: ['RA', 'ME'] },
+    { t: 'SALE',   e: '\ud83e\udee7', after: 19, syll: ['SA', 'LE'] },
+    { t: 'MURE',   e: '\ud83e\uded0', after: 19, syll: ['MU', 'RE'] },
+    { t: 'SALAMI', e: '\ud83e\udd53', after: 19, syll: ['SA', 'LA', 'MI'] },
+    { t: 'MOTO',   e: '\ud83c\udfcd\ufe0f', after: 20, syll: ['MO', 'TO'] },
+    { t: 'TOMATE', e: '\ud83c\udf45', after: 20, syll: ['TO', 'MA', 'TE'] },
+    { t: 'PATATE', e: '\ud83e\udd54', after: 21, syll: ['PA', 'TA', 'TE'] },
+    { t: 'PILOTE', e: '\ud83d\udc68\u200d\u2708\ufe0f', after: 21, syll: ['PI', 'LO', 'TE'] },
+    { t: 'LUNE',   e: '\ud83c\udf19', after: 22, syll: ['LU', 'NE'] },
+    { t: 'DOMINO', e: '\ud83c\udc04', after: 23, syll: ['DO', 'MI', 'NO'] },
+    { t: 'SALADE', e: '\ud83e\udd57', after: 23, syll: ['SA', 'LA', 'DE'] }
+  ],
+
+  /* ---- Syllabes lisibles, par lecon ---- */
+  syllables: [
+    { t: 'MA', after: 14 }, { t: 'MI', after: 14 }, { t: 'MO', after: 14 },
+    { t: 'MU', after: 14 }, { t: 'LA', after: 16 }, { t: 'LI', after: 16 },
+    { t: 'LO', after: 16 }, { t: 'RA', after: 17 }, { t: 'RI', after: 17 },
+    { t: 'SA', after: 18 }, { t: 'SI', after: 18 }, { t: 'SO', after: 18 },
+    { t: 'TA', after: 20 }, { t: 'TO', after: 20 }, { t: 'PA', after: 21 },
+    { t: 'PI', after: 21 }
+  ],
+
+  /* ---- Mini-textes : un par lecon des la premiere lecture (regle 1.7)
+     Chaque texte porte SA question de comprehension (palier A).
+     Les distracteurs sont presents dans le texte mais hors sujet. ---- */
+  texts: [
+    { after: 15, lines: ['Ami.', 'Mami.', 'Ami a mami.'],
+      q: { ask: 'Qui a mami ?', good: 'Ami', bad: ['Mami', 'Moto'] } },
+    { after: 16, lines: ['Le lama.', 'Mami a le lama.'],
+      q: { ask: 'Qui a le lama ?', good: 'Mami', bad: ['Le lama', 'Ami'] } },
+    { after: 19, lines: ['La lame.', 'La lame est sale.', 'Mami lave la lame.'],
+      q: { ask: 'Comment est la lame ?', good: 'Sale', bad: ['Mure', 'Amie'] } },
+    { after: 20, lines: ['La moto.', 'La moto de Mami.', 'Mami a la moto.'],
+      q: { ask: '\u00c0 qui est la moto ?', good: 'Mami', bad: ['Ami', 'La lame'] } },
+    { after: 21, lines: ['La patate.', 'La patate est sale.', 'Mami lave la patate.'],
+      q: { ask: 'Que fait Mami ?', good: 'Elle lave', bad: ['Elle mange', 'Elle part'] } }
+  ]
+};
+
+</script>
+<script>
+/* ===== data/banks.en.js ===== */
+/* =========================================================
+   data/banks.en.js — English content banks
+   Meme structure que le francais, contenu independant.
+   ========================================================= */
+
+window.DATA = window.DATA || {};
+DATA.banks = DATA.banks || {};
+
+DATA.banks.en = {
+
+  pictures: [
+    { t:'SUN', e:'\u2600\ufe0f', first:'s', syll:1 },
+    { t:'SOCK', e:'\ud83e\udde6', first:'s', syll:1 },
+    { t:'SNAKE', e:'\ud83d\udc0d', first:'s', syll:1 },
+    { t:'STAR', e:'\u2b50', first:'s', syll:1 },
+    { t:'APPLE', e:'\ud83c\udf4e', first:'a', syll:2 },
+    { t:'ANT', e:'\ud83d\udc1c', first:'a', syll:1 },
+    { t:'TREE', e:'\ud83c\udf33', first:'t', syll:1 },
+    { t:'TIGER', e:'\ud83d\udc2f', first:'t', syll:2 },
+    { t:'TAP', e:'\ud83d\udeb0', first:'t', syll:1 },
+    { t:'PIG', e:'\ud83d\udc37', first:'p', syll:1 },
+    { t:'PEN', e:'\ud83d\udd8a\ufe0f', first:'p', syll:1 },
+    { t:'PAN', e:'\ud83c\udf73', first:'p', syll:1 },
+    { t:'INK', e:'\ud83d\udd8b\ufe0f', first:'i', syll:1 },
+    { t:'IGLOO', e:'\ud83d\uded6', first:'i', syll:2 },
+    { t:'INSECT', e:'\ud83d\udc1e', first:'i', syll:2 },
+    { t:'NEST', e:'\ud83e\udeba', first:'n', syll:1 },
+    { t:'NOSE', e:'\ud83d\udc43', first:'n', syll:1 },
+    { t:'NUT', e:'\ud83e\udd5c', first:'n', syll:1 },
+    { t:'MOON', e:'\ud83c\udf19', first:'m', syll:1 },
+    { t:'MAP', e:'\ud83d\uddfa\ufe0f', first:'m', syll:1 },
+    { t:'MOUSE', e:'\ud83d\udc2d', first:'m', syll:1 },
+    { t:'DOG', e:'\ud83d\udc15', first:'d', syll:1 },
+    { t:'DUCK', e:'\ud83e\udd86', first:'d', syll:1 },
+    { t:'DOOR', e:'\ud83d\udeaa', first:'d', syll:1 },
+    { t:'GOAT', e:'\ud83d\udc10', first:'g', syll:1 },
+    { t:'GIFT', e:'\ud83c\udf81', first:'g', syll:1 },
+    { t:'OCTOPUS', e:'\ud83d\udc19', first:'o', syll:3 },
+    { t:'OX', e:'\ud83d\udc02', first:'o', syll:1 },
+    { t:'CAT', e:'\ud83d\udc31', first:'c', syll:1 },
+    { t:'CUP', e:'\u2615', first:'c', syll:1 },
+    { t:'CAKE', e:'\ud83c\udf82', first:'c', syll:1 },
+    { t:'EGG', e:'\ud83e\udd5a', first:'e', syll:1 },
+    { t:'ELEPHANT', e:'\ud83d\udc18', first:'e', syll:3 },
+    { t:'UMBRELLA', e:'\u2602\ufe0f', first:'u', syll:3 },
+    { t:'RAIN', e:'\ud83c\udf27\ufe0f', first:'r', syll:1 },
+    { t:'RING', e:'\ud83d\udc8d', first:'r', syll:1 },
+    { t:'ROBOT', e:'\ud83e\udd16', first:'r', syll:2 },
+    { t:'HAT', e:'\ud83c\udfa9', first:'h', syll:1 },
+    { t:'HAND', e:'\u270b', first:'h', syll:1 },
+    { t:'HOUSE', e:'\ud83c\udfe0', first:'h', syll:1 },
+    { t:'BUS', e:'\ud83d\ude8c', first:'b', syll:1 },
+    { t:'BALL', e:'\u26bd', first:'b', syll:1 },
+    { t:'BED', e:'\ud83d\udecf\ufe0f', first:'b', syll:1 },
+    { t:'FISH', e:'\ud83d\udc1f', first:'f', syll:1 },
+    { t:'FOX', e:'\ud83e\udd8a', first:'f', syll:1 },
+    { t:'FIRE', e:'\ud83d\udd25', first:'f', syll:1 },
+    { t:'LION', e:'\ud83e\udd81', first:'l', syll:2 },
+    { t:'LEAF', e:'\ud83c\udf43', first:'l', syll:1 },
+    { t:'LEG', e:'\ud83e\uddb5', first:'l', syll:1 }
+  ],
+
+  decodable: [
+    { t:'AT', e:'\ud83d\udccd', after:8, syll:['AT'] },
+    { t:'SAT', e:'\ud83e\ude91', after:8, syll:['SAT'] },
+    { t:'TAP', e:'\ud83d\udeb0', after:9, syll:['TAP'] },
+    { t:'PAT', e:'\ud83d\udc4b', after:9, syll:['PAT'] },
+    { t:'SIT', e:'\ud83e\ude91', after:10, syll:['SIT'] },
+    { t:'PIT', e:'\ud83d\udd73\ufe0f', after:10, syll:['PIT'] },
+    { t:'TIP', e:'\ud83d\udc46', after:10, syll:['TIP'] },
+    { t:'PIN', e:'\ud83d\udccc', after:11, syll:['PIN'] },
+    { t:'TIN', e:'\ud83e\udd6b', after:11, syll:['TIN'] },
+    { t:'MAN', e:'\ud83d\udc68', after:12, syll:['MAN'] },
+    { t:'MAP', e:'\ud83d\uddfa\ufe0f', after:12, syll:['MAP'] },
+    { t:'MAT', e:'\ud83e\uddf6', after:12, syll:['MAT'] },
+    { t:'DAD', e:'\ud83d\udc68', after:13, syll:['DAD'] },
+    { t:'SAD', e:'\ud83d\ude22', after:13, syll:['SAD'] },
+    { t:'AND', e:'\u2795', after:13, syll:['AND'] }
+  ],
+
+  syllables: [
+    { t:'AT', after:8 }, { t:'SA', after:8 }, { t:'AP', after:9 },
+    { t:'IT', after:10 }, { t:'IN', after:11 }, { t:'AM', after:12 },
+    { t:'AD', after:13 }
+  ],
+
+  texts: [
+    { after:8, lines:['Sat.','Sam sat.'],
+      q:{ ask:'Who sat?', good:'Sam', bad:['A cat','A map'] } },
+    { after:10, lines:['Sam sat.','Sam sat in a pit.'],
+      q:{ ask:'Where did Sam sit?', good:'In a pit', bad:['On a mat','In a tin'] } },
+    { after:12, lines:['Sam is a man.','Sam has a map.','Sam taps the map.'],
+      q:{ ask:'What does Sam have?', good:'A map', bad:['A pin','A cat'] } },
+    { after:13, lines:['Dad sat.','Dad is sad.','Sam and Dad.'],
+      q:{ ask:'How does Dad feel?', good:'Sad', bad:['Happy','Tired'] } }
+  ]
+};
 
 </script>
 <script>
@@ -2893,6 +3181,7 @@ App.I18N = {
     q_repeat: '\u00c9coute, puis r\u00e9p\u00e8te',
     q_clap: 'Tape les syllabes',
     iSaidIt: 'Je l\u2019ai dit !',
+    discoverTitle: 'Voici le son',
 
     /* --- Missions --- */
     mission: 'Mission',
@@ -3033,6 +3322,7 @@ App.I18N = {
     q_repeat: 'Listen, then say it',
     q_clap: 'Tap the syllables',
     iSaidIt: 'I said it!',
+    discoverTitle: 'This is the sound',
 
     mission: 'Mission',
     missionLocked: 'Not open yet',
@@ -3680,7 +3970,23 @@ window.App = window.App || {};
 
 App.Engine = (function () {
 
-  function all(lang) { return DATA.missions[lang] || []; }
+  /* Les lecons declarees sont compilees a la volee : elles n'ont pas
+     de "steps" avant d'etre lancees. On les presente comme jouables. */
+  function declared(lang) {
+    return ((DATA.lessons && DATA.lessons[lang]) || []).map(function (d) {
+      return {
+        id: d.id, n: d.n, world: d.world, icon: d.icon,
+        title: d.title, subtitle: d.subtitle, skill: d.skill,
+        learned: d.learned, unlocksBook: d.unlocksBook,
+        compiled: true, decl: d
+      };
+    });
+  }
+
+  function all(lang) {
+    var m = DATA.missions[lang] || [];
+    return m.concat(declared(lang)).sort(function (a, b) { return a.n - b.n; });
+  }
 
   function byId(id) {
     var a = all('fr').concat(all('en'));
@@ -3688,7 +3994,7 @@ App.Engine = (function () {
     return null;
   }
 
-  function playable(m) { return !!(m && !m.locked && m.steps && m.steps.length); }
+  function playable(m) { return !!(m && !m.locked && (m.compiled || (m.steps && m.steps.length))); }
 
   /* Ouverte si : premiere de la langue, ou precedente terminee. */
   function isOpen(m) {
@@ -4229,7 +4535,12 @@ App.Session = (function () {
   function estimate(parts) {
     var m = 0;
     parts.forEach(function (p) {
-      if (p.kind === 'lesson') m += Math.round(p.mission.steps.length * 0.7);
+      if (p.kind === 'lesson') {
+        /* Une lecon declaree n'a pas encore d'activites : elle sera
+           compilee au lancement. On prend la taille type d'un gabarit. */
+        var n = p.mission.steps ? p.mission.steps.length : 12;
+        m += Math.round(n * 0.7);
+      }
       if (p.kind === 'review') m += 2;
       if (p.kind === 'book') m += 3;
     });
@@ -4272,6 +4583,653 @@ App.Session = (function () {
   function clear() { queue = []; }
 
   return { plan: plan, start: start, clear: clear };
+})();
+
+</script>
+<script>
+/* ===== js/mechanics.js ===== */
+/* =========================================================
+   js/mechanics.js — Le registre des mecaniques
+
+   C'est le coeur du moteur. Chaque mecanique y est declaree avec :
+
+     geste     ce que fait la main (16 gestes possibles)
+     reponse   la structure attendue
+     serves    les types de competence qu'elle sait travailler
+     phases    les moments d'une lecon ou elle a sa place
+     needs     audio / image / animation / micro
+     build(c)  fabrique une ACTIVITE a partir d'une competence
+               et des banques de contenu — ou renvoie null si
+               le contenu disponible ne le permet pas
+
+   Le compilateur (js/lesson.js) ne connait aucune activite en dur.
+   Il interroge ce registre. Ajouter une mecanique ici la rend
+   immediatement disponible pour toutes les lecons.
+   ========================================================= */
+
+window.App = window.App || {};
+
+App.Mechanics = (function () {
+
+  var R = {};   /* code -> definition */
+
+  function def(o) { R[o.code] = o; return o; }
+
+  /* ---------- Outils de tirage ---------- */
+
+  function pick(a) { return a && a.length ? a[Math.floor(Math.random() * a.length)] : null; }
+
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function take(a, n) { return shuffle(a).slice(0, n); }
+
+  /* Le contexte fourni par le compilateur */
+  function bank(c) { return DATA.banks[c.lang] || { pictures: [], decodable: [], syllables: [], texts: [] }; }
+
+  /* Une competence phonologique (ecouter, rimer, fusionner) ne porte
+     aucune lettre. Elle a pourtant besoin d'un son de travail pour
+     fabriquer ses activites : on lui en prete un, tire au sort parmi
+     ceux qui disposent d'assez de mots-images.
+     La competence ENREGISTREE reste celle de la lecon — seul le
+     contenu est emprunte. */
+  function working(c) {
+    if (c.skill.lower) return c.skill;
+    var counts = {};
+    bank(c).pictures.forEach(function (w) { counts[w.first] = (counts[w.first] || 0) + 1; });
+    var usable = App.Skills.all(c.lang).filter(function (x) {
+      return x.type === 'grapheme' && x.lower && counts[x.lower] >= 2;
+    });
+    return pick(usable) || c.skill;
+  }
+
+  /* Mots-images commencant par le son de travail */
+  function starts(c, sk) {
+    sk = sk || working(c);
+    return bank(c).pictures.filter(function (w) { return w.first === sk.lower; });
+  }
+  function notStarts(c, sk) {
+    sk = sk || working(c);
+    return bank(c).pictures.filter(function (w) { return w.first !== sk.lower; });
+  }
+
+  /* Mots dechiffrables disponibles a ce point du parcours */
+  function words(c) {
+    return bank(c).decodable.filter(function (w) { return w.after <= c.upTo; });
+  }
+  function sylls(c) {
+    return bank(c).syllables.filter(function (s) { return s.after <= c.upTo; });
+  }
+
+  function phon(c, sk) {
+    sk = sk || c.skill;
+    return c.lang + ':phoneme:' + App.Audio.slugify(sk.lower || sk.label);
+  }
+
+  /* Lettres distractrices deja rencontrees, sinon voisines */
+  function otherLetters(c, n) {
+    var pool = App.Skills.all(c.lang)
+      .filter(function (x) { return x.lower && x.lower.length === 1 && x.id !== c.skill.id && x.type === 'grapheme'; })
+      .map(function (x) { return x.label; });
+    return take(pool, n);
+  }
+
+  function otherSays(c, n) {
+    var pool = App.Skills.all(c.lang)
+      .filter(function (x) { return x.say && x.id !== c.skill.id && x.type === 'grapheme'; })
+      .map(function (x) { return x.say; });
+    return take(pool, n);
+  }
+
+  /* =========================================================
+     ECOUTER
+     ========================================================= */
+
+  def({ code: 'A01', act: 'discover', geste: 'ecouter', reponse: 'aucune',
+    serves: ['grapheme', 'complex', 'phono', 'blend'], phases: ['discover'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 1, mic: 0 },
+    build: function (c) {
+      var ex = starts(c).slice(0, 3);
+      return {
+        act: 'discover', skill: c.skill.id,
+        big: c.skill.label, letter: true, phonemeKey: phon(c),
+        title: c.t('discoverTitle') + ' ' + (c.skill.say || c.skill.label),
+        say: { text: c.skill.say || c.skill.label, lang: c.lang },
+        examples: ex.map(function (w) { return { t: w.t, e: w.e }; })
+      };
+    } });
+
+  /* =========================================================
+     TOUCHER UN
+     ========================================================= */
+
+  def({ code: 'A03', act: 'find-letter', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['grapheme', 'complex'], phases: ['practice', 'decode'], diff: 2,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var bad = otherLetters(c, 3);
+      if (bad.length < 3) return null;
+      return { act: 'find-letter', skill: c.skill.id, phonemeKey: phon(c),
+        good: c.skill.label, bad: bad };
+    } });
+
+  def({ code: 'A05', act: 'sound-in-words', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['grapheme', 'complex'], phases: ['practice', 'decode'], diff: 2,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var g = pick(starts(c)), bad = take(notStarts(c), 2);
+      if (!g || bad.length < 2) return null;
+      return { act: 'sound-in-words', skill: c.skill.id, phonemeKey: phon(c),
+        good: { t: g.t, e: g.e },
+        bad: bad.map(function (b) { return { t: b.t, e: b.e }; }) };
+    } });
+
+  def({ code: 'A06', act: 'first-sound', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['grapheme', 'complex', 'phono'], phases: ['practice', 'decode'], diff: 2,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var sk = working(c);
+      var w = pick(starts(c, sk)), bad = otherSays(c, 2);
+      if (!w || bad.length < 2 || !sk.say) return null;
+      return { act: 'first-sound', skill: c.skill.id, word: { t: w.t, e: w.e },
+        good: sk.say, bad: bad };
+    } });
+
+  def({ code: 'A07', act: 'odd-one-out', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['grapheme', 'phono'], phases: ['practice'], diff: 3,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var sk = working(c);
+      var same = take(starts(c, sk), 2), odd = pick(notStarts(c, sk));
+      if (same.length < 2 || !odd) return null;
+      return { act: 'odd-one-out', skill: c.skill.id,
+        same: same.map(function (w) { return { t: w.t, e: w.e }; }),
+        odd: { t: odd.t, e: odd.e } };
+    } });
+
+  def({ code: 'A08', act: 'word-to-image', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['word', 'syllable'], phases: ['understand'], diff: 4,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c));
+      if (!w) return null;
+      var bad = take(words(c).filter(function (x) { return x.t !== w.t; }), 2);
+      if (bad.length < 2) return null;
+      return { act: 'word-to-image', skill: c.skill.id, word: w.t,
+        audioKey: c.lang + ':word:' + App.Audio.slugify(w.t),
+        good: w.e, bad: bad.map(function (b) { return b.e; }) };
+    } });
+
+  def({ code: 'A10', act: 'rhyme', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['phono', 'blend'], phases: ['practice'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var p = bank(c).pictures;
+      var base = pick(p);
+      if (!base) return null;
+      var end = base.t.slice(-2);
+      var good = pick(p.filter(function (w) { return w.t !== base.t && w.t.slice(-2) === end; }));
+      if (!good) return null;
+      var bad = take(p.filter(function (w) { return w.t.slice(-2) !== end; }), 2);
+      if (bad.length < 2) return null;
+      return { act: 'rhyme', skill: c.skill.id,
+        base: { t: base.t, e: base.e }, good: { t: good.t, e: good.e },
+        bad: bad.map(function (b) { return { t: b.t, e: b.e }; }) };
+    } });
+
+  def({ code: 'A12', act: 'syllable-count', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['phono', 'syllable', 'blend'], phases: ['practice'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var w = take(bank(c).pictures, 2);
+      if (w.length < 2) return null;
+      return { act: 'syllable-count', skill: c.skill.id,
+        items: w.map(function (x) { return { t: x.t, e: x.e, n: x.syll }; }) };
+    } });
+
+  /* =========================================================
+     TOUCHER PLUSIEURS · DANS LE TEMPS
+     ========================================================= */
+
+  def({ code: 'A16', act: 'catch', geste: 'toucher-plusieurs', reponse: 'multi-selection',
+    serves: ['grapheme', 'complex'], phases: ['practice'], diff: 2,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var bad = otherLetters(c, 4);
+      if (bad.length < 3) return null;
+      var pool = [];
+      for (var i = 0; i < 5; i++) pool.push(c.skill.label);
+      for (var j = 0; j < 7; j++) pool.push(bad[j % bad.length]);
+      return { act: 'catch', skill: c.skill.id, phonemeKey: phon(c),
+        target: c.skill.label, pool: shuffle(pool) };
+    } });
+
+  def({ code: 'A17', act: 'same-start', geste: 'toucher-plusieurs', reponse: 'multi-selection',
+    serves: ['phono', 'grapheme'], phases: ['practice'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var sk = working(c);
+      var pair = take(starts(c, sk), 2), other = pick(notStarts(c, sk));
+      if (pair.length < 2 || !other) return null;
+      return { act: 'same-start', skill: c.skill.id,
+        pair: pair.map(function (w) { return { t: w.t, e: w.e }; }),
+        other: { t: other.t, e: other.e } };
+    } });
+
+  /* =========================================================
+     RYTHMER · TRIER
+     ========================================================= */
+
+  def({ code: 'A21', act: 'clap', geste: 'rythmer', reponse: 'comptage-moteur',
+    serves: ['phono', 'syllable'], phases: ['discover', 'practice'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 1, mic: 0 },
+    build: function (c) {
+      var w = pick(bank(c).pictures);
+      if (!w) return null;
+      return { act: 'clap', skill: c.skill.id, word: { t: w.t, e: w.e, n: w.syll } };
+    } });
+
+  def({ code: 'A22', act: 'sort', geste: 'trier', reponse: 'classement',
+    serves: ['grapheme', 'complex'], phases: ['practice'], diff: 2,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var yes = take(starts(c), 2), no = take(notStarts(c), 2);
+      if (yes.length < 2 || no.length < 2) return null;
+      return { act: 'sort', skill: c.skill.id, phonemeKey: phon(c), letter: c.skill.label,
+        yes: yes.map(function (w) { return { t: w.t, e: w.e }; }),
+        no: no.map(function (w) { return { t: w.t, e: w.e }; }) };
+    } });
+
+  /* =========================================================
+     CONSTRUIRE
+     ========================================================= */
+
+  def({ code: 'A29', act: 'blend', geste: 'construire', reponse: 'assemblage',
+    serves: ['blend'], phases: ['decode'], diff: 3,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var cons = App.Skills.byId(c.skill.consonant) || c.skill;
+      var vow = pick(App.Skills.all(c.lang).filter(function (x) {
+        return x.type === 'grapheme' && 'AIOU'.indexOf(x.label) >= 0;
+      }));
+      if (!cons.lower || !vow) return null;
+      var res = cons.label + vow.label;
+      return { act: 'blend', skill: c.skill.id,
+        a: { l: cons.label, key: phon(c, cons) },
+        b: { l: vow.label, key: phon(c, vow) },
+        result: res, resultKey: c.lang + ':syll:' + res.toLowerCase(),
+        bad: [vow.label + cons.label, cons.label + (vow.label === 'A' ? 'I' : 'A')],
+        scaffold: [phon(c, cons), phon(c, vow), c.lang + ':syll:' + res.toLowerCase()] };
+    } });
+
+  def({ code: 'A30', act: 'build', geste: 'construire', reponse: 'assemblage',
+    serves: ['blend', 'syllable'], phases: ['decode'], diff: 3,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var s = pick(sylls(c));
+      if (!s) return null;
+      return { act: 'build', skill: c.skill.id, target: s.t, kind: 'letters',
+        bricks: App.Mechanics._shuffle(s.t.split('').concat(otherLetters(c, 2))),
+        audioKey: c.lang + ':syll:' + s.t.toLowerCase(),
+        scaffold: s.t.split('').map(function (L) { return c.lang + ':phoneme:' + L.toLowerCase(); })
+          .concat([c.lang + ':syll:' + s.t.toLowerCase()]) };
+    } });
+
+  def({ code: 'A31', act: 'build', geste: 'construire', reponse: 'assemblage',
+    serves: ['word', 'blend'], phases: ['decode'], diff: 4,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c));
+      if (!w) return null;
+      var extra = otherLetters(c, 2);
+      return { act: 'build', skill: c.skill.id, target: w.t, kind: 'letters',
+        bricks: shuffle(w.t.split('').concat(extra)),
+        audioKey: c.lang + ':word:' + App.Audio.slugify(w.t) };
+    } });
+
+  def({ code: 'A32', act: 'build', geste: 'construire', reponse: 'assemblage',
+    serves: ['word', 'syllable', 'blend'], phases: ['decode'], diff: 4,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c).filter(function (x) { return x.syll && x.syll.length >= 2; }));
+      if (!w) return null;
+      var extra = take(sylls(c).map(function (s) { return s.t; })
+        .filter(function (s) { return w.syll.indexOf(s) < 0; }), 2);
+      return { act: 'build', skill: c.skill.id, target: w.t, kind: 'syllables',
+        bricks: shuffle(w.syll.concat(extra)),
+        audioKey: c.lang + ':word:' + App.Audio.slugify(w.t) };
+    } });
+
+  def({ code: 'A34', act: 'segment', geste: 'construire', reponse: 'assemblage',
+    serves: ['blend', 'word', 'syllable'], phases: ['decode'], diff: 3,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var s = pick(sylls(c));
+      if (!s) return null;
+      return { act: 'segment', skill: c.skill.id, word: s.t,
+        audioKey: c.lang + ':syll:' + s.t.toLowerCase(), n: s.t.length };
+    } });
+
+  /* =========================================================
+     MEMORISER
+     ========================================================= */
+
+  def({ code: 'A42', act: 'memory', geste: 'memoriser', reponse: 'revelation',
+    serves: ['grapheme', 'complex', 'phono', 'blend'], phases: ['practice'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 1, mic: 0 },
+    build: function (c) {
+      var ex = take(starts(c), 3);
+      if (ex.length < 3) ex = take(bank(c).pictures, 3);
+      if (ex.length < 3) return null;
+      return { act: 'memory', skill: c.skill.id,
+        pairs: ex.map(function (w) { return { e: w.e, label: w.t }; }) };
+    } });
+
+  /* =========================================================
+     LIRE · REPETER
+     ========================================================= */
+
+  def({ code: 'A48', act: 'read-aloud', geste: 'lire', reponse: 'auto-validation',
+    serves: ['word', 'syllable', 'blend', 'grapheme', 'complex'], phases: ['read'], diff: 4,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c)) || pick(sylls(c));
+      if (!w) return null;
+      var isWord = !!w.syll;
+      return { act: 'read-aloud', skill: c.skill.id, text: w.t,
+        audioKey: c.lang + ':' + (isWord ? 'word' : 'syll') + ':' + App.Audio.slugify(w.t),
+        hint: isWord && w.syll ? w.syll.join(' puis ') : null };
+    } });
+
+  def({ code: 'A51', act: 'mini-text', geste: 'lire', reponse: 'choix-unique',
+    serves: ['*'], phases: ['text'], diff: 4,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var avail = bank(c).texts.filter(function (t) { return t.after <= c.upTo; });
+      var t = avail[avail.length - 1];
+      if (!t) return null;
+      return { act: 'mini-text', skill: c.skill.id, lines: t.lines, q: t.q };
+    } });
+
+  def({ code: 'A53', act: 'listen-repeat', geste: 'repeter', reponse: 'auto-validation',
+    serves: ['phono', 'blend', 'word', 'grapheme', 'complex'], phases: ['read'], diff: 1,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c)) || pick(starts(c));
+      if (!w) return null;
+      return { act: 'listen-repeat', skill: c.skill.id, emoji: w.e,
+        say: { text: w.t, lang: c.lang } };
+    } });
+
+  /* ---------- Cloture ---------- */
+  def({ code: 'Z00', act: 'wrap', geste: 'ecouter', reponse: 'aucune',
+    serves: ['*'], phases: ['reward'], diff: 1,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) { return { act: 'wrap', phase: 'reward', learned: c.learned }; } });
+
+  /* =========================================================
+     Interrogation du registre
+     ========================================================= */
+
+  function all() { return Object.keys(R).map(function (k) { return R[k]; }); }
+
+  function forPhase(phase, skillType) {
+    return all().filter(function (m) {
+      return m.phases.indexOf(phase) >= 0 &&
+        (m.serves.indexOf('*') >= 0 || m.serves.indexOf(skillType) >= 0);
+    });
+  }
+
+  function get(code) { return R[code]; }
+
+  /* Statistiques du catalogue, utilisees par les tests */
+  function stats() {
+    var g = {}, r = {}, combo = {};
+    all().forEach(function (m) {
+      g[m.geste] = 1; r[m.reponse] = 1; combo[m.geste + '|' + m.reponse] = 1;
+    });
+    return {
+      mechanics: all().length,
+      gestures: Object.keys(g).length,
+      responses: Object.keys(r).length,
+      patterns: Object.keys(combo).length
+    };
+  }
+
+  return { get: get, all: all, forPhase: forPhase, stats: stats, _shuffle: shuffle, _pick: pick };
+})();
+
+</script>
+<script>
+/* ===== js/lesson.js ===== */
+/* =========================================================
+   js/lesson.js — Le compilateur de lecon
+
+   Une lecon n'est plus ecrite activite par activite. Elle est
+   DECLAREE :
+
+     { id, lang, n, title, skill, template, upTo, learned }
+
+   et le compilateur produit une seance complete de 10 a 14
+   activites, en interrogeant le registre des mecaniques.
+
+   Trois regles de variete sont appliquees a la compilation
+   (Partie 9.6 du programme) :
+
+     R1  au moins 4 gestes differents par lecon
+     R2  jamais deux fois la meme mecanique dans une lecon
+     R3  les mecaniques des 3 dernieres lecons sont depriorisees
+
+   Consequence : deux enfants qui font la meme lecon ne voient
+   pas la meme seance, et un enfant qui la refait non plus.
+   ========================================================= */
+
+window.App = window.App || {};
+
+App.Lesson = (function () {
+
+  /* ---------- Les gabarits de sequence ----------
+     Une lecon n'a pas toujours la meme forme : le moteur adapte
+     la sequence au type de competence travaillee. */
+
+  var TEMPLATES = {
+
+    /* Conscience phonologique : aucune lettre, beaucoup d'oral */
+    phono: [
+      { phase: 'discover', n: 1, fixed: 'A01' },
+      { phase: 'practice', n: 1 },
+      { phase: 'practice', n: 6 },
+      { phase: 'practice', n: 2, revision: true },
+      { phase: 'read',     n: 2 },
+      { phase: 'reward',   n: 1, fixed: 'Z00' }
+    ],
+
+    /* Un son et sa lettre : le gabarit le plus frequent */
+    grapheme: [
+      { phase: 'discover', n: 1, fixed: 'A01' },
+      { phase: 'practice', n: 5 },
+      { phase: 'practice', n: 1, revision: true },
+      { phase: 'decode',   n: 2 },
+      { phase: 'read',     n: 2 },
+      { phase: 'text',     n: 1, fixed: 'A51' },
+      { phase: 'reward',   n: 1, fixed: 'Z00' }
+    ],
+
+    /* Fusion : moins de reconnaissance, plus de manipulation */
+    blend: [
+      { phase: 'discover', n: 1, fixed: 'A01' },
+      { phase: 'decode',   n: 4 },
+      { phase: 'practice', n: 2 },
+      { phase: 'practice', n: 1, revision: true },
+      { phase: 'read',     n: 2 },
+      { phase: 'text',     n: 1, fixed: 'A51' },
+      { phase: 'reward',   n: 1, fixed: 'Z00' }
+    ],
+
+    /* Lecture de mots : le decodage domine */
+    word: [
+      { phase: 'discover',   n: 1, fixed: 'A01' },
+      { phase: 'decode',     n: 4 },
+      { phase: 'practice',   n: 2 },
+      { phase: 'practice',   n: 1, revision: true },
+      { phase: 'read',       n: 2 },
+      { phase: 'understand', n: 1 },
+      { phase: 'text',       n: 1, fixed: 'A51' },
+      { phase: 'reward',     n: 1, fixed: 'Z00' }
+    ]
+  };
+
+  TEMPLATES.complex = TEMPLATES.grapheme;
+  TEMPLATES.syllable = TEMPLATES.blend;
+
+  /* ---------- Memoire courte entre les lecons (R3) ---------- */
+
+  function recent() {
+    var s = App.State.get();
+    return s.recentMechanics || (s.recentMechanics = []);
+  }
+
+  function remember(codes) {
+    var s = App.State.get();
+    s.recentMechanics = codes.concat(recent()).slice(0, 36);   /* ~3 lecons */
+    App.State.save();
+  }
+
+  /* ---------- Le choix d'une mecanique ---------- */
+
+  function choose(phase, skill, used, ctx) {
+    var pool = App.Mechanics.forPhase(phase, skill.type);
+    if (!pool.length) return null;
+
+    /* R2 : jamais deux fois la meme mecanique dans la lecon */
+    pool = pool.filter(function (m) { return used.codes.indexOf(m.code) < 0; });
+    if (!pool.length) return null;
+
+    /* R1 : on prefere un geste pas encore utilise aujourd'hui */
+    var fresh = pool.filter(function (m) { return used.gestures.indexOf(m.geste) < 0; });
+
+    /* R3 : entre deux candidats, celui vu le moins recemment gagne */
+    var mem = recent();
+    function rank(list) {
+      return list.map(function (m) {
+        var i = mem.indexOf(m.code);
+        return { m: m, age: i < 0 ? 999 : i };
+      }).sort(function (a, b) { return b.age - a.age; });
+    }
+
+    var ranked = rank(fresh.length ? fresh : pool);
+    /* on tire parmi les trois moins recents, pour garder de l'alea */
+    var head = ranked.slice(0, 3);
+    return head[Math.floor(Math.random() * head.length)].m;
+  }
+
+  /* ---------- Compilation ---------- */
+
+  function compile(decl) {
+    var skill = App.Skills.byId(decl.skill);
+    if (!skill) return null;
+
+    var tpl = TEMPLATES[decl.template || skill.type] || TEMPLATES.grapheme;
+    var used = { codes: [], gestures: [] };
+    var steps = [];
+
+    var ctx = {
+      lang: decl.lang,
+      skill: skill,
+      upTo: decl.upTo || decl.n,
+      learned: decl.learned || skill.label,
+      t: function (k) { return App.T(k, decl.lang); }
+    };
+
+    tpl.forEach(function (slot) {
+      for (var i = 0; i < slot.n; i++) {
+
+        /* Une revision : on remplace la competence du jour par une
+           competence fragile, choisie par le moteur de maitrise. */
+        var target = ctx;
+        if (slot.revision) {
+          var weak = App.Skills.toReview(decl.lang, 3);
+          var w = weak[i % Math.max(1, weak.length)];
+          if (w) target = shallow(ctx, { skill: w.skill });
+        }
+
+        var mech = slot.fixed ? App.Mechanics.get(slot.fixed)
+                              : choose(slot.phase, target.skill, used, target);
+        if (!mech) continue;
+
+        var step = null;
+        try { step = mech.build(target); } catch (e) { step = null; }
+        if (!step) {
+          /* Le contenu ne permet pas cette mecanique : on en essaie une autre */
+          if (!slot.fixed) {
+            used.codes.push(mech.code);
+            i--;
+            if (used.codes.length > 30) break;
+          }
+          continue;
+        }
+
+        step.phase = slot.phase === 'text' ? 'read' : slot.phase;
+        step.mech = mech.code;
+        step.revision = !!slot.revision;
+        steps.push(step);
+        used.codes.push(mech.code);
+        if (used.gestures.indexOf(mech.geste) < 0) used.gestures.push(mech.geste);
+      }
+    });
+
+    remember(used.codes);
+
+    return {
+      id: decl.id, lang: decl.lang, n: decl.n, world: decl.world,
+      title: decl.title, subtitle: decl.subtitle, icon: decl.icon,
+      skill: decl.skill, learned: decl.learned,
+      unlocksBook: decl.unlocksBook,
+      steps: steps,
+      gestures: used.gestures.length,
+      minutes: estimate(steps)
+    };
+  }
+
+  function shallow(o, over) {
+    var n = {};
+    for (var k in o) n[k] = o[k];
+    for (var k2 in over) n[k2] = over[k2];
+    return n;
+  }
+
+  /* Duree estimee : chaque mecanique a son propre cout en temps */
+  var COST = { discover: 90, practice: 45, decode: 60, read: 50, understand: 45, reward: 30 };
+  function estimate(steps) {
+    var s = 0;
+    steps.forEach(function (st) { s += COST[st.phase] || 45; });
+    return Math.max(4, Math.round(s / 60));
+  }
+
+  /* ---------- Diagnostic, utilise par les tests et l'espace parent ---------- */
+
+  function inspect(lesson) {
+    var g = {}, m = {};
+    lesson.steps.forEach(function (s) {
+      var mm = App.Mechanics.get(s.mech);
+      if (mm) { g[mm.geste] = (g[mm.geste] || 0) + 1; m[s.mech] = (m[s.mech] || 0) + 1; }
+    });
+    var dup = Object.keys(m).filter(function (k) { return m[k] > 1; });
+    return {
+      steps: lesson.steps.length,
+      gestures: Object.keys(g),
+      duplicates: dup,
+      minutes: lesson.minutes,
+      revisions: lesson.steps.filter(function (s) { return s.revision; }).length
+    };
+  }
+
+  return { compile: compile, inspect: inspect, templates: TEMPLATES };
 })();
 
 </script>
@@ -5071,6 +6029,54 @@ App.Activities = (function () {
     ctx.root.appendChild(pad);
   };
 
+  /* =========================================================
+     25. MINI-TEXTE + UNE QUESTION  (fil de comprehension, palier A)
+     L'enfant lit d'abord, la question vient ensuite. Les mauvaises
+     reponses sont presentes dans le texte mais hors sujet.
+     ========================================================= */
+  A['mini-text'] = function (step, ctx) {
+    var wrap = el('div', 'story');
+    ctx.root.appendChild(wrap);
+    instruction(ctx, 'q_story', { quiet: true });
+
+    var line = el('div', 'story__line read');
+    step.lines.forEach(function (l) {
+      var row = el('div', 'story__row');
+      l.split(' ').forEach(function (w) {
+        var sp = el('span', 'story__w', w);
+        sp.addEventListener('click', function () {
+          sp.classList.add('is-on');
+          ctx.playText(w.replace(/[.!?,]/g, ''));
+          setTimeout(function () { sp.classList.remove('is-on'); }, 700);
+        });
+        row.appendChild(sp);
+      });
+      line.appendChild(row);
+    });
+    wrap.appendChild(line);
+    ctx.setSpoken(function () { return ctx.playText(step.lines.join(' ')); });
+
+    var read = el('button', 'btn btn--primary btn--block', ctx.T('iReadIt'));
+    read.addEventListener('click', function () {
+      read.remove();
+      ctx.playText(step.lines.join(' '));
+      ask();
+    });
+    wrap.appendChild(read);
+
+    function ask() {
+      instruction(ctx, 'q_comprehension', { quiet: true });
+      ctx.root.appendChild(el('div', 'act__inst', step.q.ask));
+      ctx.setSpoken(function () { return ctx.playText(step.q.ask); });
+      setTimeout(function () { ctx.playText(step.q.ask); }, 320);
+      var list = [{ label: step.q.good, correct: true, kind: 'read', say: step.q.good }]
+        .concat(step.q.bad.map(function (b) {
+          return { label: b, correct: false, kind: 'read', say: b };
+        }));
+      choices(ctx, list, { cls: 'choices--read' });
+    }
+  };
+
   A.wrap = function (step, ctx) { ctx.win(true); };
 
   return {
@@ -5199,15 +6205,28 @@ App.Mission = (function () {
     if (quitEl) quitEl.addEventListener('click', quit);
   }
 
+  function shallowLang(d) {
+    var o = {};
+    for (var k in d) o[k] = d[k];
+    o.lang = d.id.indexOf('en.') === 0 ? 'en' : 'fr';
+    return o;
+  }
+
   function byId(id) {
-    var all = (DATA.missions.fr || []).concat(DATA.missions.en || []);
+    var all = App.Engine.all('fr').concat(App.Engine.all('en'));
     for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
     return null;
   }
 
   function start(missionId, then) {
     m = typeof missionId === 'string' ? byId(missionId) : missionId;
-    if (!m || m.locked || !m.steps) { if (then) then(); return false; }
+    /* Une lecon declaree n'existe qu'au moment ou on la lance :
+       le compilateur en fabrique une version inedite a chaque fois. */
+    if (m && m.compiled && m.decl) {
+      var built = App.Lesson.compile(shallowLang(m.decl));
+      if (built) { built.compiled = true; built.decl = m.decl; m = built; }
+    }
+    if (!m || m.locked || !m.steps || !m.steps.length) { if (then) then(); return false; }
     onDone = then || null;
     lang = m.id.indexOf('en.') === 0 ? 'en' : 'fr';
     idx = 0; tries = 0; stars = 0; missed = 0; t0 = Date.now();
