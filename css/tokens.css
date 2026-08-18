@@ -1,0 +1,79 @@
+/* =========================================================
+   tokens.css — Système de design "Atlas des sons"
+   Direction : carnet d'expédition. Une coque nuit-pétrole (le monde),
+   des cartes papier chaud (le contenu), deux territoires colorés
+   (FR cobalt / EN ambre) posés sur la même carte.
+   ========================================================= */
+
+:root {
+  /* --- Coque : la nuit d'expédition --- */
+  --abyss:      #0B1E2D;
+  --abyss-2:    #10293C;
+  --sea:        #16374F;
+  --sea-line:   #1F4A66;
+
+  /* --- Papier : le contenu --- */
+  --paper:      #FFF4E4;
+  --paper-2:    #FFE8CB;
+  --paper-3:    #F7DCBB;
+  --ink:        #12293B;
+  --ink-soft:   #5D7A8F;
+  --ink-faint:  #94AABB;
+
+  /* --- Les deux territoires --- */
+  --fr:         #4A6CF7;
+  --fr-deep:    #2E4CD0;
+  --fr-wash:    #E3E9FF;
+  --en:         #FF7A29;
+  --en-deep:    #D95A0F;
+  --en-wash:    #FFE9D6;
+
+  /* --- Signaux --- */
+  --jade:       #1FBE86;
+  --jade-wash:  #DEF7ED;
+  --gold:       #FFC948;
+  --rose:       #FF7C9C;
+  --rose-wash:  #FFE6EC;
+
+  /* --- Maîtrise (§13) --- */
+  --m-discovery:     #B9C9D6;
+  --m-learning:      #FFC948;
+  --m-consolidation: #4CC9F0;
+  --m-mastered:      #1FBE86;
+
+  /* --- Typographie --- */
+  --font-display: 'Fredoka', ui-rounded, 'SF Pro Rounded', 'Segoe UI', system-ui, sans-serif;
+  --font-body:    'Nunito', ui-rounded, 'SF Pro Rounded', 'Segoe UI', system-ui, sans-serif;
+  /* Andika est dessinée pour l'apprentissage de la lecture :
+     'a' et 'g' à un seul étage, formes non ambiguës. Réservée au texte à décoder. */
+  --font-read:    'Andika', 'Comic Sans MS', var(--font-body);
+
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-md: 1rem;
+  --t-lg: 1.25rem;
+  --t-xl: 1.625rem;
+  --t-2xl: 2.125rem;
+  --t-3xl: 3rem;
+  --t-mega: 5rem;
+
+  /* --- Rythme --- */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+  --r-pill: 999px;
+
+  --shadow-card:  0 2px 0 rgba(18,41,59,.10), 0 10px 30px rgba(6,20,32,.28);
+  --shadow-lift:  0 4px 0 rgba(18,41,59,.14), 0 18px 40px rgba(6,20,32,.34);
+  --shadow-press: 0 1px 0 rgba(18,41,59,.16);
+
+  --app-max: 440px;
+}
+
+/* Territoire actif : une seule variable pilote tout l'accent de l'interface */
+[data-lang='fr'] { --accent: var(--fr); --accent-deep: var(--fr-deep); --accent-wash: var(--fr-wash); }
+[data-lang='en'] { --accent: var(--en); --accent-deep: var(--en-deep); --accent-wash: var(--en-wash); }
