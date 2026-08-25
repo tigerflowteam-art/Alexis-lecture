@@ -3959,6 +3959,167 @@ App.Audio = (function () {
 
 </script>
 <script>
+/* ===== js/say.js ===== */
+/* =========================================================
+   js/say.js — La couche audio de CONTENU
+
+   Jusqu'ici, le moteur envoyait le texte brut a la synthese :
+       App.Audio.speak('MOTO')
+   avec deux consequences graves :
+     - beaucoup de voix francaises epellent les majuscules : M-O-T-O
+     - aucun enregistrement ne pouvait remplacer ce texte, puisqu'il
+       ne passait par aucune cle audio
+
+   Cette couche corrige les deux. Tout contenu prononce passe
+   desormais par ici, et se resout dans cet ordre :
+
+       1. un enregistrement (assets/audio/... ou voix du parent)
+       2. a defaut, la synthese, avec un texte NETTOYE
+
+   Quatre canaux distincts, conformement a la specification :
+     A  instruction   ce qu'il faut faire        (js/mission.js)
+     B  stimulus      ce sur quoi on travaille   (ici)
+     C  options       les reponses proposees     (ici)
+     D  feedback      bravo / essaie encore      (js/mission.js)
+   ========================================================= */
+
+window.App = window.App || {};
+
+App.Say = (function () {
+
+  /* ---------- Reconnaissance du type de contenu ---------- */
+
+  /* Un phoneme est ecrit phonetiquement dans les donnees ("mmmm", "sss").
+     On retrouve la competence correspondante pour jouer SA cle audio,
+     et donc, un jour, l'enregistrement du parent. */
+  function phonemeKeyFor(lang, text) {
+    var skills = (DATA[lang] && DATA[lang].skills) || [];
+    for (var i = 0; i < skills.length; i++) {
+      if (skills[i].say && skills[i].say === text && skills[i].lower) {
+        return lang + ':phoneme:' + App.Audio.slugify(skills[i].lower);
+      }
+    }
+    return null;
+  }
+
+  function isSentence(t) { return /\s/.test(t) || /[.!?]/.test(t); }
+
+  /* ---------- Nettoyage avant synthese ----------
+     Une voix de synthese lit « MOTO » lettre par lettre. En minuscules,
+     elle lit le mot. C'est aussi simple que ca, et c'etait le defaut
+     principal du prototype. */
+  function clean(t) {
+    return String(t).replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  /* ---------- Les canaux ---------- */
+
+  function play(key, fallbackText, lang) {
+    if (key) {
+      return App.Audio.play(key).catch(function () {
+        return App.Audio.speak(clean(fallbackText), lang);
+      });
+    }
+    return App.Audio.speak(clean(fallbackText), lang);
+  }
+
+  /* Un mot : fr:word:moto */
+  function word(lang, text) {
+    if (!text) return Promise.resolve();
+    return play(lang + ':word:' + App.Audio.slugify(text), text, lang);
+  }
+
+  /* Une syllabe : fr:syll:ma */
+  function syllable(lang, text) {
+    if (!text) return Promise.resolve();
+    return play(lang + ':syll:' + App.Audio.slugify(text), text, lang);
+  }
+
+  /* Un phoneme : fr:phoneme:m — LE SON, jamais le nom de la lettre */
+  function phoneme(lang, graphemeOrSay) {
+    if (!graphemeOrSay) return Promise.resolve();
+    var direct = phonemeKeyFor(lang, graphemeOrSay);
+    if (direct) return App.Audio.play(direct);
+    return play(lang + ':phoneme:' + App.Audio.slugify(graphemeOrSay), graphemeOrSay, lang);
+  }
+
+  /* Une phrase ou un texte : on ne cherche pas de fichier par mot */
+  function sentence(lang, text) {
+    if (!text) return Promise.resolve();
+    return App.Audio.speak(String(text).replace(/\s+/g, ' ').trim(), lang);
+  }
+
+  /* Le NOM de la lettre — a n'utiliser que si c'est l'objectif.
+     Dans un exercice phonologique, on veut le son, pas le nom. */
+  function letterName(lang, letter) {
+    var skills = (DATA[lang] && DATA[lang].skills) || [];
+    for (var i = 0; i < skills.length; i++) {
+      if (skills[i].label === letter && skills[i].name) {
+        return App.Audio.speak(skills[i].name, lang);
+      }
+    }
+    return App.Audio.speak(String(letter).toLowerCase(), lang);
+  }
+
+  /* ---------- Le repartiteur ----------
+     Le moteur n'a pas a savoir de quel type est un contenu :
+     il appelle auto(), qui choisit le bon canal. */
+  function auto(lang, text) {
+    if (text == null || text === '') return Promise.resolve();
+    var t = String(text).trim();
+
+    /* Un phoneme ecrit phonetiquement ? */
+    if (phonemeKeyFor(lang, t)) return phoneme(lang, t);
+
+    /* Une phrase ? */
+    if (isSentence(t)) return sentence(lang, t);
+
+    /* Une syllabe connue de la banque ? */
+    var b = (DATA.banks && DATA.banks[lang]) || null;
+    if (b && b.syllables) {
+      for (var i = 0; i < b.syllables.length; i++) {
+        if (b.syllables[i].t === t.toUpperCase()) return syllable(lang, t);
+      }
+    }
+    if (t.length <= 3 && /^[A-Za-z\u00c0-\u017f]+$/.test(t)) return syllable(lang, t);
+
+    /* Sinon : un mot */
+    return word(lang, t);
+  }
+
+  /* ---------- Canal C : les options ----------
+     « souris, velo ou mouton ? » — puis chaque nom reste
+     reecoutable en touchant l'image. */
+  function options(lang, names) {
+    if (!names || !names.length) return Promise.resolve();
+    var n = names.map(function (x) { return clean(x); });
+    var txt = n.length === 1 ? n[0]
+      : n.slice(0, -1).join(', ') + ' ' + App.T('orWord', lang) + ' ' + n[n.length - 1];
+    return App.Audio.speak(txt + ' ?', lang);
+  }
+
+  /* Enchainer plusieurs contenus, avec une respiration entre chaque */
+  function series(lang, items, gap) {
+    var i = 0;
+    function step() {
+      if (i >= items.length) return Promise.resolve();
+      var it = items[i++];
+      return auto(lang, it)
+        .then(function () { return new Promise(function (r) { setTimeout(r, gap == null ? 260 : gap); }); })
+        .then(step, step);
+    }
+    return step();
+  }
+
+  return {
+    auto: auto, word: word, syllable: syllable, phoneme: phoneme,
+    sentence: sentence, letterName: letterName, options: options,
+    series: series, clean: clean
+  };
+})();
+
+</script>
+<script>
 /* ===== js/engine.js ===== */
 /* =========================================================
    js/engine.js — Ouverture des missions et lecture de la progression
@@ -5325,7 +5486,7 @@ App.Activities = (function () {
     b.addEventListener('click', function () {
       b.classList.add('is-playing');
       setTimeout(function () { b.classList.remove('is-playing'); }, 900);
-      App.Audio.speak(text, lang || ctx.lang);
+      App.Say.auto(lang || ctx.lang, text);
     });
     ctx.root.appendChild(b);
     return b;
@@ -5359,8 +5520,10 @@ App.Activities = (function () {
       if (c.sub) b.appendChild(el('span', 'choice__sub', c.sub));
       b.addEventListener('click', function () {
         if (b.classList.contains('is-off') || grid.classList.contains('is-locked')) return;
-        if (c.say) ctx.playText(c.say, c.lang);
+        /* Au toucher, l'enfant entend TOUJOURS ce qu'il vient de choisir. */
+        if (c.sound) ctx.say.phoneme(c.sound);
         else if (c.key) ctx.play(c.key);
+        else if (c.say) ctx.playText(c.say, c.lang);
         if (c.correct) {
           grid.classList.add('is-locked');
           b.classList.add('is-right');
@@ -5424,7 +5587,7 @@ App.Activities = (function () {
        toute seule et se reecoute par le meme bouton. */
     ctx.setSpoken(function () {
       if (step.phonemeKey) return ctx.play(step.phonemeKey);
-      if (step.say) return App.Audio.speak(step.say.text, step.say.lang);
+      if (step.say) return App.Say.auto(step.say.lang || ctx.lang, step.say.text);
       return null;
     });
   };
@@ -5473,8 +5636,10 @@ App.Activities = (function () {
     ctx.root.appendChild(card);
     listenText(ctx, step.word.t);
 
-    var list = [{ label: step.good, correct: true, kind: 'snd', say: step.good }]
-      .concat(step.bad.map(function (b) { return { label: b, correct: false, kind: 'snd', say: b }; }));
+    /* Les reponses sont des SONS : elles passent par le canal phoneme,
+       jamais par le nom de la lettre. */
+    var list = [{ label: step.good, correct: true, kind: 'snd', sound: step.good }]
+      .concat(step.bad.map(function (b) { return { label: b, correct: false, kind: 'snd', sound: b }; }));
     choices(ctx, list, { cls: 'choices--snd' });
   };
 
@@ -5500,13 +5665,13 @@ App.Activities = (function () {
     function run() {
       b.classList.remove('is-merged');
       res.textContent = '?';
-      ctx.playText(step.parts[0]).then(function () {
+      ctx.say.phoneme(step.parts[0]).then(function () {
         p1.classList.add('is-on');
-        return ctx.playText(step.parts[1]);
+        return ctx.say.phoneme(step.parts[1]);
       }).then(function () {
         p2.classList.add('is-on');
         b.classList.add('is-merged');
-        return ctx.playText(step.result);
+        return ctx.say.syllable(step.result);
       });
     }
 
@@ -5824,7 +5989,12 @@ App.Activities = (function () {
      15. LIRE A VOIX HAUTE  (§22 : simule, sans reconnaissance vocale)
      ========================================================= */
   A['read-aloud'] = function (step, ctx) {
-    instruction(ctx, step.text.length > 3 ? 'q_readWord' : 'q_readSyll');
+    instruction(ctx, step.text.length > 3 ? 'q_readWord' : 'q_readSyll', {
+      onDemand: true,
+      stimulus: function () {
+        return step.audioKey ? ctx.play(step.audioKey) : ctx.playText(step.text);
+      }
+    });
     var card = el('div', 'bigimg');
     card.appendChild(el('div', 'bigimg__t read big', step.text));
     ctx.root.appendChild(card);
@@ -5866,7 +6036,7 @@ App.Activities = (function () {
      ========================================================= */
   A.instruction = function (step, ctx) {
     instruction(ctx, 'q_instruction', { after: step.target,
-      then: function () { return App.Audio.speak(step.say.text, step.say.lang); } });
+      then: function () { return ctx.playText(step.say.text, step.say.lang); } });
     listenText(ctx, step.say.text, step.say.lang, ctx.T('listen'));
     var list = [{ label: step.target, correct: true, kind: 'read', say: step.target }]
       .concat(step.others.map(function (o) { return { label: o, correct: false, kind: 'read', say: o }; }));
@@ -5913,7 +6083,7 @@ App.Activities = (function () {
         var s = el('span', 'story__w', w);
         s.addEventListener('click', function () {
           s.classList.add('is-on');
-          ctx.playText(w.replace(/[.!?,]/g, ''));
+          ctx.say.word(w.replace(/[.!?,]/g, ''));
           setTimeout(function () { s.classList.remove('is-on'); }, 700);
         });
         line.appendChild(s);
@@ -6001,7 +6171,7 @@ App.Activities = (function () {
      23. ECOUTE ET REPETE  (§29 : on simule, pas de reconnaissance)
      ========================================================= */
   A['listen-repeat'] = function (step, ctx) {
-    instruction(ctx, 'q_repeat', { then: function () { return step.audioKey ? ctx.play(step.audioKey) : App.Audio.speak(step.say.text, step.say.lang); } });
+    instruction(ctx, 'q_repeat', { then: function () { return step.audioKey ? ctx.play(step.audioKey) : ctx.playText(step.say.text, step.say.lang); } });
     var card = el('div', 'bigimg');
     if (step.emoji) card.appendChild(el('div', 'bigimg__e', step.emoji));
     if (step.show) card.appendChild(el('div', 'bigimg__t read big', step.show));
@@ -6020,7 +6190,7 @@ App.Activities = (function () {
 
     setTimeout(function () {
       if (step.audioKey) ctx.play(step.audioKey);
-      else App.Audio.speak(step.say.text, step.say.lang);
+      else ctx.playText(step.say.text, step.say.lang);
     }, 420);
   };
 
@@ -6073,7 +6243,7 @@ App.Activities = (function () {
         var sp = el('span', 'story__w', w);
         sp.addEventListener('click', function () {
           sp.classList.add('is-on');
-          ctx.playText(w.replace(/[.!?,]/g, ''));
+          ctx.say.word(w.replace(/[.!?,]/g, ''));
           setTimeout(function () { sp.classList.remove('is-on'); }, 700);
         });
         row.appendChild(sp);
@@ -6309,11 +6479,13 @@ App.Mission = (function () {
     var c = ctx(step);
     spoken = null;
     options = null;
+    stim = null;
+    stimOnDemand = false;
     App.Activities.render(step, c);
 
     /* L'enfant ne doit pas avoir a LIRE pour savoir quoi faire :
        la consigne part toute seule, dans les deux langues. */
-    setTimeout(function () { if (idx === startedAt) c.sayInstruction(); }, 380);
+    setTimeout(function () { if (idx === startedAt && spoken) spoken(false); }, 380);
 
     /* Si quoi que ce soit se coince (audio, animation), on rend la main
        plutot que de laisser l'enfant devant un ecran mort. */
@@ -6332,7 +6504,9 @@ App.Mission = (function () {
      Le runner le joue automatiquement a l'ouverture, et le bouton
      haut-parleur le rejoue a l'identique. */
   var spoken = null;
-  var options = null;   /* noms des images actuellement proposees */
+  var options = null;   /* CANAL C : noms des images proposees */
+  var stim = null;      /* CANAL B : le contenu travaille */
+  var stimOnDemand = false;
 
   function ctx(step) {
     return {
@@ -6341,44 +6515,61 @@ App.Mission = (function () {
       root: taskEl,
       T: function (k) { return App.T(k, lang); },
       play: function (key) { return App.Audio.play(key); },
-      playText: function (txt, l) { return App.Audio.speak(txt, l || lang); },
+      /* CANAL B — stimulus. Tout contenu prononce passe par App.Say :
+         un enregistrement s'il existe, sinon la synthese avec un texte
+         nettoye (jamais de majuscules, qui font epeler la voix). */
+      playText: function (txt, l) { return App.Say.auto(l || lang, txt); },
+      say: {
+        word:     function (t) { return App.Say.word(lang, t); },
+        syllable: function (t) { return App.Say.syllable(lang, t); },
+        phoneme:  function (t) { return App.Say.phoneme(lang, t); },
+        sentence: function (t) { return App.Say.sentence(lang, t); },
+        letter:   function (t) { return App.Say.letterName(lang, t); },
+        series:   function (a) { return App.Say.series(lang, a); }
+      },
       win: function (silent) { win(step, silent); },
       miss: function (node, grid) { miss(step, node, grid); },
 
       /* Consigne standard : cle i18n + mot dynamique + materiel sonore */
       setInstruction: function (key, opts) {
         opts = opts || {};
-        spoken = function () {
+        spoken = function (manual) {
           return sayKey(key)
-            .then(function () { return opts.after ? pause(180).then(function () { return App.Audio.speak(opts.after, lang); }) : null; })
-            /* Regle : si l'enfant doit connaitre le nom des images pour
-               resoudre, la voix les nomme AVANT qu'il ne choisisse.
+            .then(function () { return opts.after ? pause(180).then(function () { return App.Say.auto(lang, opts.after); }) : null; })
+                  /* CANAL B : le mot, le son ou la syllabe travaillee.
+               Sauf pour "lis a voix haute" : entendre le mot avant de le
+               lire supprimerait l'exercice. Il reste au bouton reecouter. */
+            /* En lecture automatique, on saute le stimulus "a la demande".
+               Quand l'enfant appuie lui-meme sur le haut-parleur, il veut
+               justement l'entendre : on le joue. */
+            .then(function () { return (stim && (manual || !stimOnDemand)) ? pause(220).then(stim) : null; })
+            /* CANAL C : si l'enfant doit connaitre le nom des images
+               pour resoudre, la voix les nomme AVANT qu'il ne choisisse.
                « Quel mot rime avec ballon ? Souris, velo ou mouton ? » */
             .then(function () {
               if (!options || !options.length) return null;
-              return pause(320).then(function () { return App.Audio.speak(listOptions(options), lang); });
+              return pause(300).then(function () { return App.Say.options(lang, options); });
             })
-            .then(function () { return opts.then ? pause(260).then(opts.then) : null; })
             .catch(function () {});
         };
+        stim = opts.stimulus || opts.then || null;
+        stimOnDemand = !!opts.onDemand;
       },
+
+      /* CANAL B, declare a part quand l'activite n'utilise pas instruction() */
+      setStimulus: function (fn, onDemand) { stim = fn; stimOnDemand = !!onDemand; },
+      sayStimulus: function () { return stim ? stim() : Promise.resolve(); },
 
       /* Appele automatiquement par les grilles d'images qui portent un nom. */
       setOptions: function (names) { options = names && names.length ? names : null; },
       /* Cas particuliers (decouverte, revision) : une sequence libre */
       setSpoken: function (fn) { spoken = fn; },
-      sayInstruction: function () { return spoken ? spoken() : Promise.resolve(); }
+      sayInstruction: function () { return spoken ? spoken(true) : Promise.resolve(); }
     };
   }
 
   function pause(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
 
-  /* « souris, velo ou mouton ? » — dans la langue de la seance */
-  function listOptions(names) {
-    var n = names.map(function (x) { return String(x).toLowerCase(); });
-    if (n.length === 1) return n[0] + ' ?';
-    return n.slice(0, -1).join(', ') + ' ' + App.T('orWord', lang) + ' ' + n[n.length - 1] + ' ?';
-  }
 
   /* Une consigne est d'abord un FICHIER audio (lang:instruction:cle).
      La synthese ne prend le relais que s'il n'existe pas encore. */
