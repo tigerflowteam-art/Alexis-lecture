@@ -728,15 +728,25 @@ ul { margin: 0; padding: 0; list-style: none; }
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.1)}100%{transform:scale(1)}}
 
 /* --- Fusion : la signature --- */
-.blend{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 0;min-height:120px}
-.blend__p{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font:700 38px/1 var(--font-read);color:#fff;background:rgba(255,255,255,.12);cursor:pointer;
-  transition:transform .5s cubic-bezier(.3,.9,.3,1),background .3s}
-.blend__p.is-on{background:var(--accent);transform:scale(1.08)}
-.blend__plus{font:600 26px/1 var(--font-body);color:rgba(255,255,255,.5);transition:opacity .3s}
-.blend.is-merged .blend__p:first-child{transform:translateX(52px) scale(1.05)}
-.blend.is-merged .blend__p:last-child{transform:translateX(-52px) scale(1.05)}
-.blend.is-merged .blend__plus{opacity:0}
+.blend{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px 0;min-height:120px;
+  transition:gap .5s cubic-bezier(.3,.9,.3,1)}
+/* Pastille a largeur AUTOMATIQUE : un phoneme ecrit "mmmm" debordait
+   d'un cercle fixe de 88px et se superposait a son voisin. */
+.blend__p{min-width:92px;padding:14px 20px;border-radius:26px;border:0;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  background:rgba(255,255,255,.12);transition:background .3s,transform .3s}
+.blend__ico{font-size:19px;opacity:.7;line-height:1}
+.blend__lbl{font:700 34px/1 var(--font-read);color:#fff;white-space:nowrap}
+.blend__lbl--long{font-size:23px;letter-spacing:.04em}
+.blend__p.is-on{background:var(--accent);transform:scale(1.06)}
+.blend__p.is-on .blend__ico{opacity:1}
+.blend__plus{font:600 26px/1 var(--font-body);color:rgba(255,255,255,.5);
+  transition:opacity .35s,max-width .5s;max-width:40px;overflow:hidden;text-align:center}
+/* La fusion se joue en refermant l'ecart, pas en deplacant les pastilles
+   l'une sur l'autre : plus aucun risque de superposition. */
+.blend.is-merged{gap:0}
+.blend.is-merged .blend__plus{opacity:0;max-width:0}
+.blend.is-merged .blend__p{background:var(--accent)}
 .blend__r{text-align:center;font:700 46px/1 var(--font-read);color:var(--accent);letter-spacing:.08em;min-height:52px}
 
 /* --- Trier --- */
@@ -861,6 +871,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .inst__rp{width:44px;height:44px;flex:none;border:0;border-radius:50%;cursor:pointer;
   background:rgba(255,255,255,.14);color:#fff;font-size:20px;line-height:1}
 .inst__rp.is-playing{animation:pulse .9s ease;background:var(--accent)}
+
+/* --- Decouverte : l'element en cours de narration s'allume --- */
+.ex.is-on{background:var(--accent);transform:scale(1.06)}
+.ex{transition:background .3s,transform .3s}
+.note--closing{margin-top:6px;font-weight:600;transition:color .3s}
+.note--closing.is-on{color:var(--accent)}
 
 </style>
 <style>
@@ -3183,6 +3199,8 @@ App.I18N = {
     iSaidIt: 'Je l\u2019ai dit !',
     discoverTitle: 'Voici le son',
     orWord: 'ou',
+    listenTo: '\u00c9coute :',
+    allStartWith: 'Ils commencent tous par',
 
     /* --- Missions --- */
     mission: 'Mission',
@@ -3325,6 +3343,8 @@ App.I18N = {
     iSaidIt: 'I said it!',
     discoverTitle: 'This is the sound',
     orWord: 'or',
+    listenTo: 'Listen:',
+    allStartWith: 'They all start with',
 
     mission: 'Mission',
     missionLocked: 'Not open yet',
@@ -4026,7 +4046,8 @@ App.Say = (function () {
   /* Un mot : fr:word:moto */
   function word(lang, text) {
     if (!text) return Promise.resolve();
-    return play(lang + ':word:' + App.Audio.slugify(text), text, lang);
+    var info = lookup(lang, text);
+    return play(info.audioKey, text, lang);
   }
 
   /* Une syllabe : fr:syll:ma */
@@ -4111,7 +4132,29 @@ App.Say = (function () {
     return step();
   }
 
+  /* ---------- La relation image / mot / audio, en un seul endroit ----------
+     Une image represente un mot, un mot a un audio. Aucune mecanique ne
+     doit reconstruire ce lien : elle demande, la couche repond. */
+  function lookup(lang, text) {
+    var b = (DATA.banks && DATA.banks[lang]) || null;
+    var up = String(text).toUpperCase();
+    var hit = null;
+    if (b) {
+      hit = (b.pictures || []).filter(function (w) { return w.t === up; })[0]
+         || (b.decodable || []).filter(function (w) { return w.t === up; })[0]
+         || null;
+    }
+    return {
+      text: up,
+      emoji: hit ? hit.e : null,
+      audioKey: (hit && hit.audio) || (lang + ':word:' + App.Audio.slugify(up)),
+      syllables: hit && hit.syll ? hit.syll : null,
+      first: hit ? hit.first : null
+    };
+  }
+
   return {
+    lookup: lookup,
     auto: auto, word: word, syllable: syllable, phoneme: phoneme,
     sentence: sentence, letterName: letterName, options: options,
     series: series, clean: clean
@@ -5444,6 +5487,17 @@ App.Activities = (function () {
      then   fonction rendant le materiel sonore de l'activite
      quiet  true = on affiche sans relancer la lecture automatique
      --------------------------------------------------------- */
+  /* Une pastille de fusion : icone + libelle, largeur automatique.
+     Le libelle peut etre une lettre ("M") ou un phoneme ecrit ("mmmm"). */
+  function blendPad(label, onTap) {
+    var b = el('button', 'blend__p');
+    b.appendChild(el('span', 'blend__ico', '\ud83d\udd0a'));
+    var l = el('span', 'blend__lbl read' + (String(label).length > 2 ? ' blend__lbl--long' : ''), label);
+    b.appendChild(l);
+    if (onTap) b.addEventListener('click', onTap);
+    return b;
+  }
+
   function instruction(ctx, key, opts) {
     opts = opts || {};
     var label = ctx.T(key) + (opts.after ? ' ' + opts.after : '') + (opts.mark || '');
@@ -5537,8 +5591,13 @@ App.Activities = (function () {
       grid.appendChild(b);
     });
     ctx.root.appendChild(grid);
-    if (ctx.setOptions && nameable(order)) {
-      ctx.setOptions(order.map(function (c) { return c.word || c.say; }));
+    if (ctx.setOptions) {
+      if (nameable(order)) ctx.setOptions(order.map(function (c) { return c.word || c.say; }));
+      else if (order.length && order.every(function (c) { return c.sound; })) {
+        /* Les reponses sont des SONS : les enumerer ne donne pas la
+           reponse, mais permet a l'enfant de les entendre avant de choisir. */
+        ctx.setOptions(order.map(function (c) { return c.sound; }));
+      }
     }
     return grid;
   }
@@ -5558,16 +5617,30 @@ App.Activities = (function () {
     card.appendChild(el('div', 'discover__title', step.title));
     ctx.root.appendChild(card);
 
-    if (step.phonemeKey) listen(ctx, step.phonemeKey, ctx.T('listen'));
-    else if (step.say) listenText(ctx, step.say.text, step.say.lang, ctx.T('listen'));
+    /* La narration entiere se rejoue : le son, chaque mot, puis le lien. */
+    var replay = el('button', 'listen');
+    replay.appendChild(el('span', 'listen__ico', '\ud83d\udd0a'));
+    replay.appendChild(el('span', 'listen__lbl', ctx.T('listenAgain')));
+    replay.addEventListener('click', function () {
+      replay.classList.add('is-playing');
+      setTimeout(function () { replay.classList.remove('is-playing'); }, 900);
+      ctx.sayInstruction();
+    });
+    ctx.root.appendChild(replay);
 
-    if (step.examples) {
-      var row = el('div', 'exrow');
+    var row = null;
+    if (step.examples && step.examples.length) {
+      row = el('div', 'exrow');
       step.examples.forEach(function (x) {
         var b = el('button', 'ex');
         b.appendChild(el('span', 'ex__e', x.e));
         b.appendChild(el('span', 'ex__t read', x.t));
-        b.addEventListener('click', function () { ctx.playText(x.t); });
+        b.addEventListener('click', function () {
+          b.classList.add('is-on');
+          ctx.say.word(x.t);
+          setTimeout(function () { b.classList.remove('is-on'); }, 800);
+        });
+        x.node = b;
         row.appendChild(b);
       });
       ctx.root.appendChild(row);
@@ -5579,17 +5652,45 @@ App.Activities = (function () {
     }
     if (step.note) ctx.root.appendChild(el('div', 'note', step.note));
 
+    var closing = null;
+    if (step.examples && step.examples.length && step.phonemeKey) {
+      closing = el('div', 'note note--closing',
+        ctx.T('allStartWith') + ' ' + (step.say ? step.say.text : ''));
+      ctx.root.appendChild(closing);
+    }
+
+    /* Une decouverte est une NARRATION, pas un ecran muet :
+       le son, puis chaque mot annonce, puis le lien explicite. */
+    ctx.setSpoken(function () {
+      var seq = Promise.resolve();
+      if (step.phonemeKey) seq = seq.then(function () { return ctx.play(step.phonemeKey); });
+      else if (step.say) seq = seq.then(function () { return ctx.playText(step.say.text, step.say.lang); });
+
+      (step.examples || []).forEach(function (x) {
+        seq = seq.then(function () {
+          if (x.node) x.node.classList.add('is-on');
+          return ctx.say.sentence(ctx.T('listenTo') + ' ' + x.t.toLowerCase())
+            .then(function () { return ctx.say.word(x.t); })
+            .then(function () {
+              if (x.node) x.node.classList.remove('is-on');
+              return new Promise(function (r) { setTimeout(r, 200); });
+            });
+        });
+      });
+
+      if (closing) {
+        seq = seq.then(function () {
+          closing.classList.add('is-on');
+          return ctx.say.sentence(ctx.T('allStartWith'))
+            .then(function () { return ctx.say.phoneme(step.say ? step.say.text : step.big); });
+        });
+      }
+      return seq.catch(function () {});
+    });
+
     var go = el('button', 'btn btn--primary btn--block', ctx.T('continue'));
     go.addEventListener('click', function () { ctx.win(true); });
     ctx.root.appendChild(go);
-
-    /* Une decouverte est une consigne comme une autre : elle se joue
-       toute seule et se reecoute par le meme bouton. */
-    ctx.setSpoken(function () {
-      if (step.phonemeKey) return ctx.play(step.phonemeKey);
-      if (step.say) return App.Say.auto(step.say.lang || ctx.lang, step.say.text);
-      return null;
-    });
   };
 
   /* =========================================================
@@ -5597,7 +5698,7 @@ App.Activities = (function () {
      ========================================================= */
   A['syllable-count'] = function (step, ctx) {
     var it = step.items[Math.floor(Math.random() * step.items.length)];
-    instruction(ctx, 'q_syllCount', { then: function () { return ctx.playText(it.t); } });
+    instruction(ctx, 'q_syllCount', { first: true, stimulus: function () { return ctx.say.word(it.t); } });
     var card = el('div', 'bigimg');
     card.appendChild(el('div', 'bigimg__e', it.e));
     card.appendChild(el('div', 'bigimg__t read', it.t));
@@ -5629,7 +5730,7 @@ App.Activities = (function () {
      4. PREMIER SON
      ========================================================= */
   A['first-sound'] = function (step, ctx) {
-    instruction(ctx, 'q_firstSound', { then: function () { return ctx.playText(step.word.t); } });
+    instruction(ctx, 'q_firstSound', { first: true, stimulus: function () { return ctx.say.word(step.word.t); } });
     var card = el('div', 'bigimg');
     card.appendChild(el('div', 'bigimg__e', step.word.e));
     if (!step.oral) card.appendChild(el('div', 'bigimg__t read', step.word.t));
@@ -5647,33 +5748,31 @@ App.Activities = (function () {
      5. FUSION ORALE  (aucune lettre : on colle deux sons entendus)
      ========================================================= */
   A['blend-oral'] = function (step, ctx) {
-    instruction(ctx, 'q_blend', { then: function () { return run(); } });
     var b = el('div', 'blend');
-    var p1 = el('div', 'blend__p', step.parts[0]);
-    var p2 = el('div', 'blend__p', step.parts[1]);
+    var p1 = blendPad(step.parts[0], function () { ctx.say.phoneme(step.parts[0]); });
+    var p2 = blendPad(step.parts[1], function () { ctx.say.phoneme(step.parts[1]); });
+    b.appendChild(p1);
+    b.appendChild(el('div', 'blend__plus', '+'));
+    b.appendChild(p2);
     var res = el('div', 'blend__r read', '?');
-    b.appendChild(p1); b.appendChild(el('div', 'blend__plus', '+')); b.appendChild(p2);
-    ctx.root.appendChild(b);
-    ctx.root.appendChild(res);
-
-    var play = el('button', 'listen');
-    play.appendChild(el('span', 'listen__ico', '\ud83d\udd0a'));
-    play.appendChild(el('span', 'listen__lbl', ctx.T('listen')));
-    play.addEventListener('click', run);
-    ctx.root.appendChild(play);
 
     function run() {
       b.classList.remove('is-merged');
       res.textContent = '?';
-      ctx.say.phoneme(step.parts[0]).then(function () {
-        p1.classList.add('is-on');
-        return ctx.say.phoneme(step.parts[1]);
-      }).then(function () {
-        p2.classList.add('is-on');
-        b.classList.add('is-merged');
-        return ctx.say.syllable(step.result);
-      });
+      p1.classList.remove('is-on'); p2.classList.remove('is-on');
+      return ctx.say.phoneme(step.parts[0])
+        .then(function () { p1.classList.add('is-on'); return ctx.say.phoneme(step.parts[1]); })
+        .then(function () {
+          p2.classList.add('is-on');
+          b.classList.add('is-merged');
+          res.textContent = step.result;
+          return ctx.say.syllable(step.result);
+        });
     }
+
+    instruction(ctx, 'q_blend', { stimulus: run });
+    ctx.root.appendChild(b);
+    ctx.root.appendChild(res);
 
     instruction(ctx, 'q_blendResult', { quiet: true });
     var list = [{ label: step.good.t, correct: true, kind: 'read', say: step.good.t }]
@@ -5868,38 +5967,31 @@ App.Activities = (function () {
      12. FUSION  (la signature du produit : deux galets se collent)
      ========================================================= */
   A.blend = function (step, ctx) {
-    instruction(ctx, 'q_blend', { then: function () { return run(); } });
     var b = el('div', 'blend');
-    var p1 = el('div', 'blend__p read', step.a.l);
-    var p2 = el('div', 'blend__p read', step.b.l);
-    b.appendChild(p1); b.appendChild(el('div', 'blend__plus', '+')); b.appendChild(p2);
+    var p1 = blendPad(step.a.l, function () { ctx.play(step.a.key); });
+    var p2 = blendPad(step.b.l, function () { ctx.play(step.b.key); });
+    b.appendChild(p1);
+    b.appendChild(el('div', 'blend__plus', '+'));
+    b.appendChild(p2);
     var res = el('div', 'blend__r read', '?');
-    ctx.root.appendChild(b);
-    ctx.root.appendChild(res);
-
-    p1.addEventListener('click', function () { ctx.play(step.a.key); });
-    p2.addEventListener('click', function () { ctx.play(step.b.key); });
-
-    var play = el('button', 'listen');
-    play.appendChild(el('span', 'listen__ico', '\ud83d\udd0a'));
-    play.appendChild(el('span', 'listen__lbl', ctx.T('listen')));
-    play.addEventListener('click', run);
-    ctx.root.appendChild(play);
 
     function run() {
       b.classList.remove('is-merged');
       res.textContent = '?';
       p1.classList.remove('is-on'); p2.classList.remove('is-on');
-      ctx.play(step.a.key).then(function () {
-        p1.classList.add('is-on');
-        return ctx.play(step.b.key);
-      }).then(function () {
-        p2.classList.add('is-on');
-        b.classList.add('is-merged');
-        res.textContent = step.result;
-        return ctx.play(step.resultKey);
-      });
+      return ctx.play(step.a.key)
+        .then(function () { p1.classList.add('is-on'); return ctx.play(step.b.key); })
+        .then(function () {
+          p2.classList.add('is-on');
+          b.classList.add('is-merged');
+          res.textContent = step.result;
+          return ctx.play(step.resultKey);
+        });
     }
+
+    instruction(ctx, 'q_blend', { stimulus: run });
+    ctx.root.appendChild(b);
+    ctx.root.appendChild(res);
 
     instruction(ctx, 'q_blendResult', { quiet: true });
     var list = [{ label: step.result, correct: true, kind: 'read', key: step.resultKey }]
@@ -6198,7 +6290,7 @@ App.Activities = (function () {
      24. TAPER LES SYLLABES  (le corps avant l'abstraction)
      ========================================================= */
   A['clap'] = function (step, ctx) {
-    instruction(ctx, 'q_clap', { then: function () { return ctx.playText(step.word.t); } });
+    instruction(ctx, 'q_clap', { first: true, stimulus: function () { return ctx.say.word(step.word.t); } });
     var card = el('div', 'bigimg');
     card.appendChild(el('div', 'bigimg__e', step.word.e));
     ctx.root.appendChild(card);
@@ -6507,25 +6599,34 @@ App.Mission = (function () {
   var options = null;   /* CANAL C : noms des images proposees */
   var stim = null;      /* CANAL B : le contenu travaille */
   var stimOnDemand = false;
+  var gen = 0;   /* generation : identifie l'activite affichee */
 
   function ctx(step) {
+    /* Une narration est une chaine de promesses. Quand l'enfant passe a
+       l'activite suivante, la chaine precedente continuait de parler
+       par-dessus la nouvelle. Chaque activite recoit donc un jeton : dès
+       qu'il est perime, tous ses appels audio deviennent silencieux. */
+    var mine = ++gen;
+    function alive() { return mine === gen; }
+
     return {
+      alive: alive,
       lang: lang,
       mission: m,
       root: taskEl,
       T: function (k) { return App.T(k, lang); },
-      play: function (key) { return App.Audio.play(key); },
+      play: function (key) { return alive() ? App.Audio.play(key) : Promise.resolve(); },
       /* CANAL B — stimulus. Tout contenu prononce passe par App.Say :
          un enregistrement s'il existe, sinon la synthese avec un texte
          nettoye (jamais de majuscules, qui font epeler la voix). */
-      playText: function (txt, l) { return App.Say.auto(l || lang, txt); },
+      playText: function (txt, l) { return alive() ? App.Say.auto(l || lang, txt) : Promise.resolve(); },
       say: {
-        word:     function (t) { return App.Say.word(lang, t); },
-        syllable: function (t) { return App.Say.syllable(lang, t); },
-        phoneme:  function (t) { return App.Say.phoneme(lang, t); },
-        sentence: function (t) { return App.Say.sentence(lang, t); },
-        letter:   function (t) { return App.Say.letterName(lang, t); },
-        series:   function (a) { return App.Say.series(lang, a); }
+        word:     function (t) { return alive() ? App.Say.word(lang, t) : Promise.resolve(); },
+        syllable: function (t) { return alive() ? App.Say.syllable(lang, t) : Promise.resolve(); },
+        phoneme:  function (t) { return alive() ? App.Say.phoneme(lang, t) : Promise.resolve(); },
+        sentence: function (t) { return alive() ? App.Say.sentence(lang, t) : Promise.resolve(); },
+        letter:   function (t) { return alive() ? App.Say.letterName(lang, t) : Promise.resolve(); },
+        series:   function (a) { return alive() ? App.Say.series(lang, a) : Promise.resolve(); }
       },
       win: function (silent) { win(step, silent); },
       miss: function (node, grid) { miss(step, node, grid); },
@@ -6533,8 +6634,13 @@ App.Mission = (function () {
       /* Consigne standard : cle i18n + mot dynamique + materiel sonore */
       setInstruction: function (key, opts) {
         opts = opts || {};
+        var alive = this.alive;
         spoken = function (manual) {
-          return sayKey(key)
+          /* Certaines activites presentent d'abord le contenu, puis posent
+             la question : « maison. Quel est le premier son ? » */
+          var head = (opts.first && stim) ? stim().then(function () { return pause(240); })
+                                          : Promise.resolve();
+          return head.then(function () { return alive() ? sayKey(key) : Promise.resolve(); })
             .then(function () { return opts.after ? pause(180).then(function () { return App.Say.auto(lang, opts.after); }) : null; })
                   /* CANAL B : le mot, le son ou la syllabe travaillee.
                Sauf pour "lis a voix haute" : entendre le mot avant de le
@@ -6542,7 +6648,7 @@ App.Mission = (function () {
             /* En lecture automatique, on saute le stimulus "a la demande".
                Quand l'enfant appuie lui-meme sur le haut-parleur, il veut
                justement l'entendre : on le joue. */
-            .then(function () { return (stim && (manual || !stimOnDemand)) ? pause(220).then(stim) : null; })
+            .then(function () { return (stim && !opts.first && (manual || !stimOnDemand)) ? pause(220).then(stim) : null; })
             /* CANAL C : si l'enfant doit connaitre le nom des images
                pour resoudre, la voix les nomme AVANT qu'il ne choisisse.
                « Quel mot rime avec ballon ? Souris, velo ou mouton ? » */
