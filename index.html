@@ -1713,348 +1713,11 @@ window.DATA = window.DATA || {};
 DATA.missions = DATA.missions || {};
 
 DATA.missions.fr = [
-
-/* =========================================================
-   MISSION 1 — J'ECOUTE   (monde 1, aucune lettre)
-   ========================================================= */
-{
-  id: 'fr.m01', lang: 'fr', world: 1, n: 1,
-  title: 'J\u2019\u00e9coute',
-  subtitle: 'Les sons cach\u00e9s dans les mots',
-  icon: '\ud83d\udc42',
-  skill: 'fr.ph.syllabes',
-  learned: 'Entendre les morceaux et les sons des mots',
-  steps: [
-
-    /* --- JE DECOUVRE --- */
-    { act: 'discover', phase: 'discover',
-      big: '\ud83d\udc42',
-      title: 'Les mots sont faits de morceaux',
-      say: { text: 'Chaque mot est fait de petits morceaux. \u00c9coute : la... ma... Lama !', lang: 'fr' },
-      lines: ['LA \u00b7 MA \u2192 LAMA', 'MO \u00b7 TO \u2192 MOTO'] },
-
-    { act: 'clap', phase: 'discover', skill: 'fr.ph.syllabes',
-      word: { t: 'LAMA', e: '\ud83e\udd99', n: 2 } },
-
-    { act: 'clap', phase: 'discover', skill: 'fr.ph.syllabes',
-      word: { t: 'TOMATE', e: '\ud83c\udf45', n: 3 } },
-
-    /* --- JE M'ENTRAINE : les morceaux --- */
-    { act: 'syllable-count', phase: 'practice', skill: 'fr.ph.syllabes',
-      items: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f', n: 2 }, { t: 'CHAT', e: '\ud83d\udc31', n: 1 }] },
-
-    { act: 'syllable-count', phase: 'practice', skill: 'fr.ph.syllabes',
-      items: [{ t: 'ANANAS', e: '\ud83c\udf4d', n: 3 }, { t: 'LUNE', e: '\ud83c\udf19', n: 1 }] },
-
-    /* --- JE M'ENTRAINE : les rimes --- */
-    { act: 'rhyme', phase: 'practice', skill: 'fr.ph.rimes',
-      base: { t: 'CHAT', e: '\ud83d\udc31' },
-      good: { t: 'RAT', e: '\ud83d\udc00' },
-      bad: [{ t: 'LUNE', e: '\ud83c\udf19' }, { t: 'POMME', e: '\ud83c\udf4e' }] },
-
-    { act: 'rhyme', phase: 'practice', skill: 'fr.ph.rimes',
-      base: { t: 'BALLON', e: '\ud83c\udf88' },
-      good: { t: 'MOUTON', e: '\ud83d\udc11' },
-      bad: [{ t: 'V\u00c9LO', e: '\ud83d\udeb2' }, { t: 'SOURIS', e: '\ud83d\udc2d' }] },
-
-    /* --- JE M'ENTRAINE : le premier son --- */
-    { act: 'first-sound', phase: 'practice', skill: 'fr.ph.initial', oral: true,
-      word: { t: 'MOTO', e: '\ud83c\udfcd\ufe0f' },
-      good: 'mmmm', bad: ['ssss', 'llll'] },
-
-    { act: 'same-start', phase: 'practice', skill: 'fr.ph.initial',
-      pair: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f' }, { t: 'MAISON', e: '\ud83c\udfe0' }],
-      other: { t: 'SOLEIL', e: '\u2600\ufe0f' } },
-
-    { act: 'odd-one-out', phase: 'practice', skill: 'fr.ph.initial',
-      same: [{ t: 'LAMA', e: '\ud83e\udd99' }, { t: 'LUNE', e: '\ud83c\udf19' }],
-      odd: { t: 'POMME', e: '\ud83c\udf4e' } },
-
-    { act: 'first-sound', phase: 'practice', skill: 'fr.ph.initial', oral: true,
-      word: { t: 'SOLEIL', e: '\u2600\ufe0f' },
-      good: 'ssss', bad: ['mmmm', 'rrrr'] },
-
-    /* --- JE COMBINE --- */
-    { act: 'blend-oral', phase: 'decode', skill: 'fr.ph.fusion',
-      parts: ['mmmm', 'aaaa'], result: 'MA',
-      good: { t: 'MA', e: '\ud83d\udd0a' },
-      bad: [{ t: 'AM', e: '\ud83d\udd0a' }, { t: 'MI', e: '\ud83d\udd0a' }] },
-
-    { act: 'blend-oral', phase: 'decode', skill: 'fr.ph.fusion',
-      parts: ['llll', 'aaaa'], result: 'LA',
-      good: { t: 'LA', e: '\ud83d\udd0a' },
-      bad: [{ t: 'AL', e: '\ud83d\udd0a' }, { t: 'LO', e: '\ud83d\udd0a' }] },
-
-    /* --- JE DIS --- */
-    { act: 'listen-repeat', phase: 'read', skill: 'fr.ph.fusion',
-      emoji: '\ud83e\udd99',
-      say: { text: 'la... ma... LAMA', lang: 'fr' } },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'Tu sais d\u00e9couper les mots et entendre leurs sons !' }
-  ]
-},
-
-/* =========================================================
-   MISSION 2 — LE SON M
-   ========================================================= */
-{
-  id: 'fr.m02', lang: 'fr', world: 2, n: 2,
-  title: 'Le son M',
-  subtitle: 'mmmmm',
-  icon: '\ud83d\udd24',
-  skill: 'fr.g.m',
-  letter: 'M', lower: 'm', phonemeKey: 'fr:phoneme:m',
-  learned: 'Le son M et sa lettre',
-  words: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f' }, { t: 'MAISON', e: '\ud83c\udfe0' }, { t: 'MOUTON', e: '\ud83d\udc11' }],
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'M', letter: true, phonemeKey: 'fr:phoneme:m',
-      title: 'Voici le son mmmmm',
-      say: { text: 'mmmmm. Comme dans moto, maison, mouton.', lang: 'fr' },
-      examples: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f' }, { t: 'MAISON', e: '\ud83c\udfe0' }, { t: 'MOUTON', e: '\ud83d\udc11' }] },
-
-    { act: 'sound-in-words', phase: 'practice',
-      phonemeKey: 'fr:phoneme:m',
-      good: { t: 'MOTO', e: '\ud83c\udfcd\ufe0f' },
-      bad: [{ t: 'SOLEIL', e: '\u2600\ufe0f' }, { t: 'V\u00c9LO', e: '\ud83d\udeb2' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'fr:phoneme:m',
-      good: 'M', bad: ['S', 'L', 'T'] },
-
-    { act: 'sort', phase: 'practice',
-      phonemeKey: 'fr:phoneme:m', letter: 'M',
-      yes: [{ t: 'MAISON', e: '\ud83c\udfe0' }, { t: 'MOUTON', e: '\ud83d\udc11' }],
-      no: [{ t: 'SOLEIL', e: '\u2600\ufe0f' }, { t: 'TOMATE', e: '\ud83c\udf45' }] },
-
-    { act: 'catch', phase: 'practice',
-      target: 'M', pool: ['M', 'N', 'M', 'W', 'M', 'H', 'V', 'M', 'N', 'M', 'W', 'M'] },
-
-    { act: 'first-sound', phase: 'practice',
-      word: { t: 'MAISON', e: '\ud83c\udfe0' },
-      good: 'mmmm', bad: ['ssss', 'tttt'] },
-
-    { act: 'memory', phase: 'practice',
-      pairs: [{ e: '\ud83c\udfcd\ufe0f', label: 'MOTO' },
-              { e: '\ud83c\udfe0', label: 'MAISON' },
-              { e: '\ud83d\udc11', label: 'MOUTON' }] },
-
-    { act: 'sound-in-words', phase: 'decode',
-      phonemeKey: 'fr:phoneme:m',
-      good: { t: 'MOUTON', e: '\ud83d\udc11' },
-      bad: [{ t: 'POMME', e: '\ud83c\udf4e' }, { t: 'CHAT', e: '\ud83d\udc31' }],
-      note: 'Attention : dans POMME on entend aussi mmmm, mais pas au d\u00e9but !' },
-
-    { act: 'find-letter', phase: 'decode',
-      phonemeKey: 'fr:phoneme:m',
-      good: 'M', bad: ['W', 'N', 'E'] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'Tu connais le son M et sa lettre !' }
-  ]
-},
-
-/* =========================================================
-   MISSION 3 — LE SON A
-   ========================================================= */
-{
-  id: 'fr.m03', lang: 'fr', world: 2, n: 3,
-  title: 'Le son A',
-  subtitle: 'aaaaa',
-  icon: '\ud83d\udd24',
-  skill: 'fr.g.a',
-  letter: 'A', lower: 'a', phonemeKey: 'fr:phoneme:a',
-  learned: 'Le son A et sa lettre',
-  words: [{ t: 'ARBRE', e: '\ud83c\udf33' }, { t: 'AVION', e: '\u2708\ufe0f' }, { t: 'ANANAS', e: '\ud83c\udf4d' }],
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'A', letter: true, phonemeKey: 'fr:phoneme:a',
-      title: 'Voici le son aaaaa',
-      say: { text: 'aaaaa. On ouvre grand la bouche. Comme dans arbre, avion, ananas.', lang: 'fr' },
-      examples: [{ t: 'ARBRE', e: '\ud83c\udf33' }, { t: 'AVION', e: '\u2708\ufe0f' }, { t: 'ANANAS', e: '\ud83c\udf4d' }] },
-
-    { act: 'sound-in-words', phase: 'practice',
-      phonemeKey: 'fr:phoneme:a',
-      good: { t: 'AVION', e: '\u2708\ufe0f' },
-      bad: [{ t: '\u00cELE', e: '\ud83c\udfdd\ufe0f' }, { t: 'OURS', e: '\ud83d\udc3b' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'fr:phoneme:a',
-      good: 'A', bad: ['O', 'I', 'U'] },
-
-    { act: 'sort', phase: 'practice',
-      phonemeKey: 'fr:phoneme:a', letter: 'A',
-      yes: [{ t: 'ARBRE', e: '\ud83c\udf33' }, { t: 'ANANAS', e: '\ud83c\udf4d' }],
-      no: [{ t: '\u00cELE', e: '\ud83c\udfdd\ufe0f' }, { t: 'ORANGE', e: '\ud83c\udf4a' }] },
-
-    { act: 'catch', phase: 'practice',
-      target: 'A', pool: ['A', 'O', 'A', 'E', 'A', 'U', 'A', 'O', 'A', 'I', 'A', 'E'] },
-
-    { act: 'memory', phase: 'practice',
-      pairs: [{ e: '\ud83c\udf33', label: 'ARBRE' },
-              { e: '\u2708\ufe0f', label: 'AVION' },
-              { e: '\ud83c\udf4d', label: 'ANANAS' }] },
-
-    { act: 'first-sound', phase: 'decode',
-      word: { t: 'ANANAS', e: '\ud83c\udf4d' },
-      good: 'aaaa', bad: ['oooo', 'iiii'] },
-
-    { act: 'find-letter', phase: 'decode',
-      phonemeKey: 'fr:phoneme:a',
-      good: 'A', bad: ['M', 'O', 'S'] },
-
-    { act: 'letters-review', phase: 'decode',
-      title: 'Tu connais maintenant deux sons',
-      items: [{ letter: 'M', key: 'fr:phoneme:m' }, { letter: 'A', key: 'fr:phoneme:a' }] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'Tu connais le son A et sa lettre !' }
-  ]
-},
-
-/* =========================================================
-   MISSION 4 — JE COLLE M ET A
-   ========================================================= */
-{
-  id: 'fr.m04', lang: 'fr', world: 3, n: 4,
-  title: 'Je colle M et A',
-  subtitle: 'M + A \u2192 MA',
-  icon: '\ud83e\udde9',
-  skill: 'fr.b.m',
-  learned: 'Coller deux sons pour faire une syllabe',
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'MA', letter: true,
-      title: 'Deux sons qui se collent',
-      say: { text: 'mmmm... aaaa... MA ! Quand on colle deux sons, on fait une syllabe.', lang: 'fr' },
-      lines: ['M + A \u2192 MA'] },
-
-    { act: 'blend', phase: 'decode',
-      a: { l: 'M', key: 'fr:phoneme:m' }, b: { l: 'A', key: 'fr:phoneme:a' },
-      result: 'MA', resultKey: 'fr:syll:ma',
-      bad: ['AM', 'MI'],
-      scaffold: ['fr:phoneme:m', 'fr:phoneme:a', 'fr:syll:ma'] },
-
-    { act: 'blend', phase: 'decode',
-      a: { l: 'A', key: 'fr:phoneme:a' }, b: { l: 'M', key: 'fr:phoneme:m' },
-      result: 'AM', resultKey: 'fr:syll:am',
-      bad: ['MA', 'AN'],
-      scaffold: ['fr:phoneme:a', 'fr:phoneme:m', 'fr:syll:am'] },
-
-    { act: 'build', phase: 'decode',
-      target: 'MA', kind: 'letters',
-      bricks: ['M', 'A', 'O', 'S'],
-      audioKey: 'fr:syll:ma',
-      scaffold: ['fr:phoneme:m', 'fr:phoneme:a', 'fr:syll:ma'] },
-
-    { act: 'segment', phase: 'decode',
-      word: 'MA', audioKey: 'fr:syll:ma', n: 2 },
-
-    { act: 'read-aloud', phase: 'read',
-      text: 'MA', audioKey: 'fr:syll:ma',
-      hint: 'mmmm puis aaaa' },
-
-    { act: 'build', phase: 'decode',
-      target: 'MAMA', kind: 'letters',
-      bricks: ['M', 'A', 'M', 'A'],
-      audioKey: 'fr:word:mama',
-      scaffold: ['fr:syll:ma', 'fr:syll:ma', 'fr:word:mama'] },
-
-    { act: 'read-aloud', phase: 'read',
-      text: 'MAMA', audioKey: 'fr:word:mama',
-      hint: 'MA puis MA' },
-
-    { act: 'word-to-image', phase: 'understand',
-      word: 'MAMA', audioKey: 'fr:word:mama',
-      good: '\ud83d\udc69', bad: ['\ud83c\udfcd\ufe0f', '\ud83c\udf33'] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'Tu sais coller deux sons pour lire une syllabe !' }
-  ]
-},
-
-/* =========================================================
-   MISSION 5 — LE SON L ET MES PREMIERS MOTS
-   ========================================================= */
-{
-  id: 'fr.m05', lang: 'fr', world: 3, n: 5,
-  title: 'Mes premiers mots',
-  subtitle: 'Le son L \u00b7 LAMA',
-  icon: '\ud83c\udf81',
-  skill: 'fr.g.l',
-  letter: 'L', lower: 'l', phonemeKey: 'fr:phoneme:l',
-  learned: 'Le son L, et mon premier vrai mot',
-  unlocksBook: 'fr.b1',
-  words: [{ t: 'LAMA', e: '\ud83e\udd99' }, { t: 'LUNE', e: '\ud83c\udf19' }, { t: 'LIVRE', e: '\ud83d\udcd6' }],
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'L', letter: true, phonemeKey: 'fr:phoneme:l',
-      title: 'Voici le son lllll',
-      say: { text: 'lllll. La langue touche le haut de la bouche. Comme dans lama, lune, livre.', lang: 'fr' },
-      examples: [{ t: 'LAMA', e: '\ud83e\udd99' }, { t: 'LUNE', e: '\ud83c\udf19' }, { t: 'LIVRE', e: '\ud83d\udcd6' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'fr:phoneme:l',
-      good: 'L', bad: ['M', 'A', 'T'] },
-
-    { act: 'sound-in-words', phase: 'practice',
-      phonemeKey: 'fr:phoneme:l',
-      good: { t: 'LUNE', e: '\ud83c\udf19' },
-      bad: [{ t: 'MOTO', e: '\ud83c\udfcd\ufe0f' }, { t: 'ANANAS', e: '\ud83c\udf4d' }] },
-
-    { act: 'blend', phase: 'decode',
-      a: { l: 'L', key: 'fr:phoneme:l' }, b: { l: 'A', key: 'fr:phoneme:a' },
-      result: 'LA', resultKey: 'fr:syll:la',
-      bad: ['AL', 'LO'],
-      scaffold: ['fr:phoneme:l', 'fr:phoneme:a', 'fr:syll:la'] },
-
-    { act: 'build', phase: 'decode',
-      target: 'LAMA', kind: 'syllables',
-      bricks: ['LA', 'MA', 'MO', 'LI'],
-      audioKey: 'fr:word:lama',
-      scaffold: ['fr:syll:la', 'fr:syll:ma', 'fr:word:lama'] },
-
-    { act: 'read-aloud', phase: 'read',
-      text: 'LAMA', audioKey: 'fr:word:lama',
-      hint: 'LA puis MA' },
-
-    { act: 'word-to-image', phase: 'understand',
-      word: 'LAMA', audioKey: 'fr:word:lama',
-      good: '\ud83e\udd99', bad: ['\ud83d\udc11', '\ud83d\udc0e'] },
-
-    { act: 'instruction', phase: 'understand',
-      say: { text: 'Touche le mot LAMA', lang: 'fr' },
-      target: 'LAMA', others: ['MAMA', 'MAL'] },
-
-    { act: 'mini-story', phase: 'read',
-      title: 'Le lama',
-      pages: [
-        { text: 'Le lama.', e: '\ud83e\udd99' },
-        { text: 'Le lama a mal.', e: '\ud83d\ude23' },
-        { text: 'Mama ! Mama !', e: '\ud83d\udce3' },
-        { text: 'Mama a le lama.', e: '\ud83e\udd17' }
-      ] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'Tu as lu ton premier vrai mot : LAMA !',
-      unlocksBook: 'fr.b1' }
-  ]
-},
-
-/* =========================================================
-   MISSIONS SUIVANTES — annoncees, pas encore jouables
-   ========================================================= */
-{ id: 'fr.m06', lang: 'fr', world: 3, n: 6, title: 'Le son I', subtitle: 'iiiii', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.i' },
-{ id: 'fr.m07', lang: 'fr', world: 4, n: 7, title: 'Le son T', subtitle: 'te', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.t' },
-{ id: 'fr.m08', lang: 'fr', world: 4, n: 8, title: 'Je lis des syllabes', subtitle: 'MA \u00b7 LI \u00b7 TO', icon: '\ud83e\ude84', locked: true, skill: 'fr.syl.read' },
-{ id: 'fr.m09', lang: 'fr', world: 5, n: 9, title: 'Le son O', subtitle: 'ooooo', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.o' },
-{ id: 'fr.m10', lang: 'fr', world: 5, n: 10, title: 'MOTO, TOMATE', subtitle: 'Mots de deux syllabes', icon: '\ud83c\udf81', locked: true, skill: 'fr.w.cvcv' }
-
+  { id: 'fr.m06', lang: 'fr', world: 3, n: 10, title: 'Le son I', subtitle: 'iiiii', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.i' },
+  { id: 'fr.m07', lang: 'fr', world: 4, n: 11, title: 'Le son T', subtitle: 'te', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.t' },
+  { id: 'fr.m08', lang: 'fr', world: 4, n: 12, title: 'Je lis des syllabes', subtitle: 'MA \u00b7 LI \u00b7 TO', icon: '\ud83e\ude84', locked: true, skill: 'fr.syl.read' },
+  { id: 'fr.m09', lang: 'fr', world: 5, n: 13, title: 'Le son O', subtitle: 'ooooo', icon: '\ud83d\udd24', locked: true, skill: 'fr.g.o' },
+  { id: 'fr.m10', lang: 'fr', world: 5, n: 14, title: 'MOTO, TOMATE', subtitle: 'Mots de deux syllabes', icon: '\ud83c\udf81', locked: true, skill: 'fr.w.cvcv' }
 ];
 
 </script>
@@ -2077,409 +1740,132 @@ window.DATA = window.DATA || {};
 DATA.missions = DATA.missions || {};
 
 DATA.missions.en = [
-
-/* =========================================================
-   MISSION 1 — I LISTEN
-   ========================================================= */
-{
-  id: 'en.m01', lang: 'en', world: 1, n: 1,
-  title: 'I listen',
-  subtitle: 'Sounds hiding in words',
-  icon: '\ud83d\udc42',
-  skill: 'en.ph.syllables',
-  learned: 'Hearing beats and sounds inside words',
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: '\ud83d\udc42',
-      title: 'Words are made of beats',
-      say: { text: 'Every word has beats. Listen: rab... bit. Rabbit!', lang: 'en' },
-      lines: ['RAB \u00b7 BIT \u2192 RABBIT', 'SUN \u2192 one beat'] },
-
-    { act: 'clap', phase: 'discover', skill: 'en.ph.syllables',
-      word: { t: 'RABBIT', e: '\ud83d\udc07', n: 2 } },
-
-    { act: 'clap', phase: 'discover', skill: 'en.ph.syllables',
-      word: { t: 'ELEPHANT', e: '\ud83d\udc18', n: 3 } },
-
-    { act: 'syllable-count', phase: 'practice', skill: 'en.ph.syllables',
-      items: [{ t: 'SUN', e: '\u2600\ufe0f', n: 1 }, { t: 'MONKEY', e: '\ud83d\udc12', n: 2 }] },
-
-    { act: 'syllable-count', phase: 'practice', skill: 'en.ph.syllables',
-      items: [{ t: 'BANANA', e: '\ud83c\udf4c', n: 3 }, { t: 'CAT', e: '\ud83d\udc31', n: 1 }] },
-
-    { act: 'rhyme', phase: 'practice', skill: 'en.ph.rhyme',
-      base: { t: 'CAT', e: '\ud83d\udc31' },
-      good: { t: 'HAT', e: '\ud83c\udfa9' },
-      bad: [{ t: 'DOG', e: '\ud83d\udc15' }, { t: 'MOON', e: '\ud83c\udf19' }] },
-
-    { act: 'rhyme', phase: 'practice', skill: 'en.ph.rhyme',
-      base: { t: 'STAR', e: '\u2b50' },
-      good: { t: 'CAR', e: '\ud83d\ude97' },
-      bad: [{ t: 'TREE', e: '\ud83c\udf33' }, { t: 'FISH', e: '\ud83d\udc1f' }] },
-
-    { act: 'first-sound', phase: 'practice', skill: 'en.ph.initial', oral: true,
-      word: { t: 'SUN', e: '\u2600\ufe0f' },
-      good: 'sss', bad: ['mmm', 'tuh'] },
-
-    { act: 'same-start', phase: 'practice', skill: 'en.ph.initial',
-      pair: [{ t: 'SUN', e: '\u2600\ufe0f' }, { t: 'SOCK', e: '\ud83e\udde6' }],
-      other: { t: 'MOON', e: '\ud83c\udf19' } },
-
-    { act: 'odd-one-out', phase: 'practice', skill: 'en.ph.initial',
-      same: [{ t: 'MOON', e: '\ud83c\udf19' }, { t: 'MAP', e: '\ud83d\uddfa\ufe0f' }],
-      odd: { t: 'FISH', e: '\ud83d\udc1f' } },
-
-    { act: 'first-sound', phase: 'practice', skill: 'en.ph.initial', oral: true,
-      word: { t: 'TREE', e: '\ud83c\udf33' },
-      good: 'tuh', bad: ['sss', 'puh'] },
-
-    { act: 'blend-oral', phase: 'decode', skill: 'en.ph.blendoral',
-      parts: ['sss', 'ah'], result: 'SA',
-      good: { t: 'SA', e: '\ud83d\udd0a' },
-      bad: [{ t: 'AS', e: '\ud83d\udd0a' }, { t: 'SO', e: '\ud83d\udd0a' }] },
-
-    { act: 'blend-oral', phase: 'decode', skill: 'en.ph.blendoral',
-      parts: ['ah', 'tuh'], result: 'AT',
-      good: { t: 'AT', e: '\ud83d\udd0a' },
-      bad: [{ t: 'TA', e: '\ud83d\udd0a' }, { t: 'IT', e: '\ud83d\udd0a' }] },
-
-    { act: 'listen-repeat', phase: 'read', skill: 'en.ph.blendoral',
-      emoji: '\ud83d\udc31',
-      say: { text: 'c... a... t. CAT', lang: 'en' } },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'You can hear beats and sounds inside words!' }
-  ]
-},
-
-/* =========================================================
-   MISSION 2 — THE SOUND S
-   ========================================================= */
-{
-  id: 'en.m02', lang: 'en', world: 2, n: 2,
-  title: 'The sound S',
-  subtitle: 'sssss',
-  icon: '\ud83d\udd24',
-  skill: 'en.g.s',
-  letter: 'S', lower: 's', phonemeKey: 'en:phoneme:s',
-  learned: 'The sound S and its letter',
-  words: [{ t: 'SUN', e: '\u2600\ufe0f' }, { t: 'SOCK', e: '\ud83e\udde6' }, { t: 'SNAKE', e: '\ud83d\udc0d' }],
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'S', letter: true, phonemeKey: 'en:phoneme:s',
-      title: 'This is the sound sssss',
-      say: { text: 'sssss. Like a snake. Sun, sock, snake.', lang: 'en' },
-      examples: [{ t: 'SUN', e: '\u2600\ufe0f' }, { t: 'SOCK', e: '\ud83e\udde6' }, { t: 'SNAKE', e: '\ud83d\udc0d' }] },
-
-    { act: 'sound-in-words', phase: 'practice',
-      phonemeKey: 'en:phoneme:s',
-      good: { t: 'SUN', e: '\u2600\ufe0f' },
-      bad: [{ t: 'DOG', e: '\ud83d\udc15' }, { t: 'CAKE', e: '\ud83c\udf82' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'en:phoneme:s',
-      good: 'S', bad: ['M', 'T', 'A'] },
-
-    { act: 'sort', phase: 'practice',
-      phonemeKey: 'en:phoneme:s', letter: 'S',
-      yes: [{ t: 'SOCK', e: '\ud83e\udde6' }, { t: 'SNAKE', e: '\ud83d\udc0d' }],
-      no: [{ t: 'CAT', e: '\ud83d\udc31' }, { t: 'MOON', e: '\ud83c\udf19' }] },
-
-    { act: 'catch', phase: 'practice',
-      target: 'S', pool: ['S', 'Z', 'S', 'C', 'S', 'O', 'S', 'Z', 'S', 'G', 'S', 'C'] },
-
-    { act: 'first-sound', phase: 'practice',
-      word: { t: 'SNAKE', e: '\ud83d\udc0d' },
-      good: 'sss', bad: ['nnn', 'kuh'] },
-
-    { act: 'memory', phase: 'practice',
-      pairs: [{ e: '\u2600\ufe0f', label: 'SUN' },
-              { e: '\ud83e\udde6', label: 'SOCK' },
-              { e: '\ud83d\udc0d', label: 'SNAKE' }] },
-
-    { act: 'sound-in-words', phase: 'decode',
-      phonemeKey: 'en:phoneme:s',
-      good: { t: 'SOCK', e: '\ud83e\udde6' },
-      bad: [{ t: 'FISH', e: '\ud83d\udc1f' }, { t: 'BALL', e: '\u26bd' }] },
-
-    { act: 'find-letter', phase: 'decode',
-      phonemeKey: 'en:phoneme:s',
-      good: 'S', bad: ['Z', 'C', 'G'] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'You know the sound S and its letter!' }
-  ]
-},
-
-/* =========================================================
-   MISSION 3 — THE SOUND A
-   ========================================================= */
-{
-  id: 'en.m03', lang: 'en', world: 2, n: 3,
-  title: 'The sound A',
-  subtitle: 'ah',
-  icon: '\ud83d\udd24',
-  skill: 'en.g.a',
-  letter: 'A', lower: 'a', phonemeKey: 'en:phoneme:a',
-  learned: 'The sound A and its letter',
-  words: [{ t: 'APPLE', e: '\ud83c\udf4e' }, { t: 'ANT', e: '\ud83d\udc1c' }, { t: 'CAT', e: '\ud83d\udc31' }],
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'A', letter: true, phonemeKey: 'en:phoneme:a',
-      title: 'This is the sound ah',
-      say: { text: 'ah, ah, ah. Apple, ant, cat.', lang: 'en' },
-      examples: [{ t: 'APPLE', e: '\ud83c\udf4e' }, { t: 'ANT', e: '\ud83d\udc1c' }, { t: 'CAT', e: '\ud83d\udc31' }],
-      note: 'In English, A says ah. It is not the French A.' },
-
-    { act: 'sound-in-words', phase: 'practice',
-      phonemeKey: 'en:phoneme:a',
-      good: { t: 'ANT', e: '\ud83d\udc1c' },
-      bad: [{ t: 'MOON', e: '\ud83c\udf19' }, { t: 'TREE', e: '\ud83c\udf33' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'en:phoneme:a',
-      good: 'A', bad: ['O', 'E', 'U'] },
-
-    { act: 'sort', phase: 'practice',
-      phonemeKey: 'en:phoneme:a', letter: 'A',
-      yes: [{ t: 'APPLE', e: '\ud83c\udf4e' }, { t: 'CAT', e: '\ud83d\udc31' }],
-      no: [{ t: 'MOON', e: '\ud83c\udf19' }, { t: 'FISH', e: '\ud83d\udc1f' }] },
-
-    { act: 'catch', phase: 'practice',
-      target: 'A', pool: ['A', 'O', 'A', 'E', 'A', 'U', 'A', 'O', 'A', 'E', 'A', 'U'] },
-
-    { act: 'memory', phase: 'practice',
-      pairs: [{ e: '\ud83c\udf4e', label: 'APPLE' },
-              { e: '\ud83d\udc1c', label: 'ANT' },
-              { e: '\u2600\ufe0f', label: 'SUN' }] },
-
-    { act: 'blend-oral', phase: 'decode',
-      parts: ['sss', 'ah'], result: 'SA',
-      good: { t: 'SA', e: '\ud83d\udd0a' },
-      bad: [{ t: 'AS', e: '\ud83d\udd0a' }, { t: 'SO', e: '\ud83d\udd0a' }] },
-
-    { act: 'letters-review', phase: 'decode',
-      title: 'You know two sounds now',
-      items: [{ letter: 'S', key: 'en:phoneme:s' }, { letter: 'A', key: 'en:phoneme:a' }] },
-
-    { act: 'find-letter', phase: 'decode',
-      phonemeKey: 'en:phoneme:a',
-      good: 'A', bad: ['S', 'O', 'M'] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'You know the sound A and its letter!' }
-  ]
-},
-
-/* =========================================================
-   MISSION 4 — BLENDING  (introduit T et P)
-   ========================================================= */
-{
-  id: 'en.m04', lang: 'en', world: 3, n: 4,
-  title: 'Blending',
-  subtitle: 's - a - t \u2192 SAT',
-  icon: '\ud83e\udde9',
-  skill: 'en.b.cvc',
-  learned: 'Pushing sounds together to read',
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'T', letter: true, phonemeKey: 'en:phoneme:t',
-      title: 'Two more sounds: T and P',
-      say: { text: 'tuh. puh. Now we can blend.', lang: 'en' },
-      examples: [{ t: 'TREE', e: '\ud83c\udf33' }, { t: 'TAP', e: '\ud83d\udeb0' }, { t: 'PIG', e: '\ud83d\udc37' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'en:phoneme:t',
-      good: 'T', bad: ['P', 'S', 'A'] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'en:phoneme:p',
-      good: 'P', bad: ['T', 'B', 'A'] },
-
-    { act: 'blend', phase: 'decode',
-      a: { l: 'A', key: 'en:phoneme:a' }, b: { l: 'T', key: 'en:phoneme:t' },
-      result: 'AT', resultKey: 'en:syll:at',
-      bad: ['TA', 'IT'],
-      scaffold: ['en:phoneme:a', 'en:phoneme:t', 'en:syll:at'] },
-
-    { act: 'build', phase: 'decode',
-      target: 'SAT', kind: 'letters',
-      bricks: ['S', 'A', 'T', 'P'],
-      audioKey: 'en:word:sat',
-      scaffold: ['en:phoneme:s', 'en:phoneme:a', 'en:phoneme:t', 'en:word:sat'] },
-
-    { act: 'read-aloud', phase: 'read',
-      text: 'SAT', audioKey: 'en:word:sat',
-      hint: 's - a - t' },
-
-    { act: 'build', phase: 'decode',
-      target: 'TAP', kind: 'letters',
-      bricks: ['T', 'A', 'P', 'S'],
-      audioKey: 'en:word:tap',
-      scaffold: ['en:phoneme:t', 'en:phoneme:a', 'en:phoneme:p', 'en:word:tap'] },
-
-    { act: 'segment', phase: 'decode',
-      word: 'TAP', audioKey: 'en:word:tap', n: 3 },
-
-    { act: 'word-to-image', phase: 'understand',
-      word: 'TAP', audioKey: 'en:word:tap',
-      good: '\ud83d\udeb0', bad: ['\ud83d\udc31', '\ud83c\udf33'] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'You can blend sounds into real words!' }
-  ]
-},
-
-/* =========================================================
-   MISSION 5 — FIRST WORDS  (introduit I, N, M + le mot outil "the")
-   ========================================================= */
-{
-  id: 'en.m05', lang: 'en', world: 4, n: 5,
-  title: 'First words',
-  subtitle: 'TIN \u00b7 MAN \u00b7 NAP',
-  icon: '\ud83c\udf81',
-  skill: 'en.w.cvc',
-  learned: 'Reading my first real words',
-  unlocksBook: 'en.b1',
-  steps: [
-
-    { act: 'discover', phase: 'discover',
-      big: 'I N M', letter: true,
-      title: 'Three new sounds',
-      say: { text: 'ih. nnn. mmm. Now you can read many words.', lang: 'en' },
-      examples: [{ t: 'INK', e: '\ud83d\udd8b\ufe0f' }, { t: 'NEST', e: '\ud83e\udeba' }, { t: 'MOON', e: '\ud83c\udf19' }] },
-
-    { act: 'find-letter', phase: 'practice',
-      phonemeKey: 'en:phoneme:n',
-      good: 'N', bad: ['M', 'H', 'U'] },
-
-    { act: 'blend', phase: 'decode',
-      a: { l: 'I', key: 'en:phoneme:i' }, b: { l: 'N', key: 'en:phoneme:n' },
-      result: 'IN', resultKey: 'en:syll:in',
-      bad: ['NI', 'AN'],
-      scaffold: ['en:phoneme:i', 'en:phoneme:n', 'en:syll:in'] },
-
-    { act: 'build', phase: 'decode',
-      target: 'TIN', kind: 'letters',
-      bricks: ['T', 'I', 'N', 'S'],
-      audioKey: 'en:word:tin',
-      scaffold: ['en:phoneme:t', 'en:phoneme:i', 'en:phoneme:n', 'en:word:tin'] },
-
-    { act: 'read-aloud', phase: 'read',
-      text: 'TIN', audioKey: 'en:word:tin',
-      hint: 't - i - n' },
-
-    { act: 'build', phase: 'decode',
-      target: 'MAN', kind: 'letters',
-      bricks: ['M', 'A', 'N', 'P'],
-      audioKey: 'en:word:man',
-      scaffold: ['en:phoneme:m', 'en:phoneme:a', 'en:phoneme:n', 'en:word:man'] },
-
-    { act: 'word-to-image', phase: 'understand',
-      word: 'MAN', audioKey: 'en:word:man',
-      good: '\ud83d\udc68', bad: ['\ud83d\udc31', '\ud83c\udf19'] },
-
-    { act: 'tricky-word', phase: 'understand',
-      word: 'THE', audioKey: 'en:word:the',
-      note: 'You cannot sound this one out. Learn it by heart.',
-      others: ['TIN', 'MAN'] },
-
-    { act: 'instruction', phase: 'understand',
-      say: { text: 'Tap the word TIN', lang: 'en' },
-      target: 'TIN', others: ['TAP', 'MAN'] },
-
-    { act: 'mini-story', phase: 'read',
-      title: 'Sam and the tin',
-      pages: [
-        { text: 'Sam is a man.', e: '\ud83d\udc68' },
-        { text: 'Sam sat.', e: '\ud83e\ude91' },
-        { text: 'A tin!', e: '\ud83e\udd6b' },
-        { text: 'Sam taps the tin.', e: '\ud83e\udd41' },
-        { text: 'Sam naps in the tin.', e: '\ud83d\ude34' }
-      ] },
-
-    { act: 'wrap', phase: 'reward',
-      learned: 'You read your first real English words!',
-      unlocksBook: 'en.b1' }
-  ]
-},
-
-/* =========================================================
-   NEXT MISSIONS — announced, not playable yet
-   ========================================================= */
-{ id: 'en.m06', lang: 'en', world: 4, n: 6, title: 'The sound D', subtitle: 'duh', icon: '\ud83d\udd24', locked: true, skill: 'en.g.d' },
-{ id: 'en.m07', lang: 'en', world: 4, n: 7, title: 'More CVC words', subtitle: 'MAD \u00b7 DIP \u00b7 SIT', icon: '\ud83c\udf81', locked: true, skill: 'en.w.cvcplus' },
-{ id: 'en.m08', lang: 'en', world: 5, n: 8, title: 'The sound SH', subtitle: 'shhh', icon: '\u2728', locked: true, skill: 'en.d.sh' },
-{ id: 'en.m09', lang: 'en', world: 5, n: 9, title: 'The sound CH', subtitle: 'chuh', icon: '\u2728', locked: true, skill: 'en.d.ch' },
-{ id: 'en.m10', lang: 'en', world: 5, n: 10, title: 'The sound EE', subtitle: 'eee', icon: '\u2728', locked: true, skill: 'en.d.ee' }
-
+  { id: 'en.m06', lang: 'en', world: 4, n: 9, title: 'The sound D', subtitle: 'duh', icon: '\ud83d\udd24', locked: true, skill: 'en.g.d' },
+  { id: 'en.m07', lang: 'en', world: 4, n: 10, title: 'More CVC words', subtitle: 'MAD \u00b7 DIP \u00b7 SIT', icon: '\ud83c\udf81', locked: true, skill: 'en.w.cvcplus' },
+  { id: 'en.m08', lang: 'en', world: 5, n: 11, title: 'The sound SH', subtitle: 'shhh', icon: '\u2728', locked: true, skill: 'en.d.sh' },
+  { id: 'en.m09', lang: 'en', world: 5, n: 12, title: 'The sound CH', subtitle: 'chuh', icon: '\u2728', locked: true, skill: 'en.d.ch' },
+  { id: 'en.m10', lang: 'en', world: 5, n: 13, title: 'The sound EE', subtitle: 'eee', icon: '\u2728', locked: true, skill: 'en.d.ee' }
 ];
 
 </script>
 <script>
 /* ===== data/lessons.fr.js ===== */
 /* =========================================================
-   data/lessons.fr.js — Lecons DECLAREES
+   data/lessons.fr.js — Le parcours francais, entierement DECLARE
 
-   Aucune activite n'est ecrite ici. On declare la competence,
-   le gabarit et le point du parcours. Le compilateur
-   (js/lesson.js) fabrique la seance a l'execution.
+   Aucune activite n'est ecrite ici. On declare la competence, le
+   gabarit et le point du parcours ; le compilateur (js/lesson.js)
+   fabrique la seance a l'execution, differente a chaque fois.
 
-   C'est la difference avec data/missions.fr.js, ou chaque
-   activite etait ecrite a la main. Trois lecons suffisent a
-   demontrer le systeme : le reste se declare de la meme facon.
+   Les lecons ecrites a la main ont ete retirees : elles faisaient
+   doublon avec celles-ci sur la carte.
    ========================================================= */
 
 window.DATA = window.DATA || {};
 DATA.lessons = DATA.lessons || {};
 
 DATA.lessons.fr = [
-  { id: 'fr.L16', lang: 'fr', n: 16, world: 2, icon: '\ud83d\udd24',
+  { id: 'fr.L1', lang: 'fr', n: 1, world: 1, icon: '\ud83d\udc42',
+    title: 'J\u2019\u00e9coute', subtitle: 'Les sons cach\u00e9s dans les mots',
+    skill: 'fr.ph.syllabes', template: 'phono', upTo: 12,
+    learned: 'Entendre les morceaux et les sons des mots' },
+
+  { id: 'fr.L2', lang: 'fr', n: 2, world: 2, icon: '\ud83d\udd24',
+    title: 'Le son M', subtitle: 'mmmmm',
+    skill: 'fr.g.m', template: 'grapheme', upTo: 19,
+    learned: 'Le son M et sa lettre' },
+
+  { id: 'fr.L3', lang: 'fr', n: 3, world: 2, icon: '\ud83d\udd24',
+    title: 'Le son A', subtitle: 'aaaaa',
+    skill: 'fr.g.a', template: 'grapheme', upTo: 19,
+    learned: 'Le son A et sa lettre' },
+
+  { id: 'fr.L4', lang: 'fr', n: 4, world: 2, icon: '\ud83d\udd24',
     title: 'Le son L', subtitle: 'lllll',
     skill: 'fr.g.l', template: 'grapheme', upTo: 19,
     learned: 'Le son L et sa lettre' },
 
-  { id: 'fr.L18', lang: 'fr', n: 18, world: 2, icon: '\ud83d\udd24',
+  { id: 'fr.L5', lang: 'fr', n: 5, world: 2, icon: '\ud83d\udd24',
     title: 'Le son S', subtitle: 'sssss',
     skill: 'fr.g.s', template: 'grapheme', upTo: 19,
     learned: 'Le son S et sa lettre' },
 
-  { id: 'fr.L20', lang: 'fr', n: 20, world: 3, icon: '\ud83e\udde9',
+  { id: 'fr.L6', lang: 'fr', n: 6, world: 3, icon: '\ud83e\udde9',
     title: 'Je colle M et A', subtitle: 'M + A \u2192 MA',
     skill: 'fr.b.m', template: 'blend', upTo: 20,
-    learned: 'Coller deux sons pour lire une syllabe' }
+    learned: 'Coller deux sons pour lire une syllabe',
+    unlocksBook: 'fr.b1' },
+
+  { id: 'fr.L7', lang: 'fr', n: 7, world: 5, icon: '\ud83c\udf81',
+    title: 'Mes premiers mots', subtitle: 'LAMA \u00b7 SALAMI',
+    skill: 'fr.w.cvcv', template: 'word', upTo: 23,
+    learned: 'Lire et construire un vrai mot',
+    unlocksBook: 'fr.b2' },
+
+  { id: 'fr.L8', lang: 'fr', n: 8, world: 6, icon: '\ud83d\udcac',
+    title: 'Je lis des phrases', subtitle: 'Le lama a mal.',
+    skill: 'fr.s.phrase', template: 'sentence', upTo: 23,
+    learned: 'Lire une phrase enti\u00e8re' },
+
+  { id: 'fr.L9', lang: 'fr', n: 9, world: 8, icon: '\ud83d\udca1',
+    title: 'Je comprends', subtitle: 'Qui ? Quoi ? Pourquoi ?',
+    skill: 'fr.k.comprehension', template: 'comprehension', upTo: 23,
+    learned: 'Comprendre ce que je viens de lire' }
 ];
 
 </script>
 <script>
 /* ===== data/lessons.en.js ===== */
 /* =========================================================
-   data/lessons.en.js — Declared lessons (English)
-   Meme moteur, contenu independant.
+   data/lessons.en.js — The English path, fully declared
+   Meme moteur, progression phonics independante.
    ========================================================= */
 
 window.DATA = window.DATA || {};
 DATA.lessons = DATA.lessons || {};
 
 DATA.lessons.en = [
-  { id: 'en.L11', lang: 'en', n: 11, world: 2, icon: '\ud83d\udd24',
-    title: 'The sound N', subtitle: 'nnn',
-    skill: 'en.g.n', template: 'grapheme', upTo: 13,
-    learned: 'The sound N and its letter' },
+  { id: 'en.L1', lang: 'en', n: 1, world: 1, icon: '\ud83d\udc42',
+    title: 'I listen', subtitle: 'Sounds hiding in words',
+    skill: 'en.ph.syllables', template: 'phono', upTo: 13,
+    learned: 'Hearing beats and sounds inside words' },
 
-  { id: 'en.L12', lang: 'en', n: 12, world: 2, icon: '\ud83d\udd24',
+  { id: 'en.L2', lang: 'en', n: 2, world: 2, icon: '\ud83d\udd24',
+    title: 'The sound S', subtitle: 'sssss',
+    skill: 'en.g.s', template: 'grapheme', upTo: 13,
+    learned: 'The sound S and its letter' },
+
+  { id: 'en.L3', lang: 'en', n: 3, world: 2, icon: '\ud83d\udd24',
+    title: 'The sound A', subtitle: 'ah',
+    skill: 'en.g.a', template: 'grapheme', upTo: 13,
+    learned: 'The sound A and its letter' },
+
+  { id: 'en.L4', lang: 'en', n: 4, world: 2, icon: '\ud83d\udd24',
     title: 'The sound M', subtitle: 'mmm',
     skill: 'en.g.m', template: 'grapheme', upTo: 13,
     learned: 'The sound M and its letter' },
 
-  { id: 'en.L13', lang: 'en', n: 13, world: 2, icon: '\ud83c\udf81',
-    title: 'The sound D', subtitle: 'duh',
-    skill: 'en.g.d', template: 'grapheme', upTo: 13,
-    learned: 'The sound D and its letter' }
+  { id: 'en.L5', lang: 'en', n: 5, world: 2, icon: '\ud83d\udd24',
+    title: 'The sound N', subtitle: 'nnn',
+    skill: 'en.g.n', template: 'grapheme', upTo: 13,
+    learned: 'The sound N and its letter' },
+
+  { id: 'en.L6', lang: 'en', n: 6, world: 3, icon: '\ud83e\udde9',
+    title: 'Blending', subtitle: 's - a - t \u2192 SAT',
+    skill: 'en.b.cvc', template: 'blend', upTo: 13,
+    learned: 'Pushing sounds together to read',
+    unlocksBook: 'en.b1' },
+
+  { id: 'en.L7', lang: 'en', n: 7, world: 4, icon: '\ud83c\udf81',
+    title: 'My first words', subtitle: 'TIN \u00b7 MAN \u00b7 MAP',
+    skill: 'en.w.cvc', template: 'word', upTo: 13,
+    learned: 'Reading and building a real word',
+    unlocksBook: 'en.b2' },
+
+  { id: 'en.L8', lang: 'en', n: 8, world: 7, icon: '\ud83d\udcac',
+    title: 'I read sentences', subtitle: 'Sam has a map.',
+    skill: 'en.s.sentence', template: 'sentence', upTo: 13,
+    learned: 'Reading a whole sentence' }
 ];
 
 </script>
@@ -4318,11 +3704,14 @@ App.Engine = (function () {
 
   /* Ouverte si : premiere de la langue, ou precedente terminee. */
   function isOpen(m) {
-    var list = all(m.id.indexOf('en.') === 0 ? 'en' : 'fr');
-    var i = list.indexOf(m);
+    var list = all(m.lang || (m.id.indexOf('en.') === 0 ? 'en' : 'fr'));
+    /* On compare par IDENTIFIANT, pas par reference : les lecons declarees
+       sont reconstruites a chaque appel, donc indexOf(m) renvoyait -1 et
+       TOUTES les lecons apparaissaient ouvertes. */
+    var i = -1;
+    for (var k = 0; k < list.length; k++) { if (list[k].id === m.id) { i = k; break; } }
     if (i <= 0) return true;
-    var prev = list[i - 1];
-    return App.State.isMissionDone(prev.id);
+    return App.State.isMissionDone(list[i - 1].id);
   }
 
   function status(m) {
@@ -5096,7 +4485,7 @@ App.Mechanics = (function () {
     } });
 
   def({ code: 'A08', act: 'word-to-image', geste: 'toucher-un', reponse: 'choix-unique',
-    serves: ['word', 'syllable'], phases: ['understand'], diff: 4,
+    serves: ['word', 'syllable', 'comprehension'], phases: ['understand'], diff: 4,
     needs: { audio: 1, image: 1, anim: 0, mic: 0 },
     build: function (c) {
       var w = pick(words(c));
@@ -5169,7 +4558,7 @@ App.Mechanics = (function () {
      ========================================================= */
 
   def({ code: 'A21', act: 'clap', geste: 'rythmer', reponse: 'comptage-moteur',
-    serves: ['phono', 'syllable'], phases: ['discover', 'practice'], diff: 1,
+    serves: ['phono', 'syllable', 'word', 'grapheme'], phases: ['discover', 'practice'], diff: 1,
     needs: { audio: 1, image: 1, anim: 1, mic: 0 },
     build: function (c) {
       var w = pick(bank(c).pictures);
@@ -5278,7 +4667,7 @@ App.Mechanics = (function () {
      ========================================================= */
 
   def({ code: 'A48', act: 'read-aloud', geste: 'lire', reponse: 'auto-validation',
-    serves: ['word', 'syllable', 'blend', 'grapheme', 'complex'], phases: ['read'], diff: 4,
+    serves: ['word', 'syllable', 'blend', 'grapheme', 'complex', 'sentence', 'comprehension'], phases: ['read'], diff: 4,
     needs: { audio: 1, image: 0, anim: 0, mic: 0 },
     build: function (c) {
       var w = pick(words(c)) || pick(sylls(c));
@@ -5290,7 +4679,7 @@ App.Mechanics = (function () {
     } });
 
   def({ code: 'A51', act: 'mini-text', geste: 'lire', reponse: 'choix-unique',
-    serves: ['*'], phases: ['text'], diff: 4,
+    serves: ['*'], phases: ['text', 'understand'], diff: 4,
     needs: { audio: 1, image: 0, anim: 0, mic: 0 },
     build: function (c) {
       var avail = bank(c).texts.filter(function (t) { return t.after <= c.upTo; });
@@ -5300,7 +4689,7 @@ App.Mechanics = (function () {
     } });
 
   def({ code: 'A53', act: 'listen-repeat', geste: 'repeter', reponse: 'auto-validation',
-    serves: ['phono', 'blend', 'word', 'grapheme', 'complex'], phases: ['read'], diff: 1,
+    serves: ['phono', 'blend', 'word', 'grapheme', 'complex', 'sentence', 'comprehension'], phases: ['read'], diff: 1,
     needs: { audio: 1, image: 1, anim: 0, mic: 0 },
     build: function (c) {
       var w = pick(words(c)) || pick(starts(c));
@@ -5350,7 +4739,7 @@ App.Mechanics = (function () {
 
   /* B/D — distinguer deux elements proches : MA ou MO ? */
   def({ code: 'A25', act: 'discriminate', geste: 'toucher-un', reponse: 'choix-unique',
-    serves: ['blend', 'syllable', 'grapheme', 'word'], phases: ['practice', 'decode'], diff: 3,
+    serves: ['blend', 'syllable', 'grapheme', 'word', 'sentence'], phases: ['practice', 'decode'], diff: 3,
     needs: { audio: 1, image: 0, anim: 0, mic: 0 },
     build: function (c) {
       var list = sylls(c);
@@ -5366,7 +4755,7 @@ App.Mechanics = (function () {
 
   /* C/E — completer un mot */
   def({ code: 'A38', act: 'complete-word', geste: 'completer', reponse: 'completion',
-    serves: ['word', 'syllable'], phases: ['decode'], diff: 3,
+    serves: ['word', 'syllable', 'sentence'], phases: ['decode'], diff: 3,
     needs: { audio: 1, image: 0, anim: 0, mic: 0 },
     build: function (c) {
       var w = pick(words(c));
@@ -5378,7 +4767,7 @@ App.Mechanics = (function () {
 
   /* F — remettre une phrase dans l'ordre */
   def({ code: 'A27', act: 'build', geste: 'ordonner', reponse: 'ordre',
-    serves: ['sentence', 'word'], phases: ['decode', 'read'], diff: 5,
+    serves: ['sentence', 'word', 'comprehension'], phases: ['decode', 'read'], diff: 5,
     needs: { audio: 1, image: 0, anim: 1, mic: 0 },
     build: function (c) {
       var list = (bank(c).sentences || []).filter(function (x) { return x.after <= c.upTo; });
@@ -5418,7 +4807,7 @@ App.Mechanics = (function () {
 
   /* H — remettre les evenements dans l'ordre */
   def({ code: 'A28', act: 'order-list', geste: 'ordonner', reponse: 'ordre',
-    serves: ['comprehension', 'story'], phases: ['understand'], diff: 6,
+    serves: ['comprehension', 'story', 'sentence'], phases: ['understand', 'read'], diff: 6,
     needs: { audio: 1, image: 0, anim: 0, mic: 0 },
     build: function (c) {
       var list = (bank(c).stories || []).filter(function (x) { return x.after <= c.upTo && x.order; });
@@ -5547,8 +4936,9 @@ App.Lesson = (function () {
 
   /* Comprehension : le texte d'abord, les questions ensuite */
   TEMPLATES.comprehension = [
-    { phase: 'read',       n: 1 },
+    { phase: 'read',       n: 3 },
     { phase: 'understand', n: 4 },
+    { phase: 'read',       n: 1 },
     { phase: 'text',       n: 1, fixed: 'A51' },
     { phase: 'reward',     n: 1, fixed: 'Z00' }
   ];
