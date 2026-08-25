@@ -756,7 +756,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .sort__h{font:600 13px/1.3 var(--font-body);color:rgba(255,255,255,.72);text-align:center;margin-bottom:8px}
 .sort__bin{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .sort__pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.tile{border:0;border-radius:var(--r-sm);cursor:pointer;padding:10px 12px;background:var(--paper);
+.tile{border:0;border-radius:var(--r-sm);cursor:pointer;padding:12px 14px;min-height:76px;min-width:76px;background:var(--paper);
   display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .15s}
 .tile__e{font-size:30px}
 .tile__t{font:700 11px/1 var(--font-read);color:var(--ink)}
@@ -877,6 +877,24 @@ ul { margin: 0; padding: 0; list-style: none; }
 .ex{transition:background .3s,transform .3s}
 .note--closing{margin-top:6px;font-weight:600;transition:color .3s}
 .note--closing.is-on{color:var(--accent)}
+
+/* --- Remettre dans l'ordre --- */
+.olist{display:flex;flex-direction:column;gap:8px}
+.olist__slot{display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 12px;
+  border-radius:var(--r-sm);border:2px dashed rgba(255,255,255,.24)}
+.olist__slot.is-full{border-style:solid;border-color:var(--jade);background:rgba(46,196,140,.12)}
+.olist__n{width:26px;height:26px;flex:none;border-radius:50%;background:rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--font-body);color:#fff}
+.olist__t{font:700 17px/1.3 var(--font-read);color:#fff}
+.opool{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ochip{border:0;border-radius:var(--r-sm);cursor:pointer;padding:14px 16px;text-align:left;
+  font:700 17px/1.35 var(--font-read);background:var(--paper);color:var(--ink);min-height:52px}
+.ochip.is-used{opacity:.22;pointer-events:none}
+
+/* --- Debut / milieu / fin --- */
+.choices--pos{grid-template-columns:repeat(3,1fr)}
+.choice--pos .choice__main{font-size:15px;font-weight:700;line-height:1.25}
+.choice--pos{min-height:78px;padding:14px 6px}
 
 </style>
 <style>
@@ -1633,10 +1651,24 @@ DATA.audio = { map: {} };
   }
 
   DATA.audio.registerInstructions = function () {
-    if (!window.App || !App.I18N || !App.I18N.spoken) return;
+    if (!window.App || !App.I18N) return;
     ['fr', 'en'].forEach(function (l) {
-      var d = App.I18N.spoken[l] || {};
-      for (var k in d) put(l + ':instruction:' + slug(k), d[k], l);
+      var spoken = (App.I18N.spoken && App.I18N.spoken[l]) || {};
+      var short = App.I18N[l] || {};
+
+      /* TOUTE cle de consigne ou de retour est enregistree, meme si elle
+         n'a pas encore de phrase parlee dediee. Sans cela, une nouvelle
+         consigne se rabattait sur son identifiant et la voix prononcait
+         « q ordersentence ». Le repli correct est le texte court affiche. */
+      for (var k in short) {
+        if (k.indexOf('q_') !== 0 && k.indexOf('fb_') !== 0) continue;
+        put(l + ':instruction:' + slug(k), spoken[k] || short[k], l);
+      }
+      /* Les phrases parlees qui n'ont pas d'equivalent court */
+      for (var k2 in spoken) {
+        var key = l + ':instruction:' + slug(k2);
+        if (!DATA.audio.map[key]) put(key, spoken[k2], l);
+      }
     });
   };
 
@@ -2673,6 +2705,38 @@ DATA.banks.fr = {
     { t: 'PI', after: 21 }
   ],
 
+  /* ---- Phrases : chaque phrase porte son image et sa lecon d'ouverture ---- */
+  sentences: [
+    { t: 'Le lama a mal.',        e: '\ud83d\ude23', after: 19, words: ['Le','lama','a','mal.'] },
+    { t: 'Mami a la lame.',       e: '\ud83d\udd2a', after: 19, words: ['Mami','a','la','lame.'] },
+    { t: 'La moto est sale.',     e: '\ud83c\udfcd\ufe0f', after: 20, words: ['La','moto','est','sale.'] },
+    { t: 'Le pilote a la moto.',  e: '\ud83d\udc68\u200d\u2708\ufe0f', after: 21, words: ['Le','pilote','a','la','moto.'] },
+    { t: 'Mami lave la patate.',  e: '\ud83e\udd54', after: 21, words: ['Mami','lave','la','patate.'] },
+    { t: 'La salade est sale.',   e: '\ud83e\udd57', after: 23, words: ['La','salade','est','sale.'] }
+  ],
+
+  /* ---- Courts recits : un personnage, une action, un lieu, une raison ---- */
+  stories: [
+    { after: 21, lines: ['Le lama a mal.', 'Mami lave la patte.', 'Le lama est ravi.'],
+      emoji: '\ud83e\udd99',
+      questions: [
+        { type: 'qui',      ask: 'Qui a mal ?',            good: 'Le lama', bad: ['Mami', 'La patate'] },
+        { type: 'quoi',     ask: 'Que fait Mami ?',        good: 'Elle lave', bad: ['Elle lit', 'Elle part'] },
+        { type: 'pourquoi', ask: 'Pourquoi Mami lave la patte ?', good: 'Le lama a mal', bad: ['La patte est sale', 'Mami est ravie'] },
+        { type: 'emotion',  ask: 'Comment est le lama a la fin ?', good: '\ud83d\ude0a', bad: ['\ud83d\ude22', '\ud83d\ude20'] }
+      ],
+      order: ['Le lama a mal.', 'Mami lave la patte.', 'Le lama est ravi.'] },
+
+    { after: 23, lines: ['Mami a la salade.', 'La salade est sale.', 'Mami lave la salade.', 'Mami mate la salade.'],
+      emoji: '\ud83e\udd57',
+      questions: [
+        { type: 'qui',   ask: 'Qui a la salade ?',   good: 'Mami', bad: ['Le lama', 'Le pilote'] },
+        { type: 'quoi',  ask: 'Comment est la salade ?', good: 'Sale', bad: ['Mure', 'Amie'] },
+        { type: 'ordre', ask: 'Que fait Mami en premier ?', good: 'Elle a la salade', bad: ['Elle lave', 'Elle mate'] }
+      ],
+      order: ['Mami a la salade.', 'La salade est sale.', 'Mami lave la salade.'] }
+  ],
+
   /* ---- Mini-textes : un par lecon des la premiere lecture (regle 1.7)
      Chaque texte porte SA question de comprehension (palier A).
      Les distracteurs sont presents dans le texte mais hors sujet. ---- */
@@ -2777,6 +2841,24 @@ DATA.banks.en = {
     { t:'AT', after:8 }, { t:'SA', after:8 }, { t:'AP', after:9 },
     { t:'IT', after:10 }, { t:'IN', after:11 }, { t:'AM', after:12 },
     { t:'AD', after:13 }
+  ],
+
+  sentences: [
+    { t:'Sam sat in a pit.', e:'\ud83d\udd73\ufe0f', after:10, words:['Sam','sat','in','a','pit.'] },
+    { t:'Sam has a map.',    e:'\ud83d\uddfa\ufe0f', after:12, words:['Sam','has','a','map.'] },
+    { t:'Dad is sad.',       e:'\ud83d\ude22', after:13, words:['Dad','is','sad.'] },
+    { t:'The man taps a tin.', e:'\ud83e\udd6b', after:13, words:['The','man','taps','a','tin.'] }
+  ],
+
+  stories: [
+    { after:13, lines:['Sam is a man.','Sam has a map.','Dad is sad.','Sam and Dad sit.'],
+      emoji:'\ud83d\udc68',
+      questions:[
+        { type:'qui',     ask:'Who has a map?', good:'Sam', bad:['Dad','The man'] },
+        { type:'quoi',    ask:'What does Sam have?', good:'A map', bad:['A tin','A pin'] },
+        { type:'emotion', ask:'How does Dad feel?', good:'\ud83d\ude22', bad:['\ud83d\ude0a','\ud83d\ude20'] }
+      ],
+      order:['Sam is a man.','Sam has a map.','Sam and Dad sit.'] }
   ],
 
   texts: [
@@ -3200,6 +3282,13 @@ App.I18N = {
     discoverTitle: 'Voici le son',
     orWord: 'ou',
     listenTo: '\u00c9coute :',
+    q_lastSound: 'Le dernier son ?',
+    q_completeWord: 'Quelle lettre manque ?',
+    q_orderEvents: 'Remets l\u2019histoire dans l\u2019ordre',
+    q_soundWhere: 'O\u00f9 entends-tu ce son ?',
+    q_which2: 'Lequel entends-tu ?',
+    q_sentenceImage: 'Quelle image va avec la phrase ?',
+    posStart: 'Au d\u00e9but', posMiddle: 'Au milieu', posEnd: '\u00c0 la fin',
     allStartWith: 'Ils commencent tous par',
 
     /* --- Missions --- */
@@ -3344,6 +3433,13 @@ App.I18N = {
     discoverTitle: 'This is the sound',
     orWord: 'or',
     listenTo: 'Listen:',
+    q_lastSound: 'The last sound?',
+    q_completeWord: 'Which letter is missing?',
+    q_orderEvents: 'Put the story in order',
+    q_soundWhere: 'Where do you hear this sound?',
+    q_which2: 'Which one do you hear?',
+    q_sentenceImage: 'Which picture goes with the sentence?',
+    posStart: 'At the start', posMiddle: 'In the middle', posEnd: 'At the end',
     allStartWith: 'They all start with',
 
     mission: 'Mission',
@@ -3455,6 +3551,12 @@ App.I18N.spoken = {
     q_build: 'Construis le mot en touchant les morceaux dans le bon ordre.',
     q_segment: 'Combien de sons entends-tu dans ce mot ?',
     q_syllCount: 'Combien de syllabes entends-tu dans ce mot ?',
+    q_lastSound: 'Par quel son se termine ce mot ?',
+    q_completeWord: 'Il manque une lettre. Laquelle ?',
+    q_orderEvents: 'Remets les phrases de l\u2019histoire dans le bon ordre.',
+    q_soundWhere: 'Ce son est-il au d\u00e9but, au milieu, ou \u00e0 la fin du mot ?',
+    q_which2: '\u00c9coute bien. Lequel des deux entends-tu ?',
+    q_sentenceImage: '\u00c9coute la phrase. Quelle image raconte la m\u00eame chose ?',
     q_readSyll: 'Lis \u00e0 voix haute, puis touche le bouton.',
     q_readWord: 'Lis ce mot \u00e0 voix haute, puis touche le bouton.',
     q_wordToImage: 'Que veut dire ce mot ? Touche la bonne image.',
@@ -3465,6 +3567,9 @@ App.I18N.spoken = {
     q_repeat: '\u00c9coute bien, puis r\u00e9p\u00e8te \u00e0 voix haute.',
     q_clap: 'Tape une fois pour chaque syllabe du mot.',
     q_story: 'Lis ton histoire.',
+    q_orderSentence: 'Remets les mots dans l\u2019ordre pour retrouver la phrase.',
+    q_orderWord: 'Remets les lettres dans l\u2019ordre.',
+    q_comprehension: 'As-tu bien compris ?',
     fb_bravo: 'Bravo !',
     fb_yes: 'Oui, c\u2019est \u00e7a !',
     fb_again: 'Essaie encore. \u00c9coute bien.',
@@ -3484,6 +3589,12 @@ App.I18N.spoken = {
     q_build: 'Build the word by tapping the pieces in order.',
     q_segment: 'How many sounds do you hear in this word?',
     q_syllCount: 'How many syllables do you hear in this word?',
+    q_lastSound: 'Which sound does this word end with?',
+    q_completeWord: 'One letter is missing. Which one?',
+    q_orderEvents: 'Put the sentences of the story in the right order.',
+    q_soundWhere: 'Is this sound at the start, in the middle, or at the end?',
+    q_which2: 'Listen carefully. Which one do you hear?',
+    q_sentenceImage: 'Listen to the sentence. Which picture tells the same thing?',
     q_readSyll: 'Read it out loud, then tap the button.',
     q_readWord: 'Read this word out loud, then tap the button.',
     q_wordToImage: 'What does this word mean? Tap the right picture.',
@@ -3494,6 +3605,9 @@ App.I18N.spoken = {
     q_repeat: 'Listen carefully, then say it out loud.',
     q_clap: 'Tap once for each syllable in the word.',
     q_story: 'Read your story.',
+    q_orderSentence: 'Put the words back in order to rebuild the sentence.',
+    q_orderWord: 'Put the letters back in order.',
+    q_comprehension: 'Did you understand?',
     fb_bravo: 'Well done!',
     fb_yes: 'Yes, that\u2019s it!',
     fb_again: 'Try again. Listen carefully.',
@@ -4836,6 +4950,27 @@ App.Mechanics = (function () {
   function take(a, n) { return shuffle(a).slice(0, n); }
 
   /* Le contexte fourni par le compilateur */
+  /* ---------- La difficulte, pilotee par le moteur (§7) ----------
+       1  trois reponses, distracteurs eloignes, indice visible
+       2  trois reponses, distracteurs plus proches
+       3  quatre reponses, moins d'indices
+       4  la meme competence, mais dans un mot ou une phrase           */
+  function lvl(c) { return Math.min(4, Math.max(1, c.level || 2)); }
+  function nBad(c) { return lvl(c) >= 3 ? 3 : 2; }
+  function showHint(c) { return lvl(c) <= 1; }
+
+  /* Distracteurs proches : au niveau 2+, on prefere des mots qui
+     partagent des lettres avec la cible — la tache devient plus fine. */
+  function near(list, target, n, c) {
+    if (lvl(c) <= 1) return take(list, n);
+    var scored = list.map(function (w) {
+      var common = 0, t = String(target).toUpperCase();
+      String(w.t).toUpperCase().split('').forEach(function (ch) { if (t.indexOf(ch) >= 0) common++; });
+      return { w: w, score: common + Math.random() };
+    }).sort(function (a, b) { return b.score - a.score; });
+    return scored.slice(0, n).map(function (x) { return x.w; });
+  }
+
   function bank(c) { return DATA.banks[c.lang] || { pictures: [], decodable: [], syllables: [], texts: [] }; }
 
   /* Une competence phonologique (ecouter, rimer, fusionner) ne porte
@@ -4928,8 +5063,10 @@ App.Mechanics = (function () {
     serves: ['grapheme', 'complex'], phases: ['practice', 'decode'], diff: 2,
     needs: { audio: 1, image: 1, anim: 0, mic: 0 },
     build: function (c) {
-      var g = pick(starts(c)), bad = take(notStarts(c), 2);
-      if (!g || bad.length < 2) return null;
+      var g = pick(starts(c));
+      if (!g) return null;
+      var bad = near(notStarts(c), g.t, nBad(c), c);
+      if (bad.length < 2) return null;
       return { act: 'sound-in-words', skill: c.skill.id, phonemeKey: phon(c),
         good: { t: g.t, e: g.e },
         bad: bad.map(function (b) { return { t: b.t, e: b.e }; }) };
@@ -5172,6 +5309,124 @@ App.Mechanics = (function () {
         say: { text: w.t, lang: c.lang } };
     } });
 
+
+  /* =========================================================
+     LES FAMILLES QUI MANQUAIENT
+     ========================================================= */
+
+  /* A — dernier son */
+  def({ code: 'A09', act: 'first-sound', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['phono', 'grapheme'], phases: ['practice'], diff: 3,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var pool = bank(c).pictures.filter(function (w) { return w.t.length > 2; });
+      var w = pick(pool);
+      if (!w) return null;
+      var end = w.t.slice(-1).toLowerCase();
+      var sk = App.Skills.all(c.lang).filter(function (x) { return x.lower === end && x.say; })[0];
+      if (!sk) return null;
+      var bad = otherSays(c, nBad(c)).filter(function (x) { return x !== sk.say; });
+      if (bad.length < 2) return null;
+      return { act: 'first-sound', skill: c.skill.id, last: true,
+        word: { t: w.t, e: w.e }, good: sk.say, bad: bad };
+    } });
+
+  /* A — ou entends-tu ce son ? debut, milieu, fin */
+  def({ code: 'A23', act: 'sound-position', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['grapheme', 'complex', 'phono'], phases: ['practice', 'decode'], diff: 3,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var sk = working(c);
+      var w = pick(starts(c, sk));
+      if (!w || !sk.lower) return null;
+      var up = w.t.toUpperCase(), L = sk.lower.toUpperCase();
+      var i = up.indexOf(L);
+      var pos = i === 0 ? 'posStart' : (i >= up.length - 2 ? 'posEnd' : 'posMiddle');
+      var all = ['posStart', 'posMiddle', 'posEnd'];
+      return { act: 'sound-position', skill: c.skill.id, phonemeKey: phon(c, sk),
+        word: { t: w.t, e: w.e }, good: pos,
+        bad: all.filter(function (x) { return x !== pos; }) };
+    } });
+
+  /* B/D — distinguer deux elements proches : MA ou MO ? */
+  def({ code: 'A25', act: 'discriminate', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['blend', 'syllable', 'grapheme', 'word'], phases: ['practice', 'decode'], diff: 3,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var list = sylls(c);
+      if (list.length < 2) return null;
+      var g = pick(list);
+      var others = list.filter(function (x) { return x.t !== g.t; });
+      var b = pick(others.filter(function (x) { return x.t[0] === g.t[0]; })) || pick(others);
+      if (!b) return null;
+      return { act: 'discriminate', skill: c.skill.id,
+        good: g.t, goodKey: c.lang + ':syll:' + g.t.toLowerCase(),
+        bad: [b.t] };
+    } });
+
+  /* C/E — completer un mot */
+  def({ code: 'A38', act: 'complete-word', geste: 'completer', reponse: 'completion',
+    serves: ['word', 'syllable'], phases: ['decode'], diff: 3,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var w = pick(words(c));
+      if (!w || w.t.length < 3) return null;
+      var hole = 1 + Math.floor(Math.random() * (w.t.length - 2));
+      return { act: 'complete-word', skill: c.skill.id, target: w.t, hole: hole,
+        bricks: shuffle([w.t[hole]].concat(otherLetters(c, nBad(c)))) };
+    } });
+
+  /* F — remettre une phrase dans l'ordre */
+  def({ code: 'A27', act: 'build', geste: 'ordonner', reponse: 'ordre',
+    serves: ['sentence', 'word'], phases: ['decode', 'read'], diff: 5,
+    needs: { audio: 1, image: 0, anim: 1, mic: 0 },
+    build: function (c) {
+      var list = (bank(c).sentences || []).filter(function (x) { return x.after <= c.upTo; });
+      var s = pick(list);
+      if (!s || !s.words) return null;
+      return { act: 'build', skill: c.skill.id, target: s.t, kind: 'words',
+        bricks: shuffle(s.words.slice()), parts: s.words.slice(),
+        audioKey: null, sentence: s.t };
+    } });
+
+  /* F — la phrase et son image */
+  def({ code: 'A52', act: 'sentence-image', geste: 'toucher-un', reponse: 'choix-unique',
+    serves: ['sentence', 'word', 'comprehension'], phases: ['understand', 'read'], diff: 5,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var list = (bank(c).sentences || []).filter(function (x) { return x.after <= c.upTo; });
+      if (list.length < 3) return null;
+      var g = pick(list);
+      var bad = take(list.filter(function (x) { return x.t !== g.t; }), nBad(c));
+      if (bad.length < 2) return null;
+      return { act: 'sentence-image', skill: c.skill.id, sentence: g.t,
+        good: g.e, bad: bad.map(function (b) { return b.e; }) };
+    } });
+
+  /* G — qui, quoi, ou, pourquoi, emotion */
+  def({ code: 'A45', act: 'mini-text', geste: 'lire', reponse: 'choix-unique',
+    serves: ['comprehension', 'sentence', 'story'], phases: ['understand', 'text'], diff: 6,
+    needs: { audio: 1, image: 1, anim: 0, mic: 0 },
+    build: function (c) {
+      var list = (bank(c).stories || []).filter(function (x) { return x.after <= c.upTo; });
+      var st = pick(list);
+      if (!st) return null;
+      var q = pick(st.questions);
+      return { act: 'mini-text', skill: c.skill.id, lines: st.lines,
+        q: { ask: q.ask, good: q.good, bad: q.bad } };
+    } });
+
+  /* H — remettre les evenements dans l'ordre */
+  def({ code: 'A28', act: 'order-list', geste: 'ordonner', reponse: 'ordre',
+    serves: ['comprehension', 'story'], phases: ['understand'], diff: 6,
+    needs: { audio: 1, image: 0, anim: 0, mic: 0 },
+    build: function (c) {
+      var list = (bank(c).stories || []).filter(function (x) { return x.after <= c.upTo && x.order; });
+      var st = pick(list);
+      if (!st) return null;
+      return { act: 'order-list', skill: c.skill.id, kind: 'events', items: st.order.slice() };
+    } });
+
   /* ---------- Cloture ---------- */
   def({ code: 'Z00', act: 'wrap', geste: 'ecouter', reponse: 'aucune',
     serves: ['*'], phases: ['reward'], diff: 1,
@@ -5290,6 +5545,23 @@ App.Lesson = (function () {
     ]
   };
 
+  /* Comprehension : le texte d'abord, les questions ensuite */
+  TEMPLATES.comprehension = [
+    { phase: 'read',       n: 1 },
+    { phase: 'understand', n: 4 },
+    { phase: 'text',       n: 1, fixed: 'A51' },
+    { phase: 'reward',     n: 1, fixed: 'Z00' }
+  ];
+  TEMPLATES.sentence = [
+    { phase: 'discover',   n: 1, fixed: 'A01' },
+    { phase: 'decode',     n: 3 },
+    { phase: 'read',       n: 3 },
+    { phase: 'understand', n: 2 },
+    { phase: 'text',       n: 1, fixed: 'A51' },
+    { phase: 'reward',     n: 1, fixed: 'Z00' }
+  ];
+  TEMPLATES.story = TEMPLATES.comprehension;
+
   TEMPLATES.complex = TEMPLATES.grapheme;
   TEMPLATES.syllable = TEMPLATES.blend;
 
@@ -5347,6 +5619,9 @@ App.Lesson = (function () {
     var ctx = {
       lang: decl.lang,
       skill: skill,
+      /* Niveau de difficulte : declare, sinon deduit de l'etat de maitrise.
+         Une competence deja verte se travaille plus finement. */
+      level: decl.level || levelFor(decl.skill),
       upTo: decl.upTo || decl.n,
       learned: decl.learned || skill.label,
       t: function (k) { return App.T(k, decl.lang); }
@@ -5369,7 +5644,8 @@ App.Lesson = (function () {
         if (!mech) continue;
 
         var step = null;
-        try { step = mech.build(target); } catch (e) { step = null; }
+        var lvlCtx = slot.level ? shallow(target, { level: slot.level }) : target;
+        try { step = mech.build(lvlCtx); } catch (e) { step = null; }
         if (!step) {
           /* Le contenu ne permet pas cette mecanique : on en essaie une autre */
           if (!slot.fixed) {
@@ -5400,6 +5676,13 @@ App.Lesson = (function () {
       gestures: used.gestures.length,
       minutes: estimate(steps)
     };
+  }
+
+  function levelFor(id) {
+    var st = App.Skills.state(id);
+    if (st === 'none' || st === 'red') return 1;
+    if (st === 'orange') return 2;
+    return 3;
   }
 
   function shallow(o, over) {
@@ -5730,7 +6013,8 @@ App.Activities = (function () {
      4. PREMIER SON
      ========================================================= */
   A['first-sound'] = function (step, ctx) {
-    instruction(ctx, 'q_firstSound', { first: true, stimulus: function () { return ctx.say.word(step.word.t); } });
+    instruction(ctx, step.last ? 'q_lastSound' : 'q_firstSound', { first: true,
+      stimulus: function () { return ctx.say.word(step.word.t); } });
     var card = el('div', 'bigimg');
     card.appendChild(el('div', 'bigimg__e', step.word.e));
     if (!step.oral) card.appendChild(el('div', 'bigimg__t read', step.word.t));
@@ -6003,11 +6287,18 @@ App.Activities = (function () {
      13. CONSTRUIRE  (briques a poser dans l'ordre)
      ========================================================= */
   A.build = function (step, ctx) {
-    instruction(ctx, 'q_build', { then: function () { return step.audioKey ? ctx.play(step.audioKey) : null; } });
+    /* Construire un mot et remettre une phrase dans l'ordre sont deux
+       taches differentes : la consigne doit le dire. */
+    var isSentence = step.kind === 'words';
+    instruction(ctx, isSentence ? 'q_orderSentence' : 'q_build', {
+      stimulus: function () {
+        if (step.sentence) return ctx.say.sentence(step.sentence);
+        return step.audioKey ? ctx.play(step.audioKey) : null;
+      } });
     if (step.audioKey) listen(ctx, step.audioKey, ctx.T('listen'));
 
-    var parts = step.kind === 'syllables'
-      ? cutSyll(step.target, step.bricks)
+    var parts = step.parts ? step.parts.slice()
+      : step.kind === 'syllables' ? cutSyll(step.target, step.bricks)
       : step.target.split('');
 
     var slots = el('div', 'slots');
@@ -6364,6 +6655,153 @@ App.Activities = (function () {
         }));
       choices(ctx, list, { cls: 'choices--read' });
     }
+  };
+
+
+  /* =========================================================
+     26. COMPLETER UN MOT   L A _ A
+     Geste : completer. L'enfant pose la lettre manquante.
+     ========================================================= */
+  A['complete-word'] = function (step, ctx) {
+    instruction(ctx, 'q_completeWord', {
+      stimulus: function () { return ctx.say.word(step.target); } });
+
+    var slots = el('div', 'slots');
+    var hole = null;
+    step.target.split('').forEach(function (ch, i) {
+      var sl = el('div', 'slot' + (i === step.hole ? '' : ' is-full'), i === step.hole ? '' : ch);
+      if (i === step.hole) hole = sl;
+      slots.appendChild(sl);
+    });
+    ctx.root.appendChild(slots);
+
+    var bank = el('div', 'bricks');
+    shuffle(step.bricks).forEach(function (L) {
+      var br = el('button', 'brick read', L);
+      br.addEventListener('click', function () {
+        if (br.classList.contains('is-used')) return;
+        ctx.say.phoneme(letterSound(ctx, L));
+        if (L === step.target[step.hole]) {
+          br.classList.add('is-used');
+          hole.textContent = L;
+          hole.classList.add('is-full');
+          slots.classList.add('is-done');
+          ctx.say.word(step.target);
+          setTimeout(function () { ctx.win(); }, 700);
+        } else {
+          ctx.miss(br);
+        }
+      });
+      bank.appendChild(br);
+    });
+    ctx.root.appendChild(bank);
+  };
+
+  function letterSound(ctx, L) {
+    var sk = (DATA[ctx.lang].skills || []).filter(function (x) { return x.label === L; })[0];
+    return sk && sk.say ? sk.say : L;
+  }
+
+  /* =========================================================
+     27. REMETTRE DANS L'ORDRE   (phrases d'un recit)
+     Geste : ordonner. Une seule sequence est juste.
+     ========================================================= */
+  A['order-list'] = function (step, ctx) {
+    instruction(ctx, step.kind === 'events' ? 'q_orderEvents' : 'q_orderSentence', {
+      stimulus: function () { return ctx.say.series(step.items); } });
+
+    var slots = el('div', 'olist');
+    var placed = 0;
+    var marks = step.items.map(function (_, i) {
+      var sl = el('div', 'olist__slot');
+      sl.appendChild(el('span', 'olist__n', String(i + 1)));
+      sl.appendChild(el('span', 'olist__t read', ''));
+      slots.appendChild(sl);
+      return sl;
+    });
+    ctx.root.appendChild(slots);
+
+    var pool = el('div', 'opool');
+    shuffle(step.items).forEach(function (line) {
+      var b = el('button', 'ochip read', line);
+      b.addEventListener('click', function () {
+        if (b.classList.contains('is-used')) return;
+        ctx.say.sentence(line);
+        if (line === step.items[placed]) {
+          b.classList.add('is-used');
+          marks[placed].querySelector('.olist__t').textContent = line;
+          marks[placed].classList.add('is-full');
+          placed++;
+          App.Audio.sfx.pop();
+          if (placed === step.items.length) setTimeout(function () { ctx.win(); }, 600);
+        } else {
+          ctx.miss(b);
+        }
+      });
+      pool.appendChild(b);
+    });
+    ctx.root.appendChild(pool);
+  };
+
+
+  /* =========================================================
+     28. OU ENTENDS-TU CE SON ?   debut / milieu / fin
+     ========================================================= */
+  A['sound-position'] = function (step, ctx) {
+    instruction(ctx, 'q_soundWhere', {
+      stimulus: function () {
+        return ctx.play(step.phonemeKey).then(function () { return ctx.say.word(step.word.t); });
+      } });
+
+    var card = el('div', 'bigimg');
+    card.appendChild(el('div', 'bigimg__e', step.word.e));
+    card.appendChild(el('div', 'bigimg__t read', step.word.t));
+    ctx.root.appendChild(card);
+
+    var list = [{ label: ctx.T(step.good), correct: true, kind: 'pos', say: ctx.T(step.good) }]
+      .concat(step.bad.map(function (k) {
+        return { label: ctx.T(k), correct: false, kind: 'pos', say: ctx.T(k) };
+      }));
+    choices(ctx, list, { cls: 'choices--pos' });
+  };
+
+  /* =========================================================
+     29. LEQUEL ENTENDS-TU ?   paire minimale, oreille seule
+     ========================================================= */
+  A.discriminate = function (step, ctx) {
+    instruction(ctx, 'q_which2', {
+      stimulus: function () { return ctx.play(step.goodKey); } });
+
+    var list = [{ label: step.good, correct: true, kind: 'read', key: step.goodKey }]
+      .concat(step.bad.map(function (b) {
+        return { label: b, correct: false, kind: 'read',
+                 key: ctx.lang + ':syll:' + String(b).toLowerCase() };
+      }));
+    choices(ctx, list, { cls: 'choices--read' });
+  };
+
+  /* =========================================================
+     30. LA PHRASE ET SON IMAGE
+     ========================================================= */
+  A['sentence-image'] = function (step, ctx) {
+    instruction(ctx, 'q_sentenceImage', {
+      stimulus: function () { return ctx.say.sentence(step.sentence); } });
+
+    var line = el('div', 'story__line read');
+    step.sentence.split(' ').forEach(function (wd) {
+      var sp = el('span', 'story__w', wd);
+      sp.addEventListener('click', function () {
+        sp.classList.add('is-on');
+        ctx.say.word(wd.replace(/[.!?,]/g, ''));
+        setTimeout(function () { sp.classList.remove('is-on'); }, 700);
+      });
+      line.appendChild(sp);
+    });
+    ctx.root.appendChild(line);
+
+    var list = [{ label: step.good, correct: true, kind: 'img' }]
+      .concat(step.bad.map(function (b) { return { label: b, correct: false, kind: 'img' }; }));
+    choices(ctx, list);
   };
 
   A.wrap = function (step, ctx) { ctx.win(true); };
